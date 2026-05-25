@@ -1,0 +1,3739 @@
+swagger: '2.0'
+info:
+  title: Locus API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+paths:
+  /client/{clientId}/location/{locationId}:
+    get:
+      summary: Get a location
+      operationId: getLocation
+      tags:
+      - LocationMaster
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are CONTACT.
+        required: false
+        type: string
+      responses:
+        '200':
+          description: location object
+          schema:
+            $ref: '#/definitions/MasterLocation'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a location
+      operationId: createLocation
+      parameters:
+      - name: location
+        in: body
+        description: Create location request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateLocationRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - LocationMaster
+      responses:
+        '200':
+          description: Created location
+          schema:
+            $ref: '#/definitions/MasterLocation'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/LocationIdParam'
+  /client/{clientId}/location/{locationId}/disable:
+    post:
+      description: Disable a specific location
+      operationId: disableLocation
+      tags:
+      - LocationMaster
+      responses:
+        '200':
+          description: Updated location
+          schema:
+            $ref: '#/definitions/MasterLocation'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/LocationIdParam'
+  /client/{clientId}/lineitem/{lineItemId}:
+    get:
+      summary: Get a line item
+      operationId: getLineItem
+      tags:
+      - SKUMaster
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are LOCATIONS.
+        required: false
+        type: string
+      responses:
+        '200':
+          description: Line item object
+          schema:
+            $ref: '#/definitions/MasterLineItem'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a line item
+      operationId: createLineItem
+      parameters:
+      - name: lineItem
+        in: body
+        description: Create line item request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateLineItemRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - SKUMaster
+      responses:
+        '200':
+          description: Created line item
+          schema:
+            $ref: '#/definitions/MasterLineItem'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/LineItemIdParam'
+  /client/{clientId}/lineitem/{lineItemId}/disable:
+    post:
+      description: Disable a specific line item
+      operationId: disableLineItem
+      tags:
+      - SKUMaster
+      responses:
+        '200':
+          description: Updated line item
+          schema:
+            $ref: '#/definitions/MasterLineItem'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/LineItemIdParam'
+  /client/{clientId}/transporter/{transporterId}:
+    get:
+      summary: Get a transporter
+      operationId: getTransporter
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are CONTACT
+        required: false
+        type: string
+      tags:
+      - Transporter
+      responses:
+        '200':
+          description: transporter object
+          schema:
+            $ref: '#/definitions/Transporter'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a transporter
+      operationId: createTransporter
+      parameters:
+      - name: transporter
+        in: body
+        description: Create transporter request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateTransporterRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - Transporter
+      responses:
+        '200':
+          description: Created transporter
+          schema:
+            $ref: '#/definitions/Transporter'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TransporterIdParam'
+  /client/{clientId}/transporter/{transporterId}/disable:
+    post:
+      description: Disable a specific transporter
+      operationId: disableTransporter
+      tags:
+      - Transporter
+      responses:
+        '200':
+          description: Updated transporter
+          schema:
+            $ref: '#/definitions/Transporter'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TransporterIdParam'
+  /client/{clientId}/rider/{riderId}:
+    get:
+      summary: Get a rider
+      operationId: getRider
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are SHIFTS, SALES_CATEGORIES,
+          RIDER_PERSONA
+        required: false
+        type: string
+      tags:
+      - Rider
+      responses:
+        '200':
+          description: rider object
+          schema:
+            $ref: '#/definitions/Rider'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a rider
+      operationId: createRider
+      parameters:
+      - name: rider
+        in: body
+        description: Create rider request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateRiderRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - Rider
+      responses:
+        '200':
+          description: Created rider
+          schema:
+            $ref: '#/definitions/Rider'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RiderIdParam'
+  /client/{clientId}/rider/{riderId}/disable:
+    post:
+      description: Disable a specific rider
+      operationId: disableRider
+      tags:
+      - Rider
+      responses:
+        '200':
+          description: Updated rider
+          schema:
+            $ref: '#/definitions/Rider'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RiderIdParam'
+  /client/{clientId}/vehicle/{vehicleId}:
+    get:
+      summary: Get a vehicle by id
+      operationId: getVehicle
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are SHIFTS, TRANSPORTER,
+          RIDER, VEHICLE_MODEL.
+        required: false
+        type: string
+      tags:
+      - Vehicle
+      responses:
+        '200':
+          description: Desired vehicle
+          schema:
+            $ref: '#/definitions/Vehicle'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a new vehicle
+      operationId: createVehicle
+      parameters:
+      - name: vehicle
+        in: body
+        description: Vehicle create request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateVehicleRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - Vehicle
+      responses:
+        '200':
+          description: Created vehicle
+          schema:
+            $ref: '#/definitions/Vehicle'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/VehicleIdParam'
+  /client/{clientId}/vehicle/{vehicleId}/disable:
+    post:
+      description: Disable a specific vehicle
+      operationId: disableVehicle
+      tags:
+      - Vehicle
+      responses:
+        '200':
+          description: Updated vehicle
+          schema:
+            $ref: '#/definitions/Vehicle'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/VehicleIdParam'
+  /client/{clientId}/vehicle-model/{vehicleModelId}:
+    get:
+      summary: Get a vehicle model
+      operationId: getVehicleModel
+      parameters:
+      - name: include
+        in: query
+        description: Extra field that should be returned. Supported value is TRANSPORTERS
+        required: false
+        type: string
+      tags:
+      - VehicleModel
+      responses:
+        '200':
+          description: vehicle model object
+          schema:
+            $ref: '#/definitions/VehicleModel'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a vehicle model
+      operationId: createVehicleModel
+      parameters:
+      - name: vehicleModel
+        in: body
+        description: Create vehicle model request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateVehicleModelRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - VehicleModel
+      responses:
+        '200':
+          description: Created vehicle model
+          schema:
+            $ref: '#/definitions/VehicleModel'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/VehicleModelIdParam'
+  /client/{clientId}/vehicle-model/{vehicleModelId}/disable:
+    post:
+      description: Disable a specific vehicle model
+      operationId: disableVehicleModel
+      tags:
+      - VehicleModel
+      responses:
+        '200':
+          description: Updated vehicle model
+          schema:
+            $ref: '#/definitions/VehicleModel'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/VehicleModelIdParam'
+  /client/{clientId}/rider-persona/{riderPersonaId}:
+    get:
+      summary: Get a rider persona by id
+      operationId: getRiderPersona
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are TRANSPORTER.
+        required: false
+        type: string
+      tags:
+      - RiderPersona
+      responses:
+        '200':
+          description: Desired rider persona
+          schema:
+            $ref: '#/definitions/RiderPersona'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a new rider persona
+      operationId: createRiderPersona
+      parameters:
+      - name: riderPersona
+        in: body
+        description: Rider persona create request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateRiderPersonaRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - RiderPersona
+      responses:
+        '200':
+          description: Created rider persona
+          schema:
+            $ref: '#/definitions/RiderPersona'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RiderPersonaIdParam'
+  /client/{clientId}/rider-persona/{riderPersonaId}/disable:
+    post:
+      description: Disable a specific rider persona
+      operationId: disableRiderPersona
+      tags:
+      - RiderPersona
+      responses:
+        '200':
+          description: Updated rider persona
+          schema:
+            $ref: '#/definitions/RiderPersona'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RiderPersonaIdParam'
+  /client/{clientId}/roster/{rosterId}:
+    get:
+      summary: Get Roster by Id
+      operationId: getRoster
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are RESOURCES.
+        required: false
+        type: string
+      tags:
+      - Roster
+      responses:
+        '200':
+          description: GetRosterResponse Object
+          schema:
+            $ref: '#/definitions/GetRosterResponse'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RosterIdParam'
+  /client/{clientId}/rosters-auto-create:
+    post:
+      summary: API Bulk create rosters for api integrated clients
+      operationId: createRostersApiRequest
+      parameters:
+      - name: CreateRostersApiRequest
+        in: body
+        description: Request body for api Integrated clients
+        required: true
+        schema:
+          $ref: '#/definitions/CreateRostersApiRequest'
+      tags:
+      - Roster
+      responses:
+        '200':
+          description: API Bulk create rosters response
+          schema:
+            $ref: '#/definitions/CreateRosterResponse'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/OverwriteParam'
+  /client/{clientId}/roster/{rosterId}/disable:
+    post:
+      description: Disable a specific roster
+      operationId: disableRoster
+      tags:
+      - Roster
+      responses:
+        '200':
+          description: Updated roster
+          schema:
+            $ref: '#/definitions/Roster'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RosterIdParam'
+  /client/{clientId}/homebase-master/{homebaseId}:
+    get:
+      summary: Get a homebase
+      operationId: getHomebase
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are CONTACT.
+        type: string
+      tags:
+      - HomebaseMaster
+      responses:
+        '200':
+          description: Homebase object
+          schema:
+            $ref: '#/definitions/Homebase'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a homebase
+      operationId: createHomebase
+      parameters:
+      - name: homebase
+        in: body
+        description: Create homebase request
+        required: true
+        schema:
+          $ref: '#/definitions/Homebase'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - HomebaseMaster
+      responses:
+        '200':
+          description: Created homebase
+          schema:
+            $ref: '#/definitions/Homebase'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/HomebaseIdParam'
+  /client/{clientId}/homebase-master/{homebaseId}/status:
+    post:
+      description: Update status for a specific homebase
+      operationId: updateHomebaseStatus
+      parameters:
+      - name: status
+        in: body
+        description: Updated status of homebase
+        required: true
+        schema:
+          $ref: '#/definitions/EntityStatusUpdateRequest'
+      tags:
+      - HomebaseMaster
+      responses:
+        '200':
+          description: Updated homebases
+          schema:
+            $ref: '#/definitions/Homebase'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/HomebaseIdParam'
+  /client/{clientId}/shift-manager/{tagId}:
+    get:
+      summary: fetch shiftTag by id
+      operationId: getShiftTag
+      parameters:
+      - name: include
+        in: query
+        description: Extra fields that should be returned.
+        type: string
+      tags:
+      - ShiftTag
+      responses:
+        '200':
+          description: ShiftTag object
+          schema:
+            $ref: '#/definitions/ShiftTag'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a given shiftTag
+      operationId: createShiftTag
+      parameters:
+      - name: shiftTag
+        in: body
+        description: Create shift tag request
+        required: true
+        schema:
+          $ref: '#/definitions/ShiftTag'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - ShiftTag
+      responses:
+        '200':
+          description: ShiftTag object
+          schema:
+            $ref: '#/definitions/ShiftTag'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TagIdParam'
+  /client/{clientId}/shift-manager/{tagId}/disable:
+    post:
+      description: Disable a specific Shift Tag
+      operationId: disableShiftTag
+      tags:
+      - ShiftTag
+      responses:
+        '200':
+          description: Updated shiftTag object
+          schema:
+            $ref: '#/definitions/ShiftTag'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TagIdParam'
+parameters:
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+  BatchIdParam:
+    name: batchId
+    in: path
+    description: Id of the batch
+    required: true
+    type: string
+  PlanIdParam:
+    name: planId
+    in: path
+    description: Id of the plan
+    required: true
+    type: string
+  ExportIdParam:
+    name: exportId
+    in: path
+    description: Id of the export
+    required: true
+    type: string
+  LocationIdParam:
+    name: locationId
+    in: path
+    description: Id of the location
+    required: true
+    type: string
+  LineItemIdParam:
+    name: lineItemId
+    in: path
+    description: Id of the line item
+    required: true
+    type: string
+  OutletIdParam:
+    name: outletId
+    in: path
+    description: Id of the outlet
+    required: true
+    type: string
+  PjpIdParam:
+    name: pjpId
+    in: path
+    description: Id of the permanent journey plan
+    required: true
+    type: string
+  ConfigIdParam:
+    name: configId
+    in: path
+    description: Id of the scheduling configuration
+    required: true
+    type: string
+  CarrierTeamQueryParam:
+    name: carrierTeam
+    in: query
+    description: 'An option to filter based on teams, takes in a comma separated list of values and filter based on the same.
+
+      If no value is provided, records are returned without filtering.
+
+      '
+    required: false
+    type: string
+  ContactIdParam:
+    name: contactId
+    in: path
+    description: Id of the contact
+    required: true
+    type: string
+  MultipartFileParam:
+    name: file
+    in: formData
+    description: Multipart file
+    required: true
+    type: file
+  TransporterIdParam:
+    name: transporterId
+    in: path
+    description: Id of the transporter
+    required: true
+    type: string
+  RiderIdParam:
+    name: riderId
+    in: path
+    description: Id of the rider
+    required: true
+    type: string
+  TeamIdParam:
+    name: teamId
+    in: path
+    description: Id of the team
+    required: true
+    type: string
+  MapIdParam:
+    name: mapId
+    in: path
+    description: Id of the Map
+    required: true
+    type: string
+  VersionIdParam:
+    name: versionId
+    in: path
+    description: Id of the version
+    required: true
+    type: integer
+    format: int32
+  ShiftIdParam:
+    name: shiftId
+    in: path
+    description: Id of the shift
+    required: true
+    type: string
+  TagIdParam:
+    name: tagId
+    in: path
+    description: Id of the shiftTag
+    required: true
+    type: string
+  CustomerIdParam:
+    name: customerId
+    in: path
+    description: Id of the customer
+    required: true
+    type: string
+  AddressIdParam:
+    name: addressId
+    in: path
+    description: Id of an address
+    required: true
+    type: string
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  BulkImportParam:
+    name: bulkImport
+    in: query
+    description: Boolean flag if true, indicates bulk import
+    required: false
+    type: boolean
+  SalesCategoryIdParam:
+    name: salesCategoryId
+    in: path
+    description: Id of salesCategory
+    required: true
+    type: string
+  ContractIdParam:
+    name: contractId
+    in: path
+    description: Id of the contract.
+    required: true
+    type: string
+  VehicleModelIdParam:
+    name: vehicleModelId
+    in: path
+    description: Id of a vehicle model
+    required: true
+    type: string
+  VehicleIdParam:
+    name: vehicleId
+    in: path
+    description: Id of the vehicle
+    required: true
+    type: string
+  RiderPersonaIdParam:
+    name: riderPersonaId
+    in: path
+    description: Id of the rider persona
+    required: true
+    type: string
+  RosterIdParam:
+    name: rosterId
+    in: path
+    description: Id of roster
+    required: true
+    type: string
+  HomebaseIdParam:
+    name: homebaseId
+    in: path
+    description: Id of homebase
+    required: true
+    type: string
+  CostLookupIdParam:
+    name: costLookupId
+    in: path
+    description: Id of cost lookup data
+    required: true
+    type: string
+  FleetConfigIdParam:
+    name: fleetConfigId
+    in: path
+    description: Id of the fleet configuration
+    required: true
+    type: string
+  CostIdParam:
+    name: costId
+    in: path
+    description: Id of the cost
+    required: true
+    type: string
+  ManufacturingDependencyIdParam:
+    name: manufacturingDependencyId
+    in: path
+    description: Id of the manufacturing dependency
+    required: true
+    type: string
+  PersonnelIdParam:
+    name: personnelId
+    in: path
+    description: Id of the personnel
+    required: true
+    type: string
+  ShouldReturnTokenParam:
+    name: shouldReturnToken
+    in: query
+    description: Boolean flag if true, send mail and then return token in response
+    required: false
+    type: boolean
+    default: false
+  NetworkDemandIdParam:
+    name: networkDemandId
+    in: path
+    description: Id of the network demand
+    required: true
+    type: string
+  DiscountIdParam:
+    name: discountId
+    in: path
+    description: Id of the discount
+    required: true
+    type: string
+  ConstraintIdParam:
+    name: constraintId
+    in: path
+    description: Id of the constraint
+    required: true
+    type: string
+  RoleIdParam:
+    name: roleId
+    in: path
+    description: Id of the role
+    required: true
+    type: string
+  InvoiceIdParam:
+    name: invoiceId
+    in: path
+    description: Id of the invoice
+    required: true
+    type: string
+  NoDueIdParam:
+    name: noDueId
+    in: path
+    description: Id of the no-due certificate
+    type: string
+    required: true
+  ChecklistConfigurationIdParam:
+    name: checklistConfigurationId
+    in: path
+    description: Id of checklist configuration
+    required: true
+    type: string
+  SmsConfigurationIdParam:
+    name: smsConfigurationId
+    in: path
+    description: Id of the sms configuration
+    required: true
+    type: string
+  RouteMasterIdParam:
+    name: routeMasterId
+    in: path
+    description: Id of a route master
+    required: true
+    type: string
+  MapUsecaseParam:
+    name: mapUsecase
+    in: path
+    description: Use case of a map. Refer to the MapUsecaseType definition. Supported values are TRANSACTION_TIME
+    required: true
+    type: string
+definitions:
+  ClientId:
+    required:
+    - clientId
+    properties:
+      clientId:
+        type: string
+  GetOutletsResponse:
+    description: Response of getOutlets API
+    required:
+    - outlets
+    - paginationInfo
+    properties:
+      outlets:
+        type: array
+        items:
+          $ref: '#/definitions/Outlet'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  GetMasterLocationsResponse:
+    description: Response of getLocations API
+    required:
+    - clientId
+    - locations
+    - paginationInfo
+    properties:
+      clientId:
+        type: string
+      locations:
+        type: array
+        items:
+          $ref: '#/definitions/MasterLocation'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  GetRidersResponse:
+    description: Response of getRiders API
+    required:
+    - riders
+    - paginationInfo
+    properties:
+      riders:
+        type: array
+        items:
+          $ref: '#/definitions/Rider'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateMasterLocationsResponse:
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  ExportStatusUpdateRequest:
+    description: Wrapper for export status update request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/ExportStatusEnum'
+  SchedulingConfigurationId:
+    description: The id of configuration to use for the scheduling engine
+    properties:
+      clientId:
+        type: string
+      configId:
+        type: string
+      version:
+        type: integer
+        format: int32
+  SerializedSchedulingConfigResponse:
+    description: The wrapper for holding the serialized scheduling configuration
+    required:
+    - schedulingConfigurationId
+    - serializedSchedulingConfig
+    properties:
+      schedulingConfigurationId:
+        $ref: '#/definitions/SchedulingConfigurationId'
+      serializedSchedulingConfig:
+        description: The serialized scheduling configuration string
+        type: string
+  GetSalesCategoryResponse:
+    description: Response of getSalesCategory API
+    required:
+    - salesCategories
+    - paginationInfo
+    properties:
+      salesCategories:
+        type: array
+        items:
+          $ref: '#/definitions/SalesCategory'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateSalesCategoryRequest:
+    description: Wrapper for sales category create request
+    allOf:
+    - $ref: '#/definitions/SalesCategory'
+    - type: object
+  CreateSalesCategoryResponse:
+    description: Response of create sales categories request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  Channel:
+    description: A channel
+    required:
+    - id
+    - name
+    properties:
+      id:
+        description: Id of the channel
+        type: string
+      name:
+        description: Name of the channel
+        type: string
+  GeocodingProvider:
+    $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/GeocodingProvider
+  GeocodingGoodness:
+    $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/GeocodingGoodness
+  GeocodingConfidence:
+    $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/GeocodingConfidence
+  AccuracyCategory:
+    $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/AccuracyCategory
+  GetMasterLineItemsResponse:
+    description: Response of getLineItems API
+    required:
+    - lineItems
+    - paginationInfo
+    properties:
+      lineItems:
+        type: array
+        items:
+          $ref: '#/definitions/MasterLineItem'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateMasterLineItemsResponse:
+    required:
+    - status
+    properties:
+      status:
+        description: SUCCESS if all the line items are created. FAILURE if atleast one line item has failed.
+        type: string
+        enum:
+        - SUCCESS
+        - FAILURE
+  MasterLineItemResponse:
+    description: A line item
+    allOf:
+    - $ref: '#/definitions/MasterLineItem'
+    - type: object
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: '#/definitions/MasterLocation'
+  GetContactsResponse:
+    description: Response of getContacts API
+    required:
+    - contacts
+    - paginationInfo
+    properties:
+      contacts:
+        type: array
+        items:
+          $ref: '#/definitions/Contact'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  GetTransportersResponse:
+    description: Response of getTransporters API
+    required:
+    - transporters
+    - paginationInfo
+    properties:
+      transporters:
+        type: array
+        items:
+          $ref: '#/definitions/Transporter'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateTransporterRequest:
+    description: Wrapper for transporter create request
+    allOf:
+    - $ref: '#/definitions/Transporter'
+    - type: object
+  CreateTransportersResponse:
+    description: Response for create transporters request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  GeocodingEdits:
+    description: The edits made by user for geocoded lat lngs
+    properties:
+      edits:
+        type: array
+        items:
+          $ref: '#/definitions/GeocodingEditRequest'
+  GeocodingEditRequest:
+    description: Request object for editing the geocoded lat lngs
+    required:
+    - locationId
+    - latLng
+    properties:
+      locationId:
+        description: Id of the location.
+        type: string
+      latLng:
+        $ref: '#/definitions/LatLng'
+      verified:
+        description: Boolean flag to indicate whether the lat lng is verified or not
+        type: boolean
+  GeocodingEdit:
+    description: An edit made to the geocoded lat lng
+    required:
+    - latLng
+    properties:
+      latLng:
+        $ref: '#/definitions/LatLng'
+      provider:
+        $ref: '#/definitions/GeocodingProvider'
+      goodness:
+        $ref: '#/definitions/GeocodingGoodness'
+      confidence:
+        $ref: '#/definitions/GeocodingConfidence'
+  GetMapsResponse:
+    description: Response of getMaps API
+    required:
+    - maps
+    - paginationInfo
+    properties:
+      maps:
+        type: array
+        items:
+          $ref: '#/definitions/CurrentKmlMap'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CurrentKmlMap:
+    description: Contains minimal KmlMap (without geometries), along with Active version and Latest version.
+    properties:
+      map:
+        $ref: '#/definitions/KmlMap'
+      currentVersion:
+        type: integer
+        format: int32
+      activeVersion:
+        type: integer
+        format: int32
+  GetVersionedMapsResponse:
+    description: Response of getMapVersions API
+    required:
+    - maps
+    - paginationInfo
+    properties:
+      maps:
+        type: array
+        items:
+          $ref: '#/definitions/KmlMap'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  GetMapForTeamResponse:
+    description: Response of getActiveMapByTeam API
+    required:
+    - map
+    properties:
+      map:
+        $ref: '#/definitions/KmlMap'
+  CreateServiceMapRequest:
+    required:
+    - geometries
+    properties:
+      geometries:
+        type: array
+        items:
+          $ref: '#/definitions/ServiceMapGeometry'
+  ServiceMap:
+    description: A collection of region/localities serviced by a team/homebase for usecase as autosort, zonebased routing
+      etc
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        geometries:
+          type: array
+          items:
+            $ref: '#/definitions/ServiceMapGeometry'
+        createdOn:
+          description: Time of creation of first map version
+          type: string
+          format: date-time
+        updatedOn:
+          description: Time of updation of current map version
+          type: string
+          format: date-time
+        actor:
+          $ref: '#/definitions/Actor'
+  ServiceMapGeometry:
+    required:
+    - id
+    - name
+    - geometry
+    description: A shape on map, containing metedata as Name, Id, Localites etc. along actual LatLng geometry
+    properties:
+      id:
+        $ref: '#/definitions/GeometryId'
+      name:
+        description: Name of the geometry
+        type: string
+      geometry:
+        $ref: '#/definitions/LatLngGeometry'
+      routeId:
+        description: Id of autosort Route
+        type: string
+      teamId:
+        description: Id of the team
+        type: string
+      homebaseId:
+        description: Id of the homebase
+        type: string
+      description:
+        description: Description text for the geometry
+        type: string
+      visualProperties:
+        $ref: '#/definitions/GeometryVisualProperties'
+      directoryId:
+        description: folder directory id of the geomerty inside the map. If null, it exisits under default folder of map
+        type: string
+      transporterTypes:
+        type: array
+        items:
+          $ref: '#/definitions/TransporterType'
+  KmlMap:
+    description: A collection of region/localities serviced by a team/homebase for usecase as autosort, zonebased routing
+      etc
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        teamId:
+          $ref: '#/definitions/TeamId'
+        homebaseId:
+          $ref: '#/definitions/LocationId'
+        geometries:
+          type: array
+          items:
+            $ref: '#/definitions/MapGeometry'
+        defaultCenter:
+          description: (Read-only) Default center to be used for the map if no geometries are specified and the homebase is
+            disabled
+          $ref: '#/definitions/LatLng'
+        folders:
+          type: array
+          items:
+            $ref: '#/definitions/MapFolder'
+        verified:
+          description: (Read-only) Verified status for map. Derived from verification status in geometries.
+          type: boolean
+        isActiveVersion:
+          description: Active status for this version of map
+          type: boolean
+        createdOn:
+          description: Time of creation of first map version
+          type: string
+          format: date-time
+        updatedOn:
+          description: Time of updation of current map version
+          type: string
+          format: date-time
+        actor:
+          $ref: '#/definitions/Actor'
+        summary:
+          $ref: '#/definitions/MapSummary'
+  MapSummary:
+    description: A summary of the Kml Map
+    properties:
+      uniqueRidersCount:
+        type: integer
+      uniqueVehiclesCount:
+        type: integer
+      zonesCount:
+        type: integer
+      uniqueVehicleModelsCount:
+        type: integer
+  MapFolder:
+    required:
+    - id
+    - name
+    description: Folder Data for Map containing Id and Names
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+  MapGeometry:
+    required:
+    - id
+    - name
+    - geometry
+    description: A shape on map, containing metedata as Name, Id, Localites etc. along actual LatLng geometry
+    properties:
+      id:
+        $ref: '#/definitions/GeometryId'
+      name:
+        description: Name of the geometry
+        type: string
+      geometry:
+        $ref: '#/definitions/LatLngGeometry'
+      routeId:
+        description: Id of autosort Route
+        type: string
+      localities:
+        description: List of localities serviced in the geometry
+        type: array
+        items:
+          type: string
+      subLocalities:
+        description: List of sub localities serviced in the geometry
+        type: array
+        items:
+          type: string
+      apartments:
+        description: List of apartments serviced in the geometry
+        type: array
+        items:
+          type: string
+      pincodes:
+        description: List of pincodes serviced in the geometry
+        type: array
+        items:
+          type: string
+      users:
+        description: List of users working in the geometry
+        type: array
+        items:
+          $ref: '#/definitions/UserId'
+      vehicles:
+        description: List of vehicles working in the geometry
+        type: array
+        items:
+          $ref: '#/definitions/VehicleId'
+      vehicleModels:
+        description: List of vehicle models working in the geometry
+        type: array
+        items:
+          $ref: '#/definitions/VehicleModelId'
+      categories:
+        type: array
+        items:
+          $ref: '#/definitions/ZoneCategory'
+      description:
+        description: Description text for the geometry
+        type: string
+      visualProperties:
+        $ref: '#/definitions/GeometryVisualProperties'
+      directoryId:
+        description: folder directory id of the geomerty inside the map. If null, it exisits under default folder of map
+        type: string
+      verificationStatus:
+        $ref: '#/definitions/VerificationStatus'
+      transactionTimeInfo:
+        $ref: '#/definitions/TransactionTimeInfo'
+  TransactionTimeInfo:
+    description: Contains information about transaction time
+    required:
+    - transactionTime
+    properties:
+      transactionTime:
+        description: Transaction time (in seconds)
+        type: integer
+        format: int32
+  GeometryId:
+    required:
+    - clientId
+    - mapId
+    - geometryId
+    properties:
+      clientId:
+        type: string
+      mapId:
+        type: string
+      geometryId:
+        type: string
+  ZoneCategory:
+    description: The category of the zone or geometry
+    type: string
+    enum:
+    - RESTRICTED
+  GeometryVisualProperties:
+    description: Contains visual attributes as color, opacity etc.
+    properties:
+      color:
+        description: hex code of color
+        type: string
+      opacity:
+        description: opacity of color for the geometry
+        type: string
+  LatLngGeometry:
+    description: A geometry as polygon, or as circle. Either should be present, but not both
+    properties:
+      polygon:
+        $ref: '#/definitions/LatLngPolygon'
+      circle:
+        $ref: '#/definitions/LatLngCircle'
+  LatLngPolygon:
+    required:
+    - type
+    - vertices
+    description: A geometry as convex polygon, line, point with latlng as vertices
+    properties:
+      type:
+        $ref: '#/definitions/GeometryType'
+      vertices:
+        type: array
+        items:
+          $ref: '#/definitions/LatLng'
+      innerVertices:
+        type: array
+        items:
+          $ref: '#/definitions/LatLng'
+      innerPolygons:
+        type: array
+        items:
+          $ref: '#/definitions/LatLngInnerPolygon'
+  LatLngInnerPolygon:
+    description: A convex polygon, with latlng as vertices
+    required:
+    - vertices
+    properties:
+      id:
+        type: string
+      vertices:
+        type: array
+        items:
+          $ref: '#/definitions/LatLng'
+  LatLngCircle:
+    required:
+    - center
+    - radius
+    description: A geometry as circle with latlng as center
+    properties:
+      center:
+        $ref: '#/definitions/LatLng'
+      radius:
+        description: radius of circle in meters
+        type: integer
+        format: int32
+  GeometryType:
+    description: Enum of possible shapes of geometry
+    type: string
+    enum:
+    - POINT
+    - MULTIPOINT_LINE
+    - MULTIPOINT_DIRECTED_LINE
+    - POLYGON
+  VerificationStatus:
+    description: Status for an entity containing verified flag, actor and timestamp
+    properties:
+      verified:
+        description: flag denoting verification status of an entity
+        type: boolean
+      actor:
+        description: Actor who marked verified
+        $ref: '#/definitions/Actor'
+      timestamp:
+        description: timestamp of latest verification
+        type: string
+        format: date-time
+  VerifyMapRequest:
+    required:
+    - requests
+    - verifiedAll
+    description: List of verifyGeometryRequest, denoting geometryIds to be verified
+    properties:
+      requests:
+        type: array
+        items:
+          $ref: '#/definitions/VerifyGeometryRequest'
+      verifiedAll:
+        description: Boolean flag denoting verified status to apply for all geometries. This will be used only if requests
+          list is blank and value is provided for this
+        type: boolean
+  VerifyGeometryRequest:
+    required:
+    - id
+    - verified
+    description: Boolean flag denoting geometryId is verified or not
+    properties:
+      id:
+        description: String Id of the geometry
+        type: string
+      verified:
+        type: boolean
+        default: false
+  UpdateActiveMapRequest:
+    required:
+    - version
+    - active
+    description: Request object containing version to be made active.
+    properties:
+      version:
+        type: integer
+        format: int32
+      active:
+        type: boolean
+        default: false
+  UpdateMapUsecaseRequest:
+    required:
+    - usecases
+    description: Object for selecting a active map for a usecase
+    properties:
+      usecases:
+        type: array
+        items:
+          $ref: '#/definitions/MapUsecaseType'
+  MapUsecaseType:
+    description: Enum of Map usecases
+    type: string
+    enum:
+    - AUTOSORT
+    - ROUTE_RESTRICTION
+    - PARKING
+    - SERVICEABILITY
+    - TRANSACTION_TIME
+  GetMapUsecasesResponse:
+    required:
+    - usecases
+    description: List of GetMapUsecaseResponse objects
+    properties:
+      usecases:
+        type: array
+        items:
+          $ref: '#/definitions/GetMapUsecaseResponse'
+  GetMapUsecaseResponse:
+    required:
+    - mapId
+    - usecases
+    description: Object containing usecases for mapId
+    properties:
+      mapId:
+        $ref: '#/definitions/MapId'
+      usecases:
+        type: array
+        items:
+          $ref: '#/definitions/MapUsecaseType'
+  VerifyAccessResponse:
+    description: Allow Manage/Verify access to entites for current actor
+    properties:
+      manageAccess:
+        type: boolean
+      verifyAccess:
+        type: boolean
+  GetShiftsResponse:
+    description: Response of get shifts api
+    required:
+    - shifts
+    - paginationInfo
+    properties:
+      shifts:
+        type: array
+        items:
+          $ref: '#/definitions/Shift'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  Customer:
+    description: Customer entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        teams:
+          description: List of teams for which this customer belongs to
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        phone:
+          description: Phone number of the customer
+          type: string
+        email:
+          description: Email of the customer
+          type: string
+        website:
+          description: Website of the customer
+          type: string
+        bioData:
+          $ref: '#/definitions/BioData'
+        addressIds:
+          description: Ids of the addresses associated with this customer
+          type: array
+          items:
+            $ref: '#/definitions/AddressId'
+        addresses:
+          description: Read only field, updates wont be applied, Refer AddressApi for updating address
+          type: array
+          items:
+            $ref: '#/definitions/Address'
+  Vehicle:
+    description: Details of a vehicle entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      required:
+      - id
+      - vehicleModelId
+      properties:
+        vehicleModelId:
+          $ref: '#/definitions/VehicleModelId'
+        vehicleModel:
+          description: Read-only field. Refer to VehicleModel Apis to update
+          $ref: '#/definitions/VehicleModel'
+        transporterId:
+          $ref: '#/definitions/TransporterId'
+        transporter:
+          description: Read-only field. Refer to Transporter Apis to update
+          $ref: '#/definitions/Transporter'
+        riderId:
+          $ref: '#/definitions/RiderId'
+        rider:
+          description: Read-only field. Refer to Rider Apis to update
+          $ref: '#/definitions/Rider'
+        vehicleCostModel:
+          $ref: '#/definitions/VehicleCostModel'
+        teams:
+          description: List of teams who use the vehicle
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        skills:
+          description: List of skill ids vehicle possesses
+          type: array
+          items:
+            $ref: '#/definitions/SkillId'
+        shiftIds:
+          description: List of working shifts
+          type: array
+          items:
+            $ref: '#/definitions/ShiftId'
+        shifts:
+          description: Read-only field. Refer to Shift Apis to update
+          type: array
+          items:
+            $ref: '#/definitions/Shift'
+        resourceLimits:
+          description: Limits on the resources with the vehicle
+          type: array
+          items:
+            $ref: '#/definitions/ResourceLimit'
+        manufacturingDate:
+          description: Date of manufacture of the vehicle
+          $ref: '#/definitions/LDate'
+        isColdChain:
+          type: boolean
+        unladenWeight:
+          description: Weight of Unloaded Vehicle in KGs
+          type: integer
+          format: int32
+        fuelType:
+          type: string
+          enum:
+          - PETROL
+          - DIESEL
+          - CNG
+          - ELECTRIC
+        mileage:
+          description: Odometer mileage for the vehicle
+          type: number
+          format: double
+        userCount:
+          description: Number of FEs available with this vehicle. This determines the no. of deliveries vehicle can do in
+            parallel, at the same location.
+          type: integer
+          format: int32
+          default: 1
+        documents:
+          description: Official documents registered with the transporter
+          type: array
+          items:
+            $ref: '#/definitions/Document'
+        baseLocations:
+          $ref: '#/definitions/BaseLocations'
+        fleetType:
+          $ref: '#/definitions/FleetType'
+        registrationNumber:
+          description: Registered identifier of the vehicle
+          type: string
+        isActive:
+          description: Status Field for transporter
+          type: boolean
+          default: true
+  CreateVehicleRequest:
+    description: Wrapper for vehicle create request
+    allOf:
+    - $ref: '#/definitions/Vehicle'
+    - type: object
+  CreateVehiclesResponse:
+    description: Response of create vehicles request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  GetVehiclesResponse:
+    required:
+    - vehicles
+    - paginationInfo
+    properties:
+      vehicles:
+        type: array
+        items:
+          $ref: '#/definitions/Vehicle'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  VehicleId:
+    type: object
+  Address:
+    description: Address entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      required:
+      - address
+      properties:
+        teams:
+          description: List of teams for which this address belongs to
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        address:
+          $ref: '#/definitions/StructuredAddress'
+        latLng:
+          $ref: '#/definitions/LatLng'
+        label:
+          description: A custom label for the address
+          type: string
+        type:
+          $ref: '#/definitions/AddressType'
+  AddressType:
+    description: Type of the address
+    type: string
+    enum:
+    - HOME
+    - WORK
+    - OTHER
+  CreateCustomersRequest:
+    description: Create customers request
+    required:
+    - customers
+    properties:
+      customers:
+        type: array
+        items:
+          $ref: '#/definitions/Customer'
+  GetCustomersResponse:
+    description: Get customers response
+    required:
+    - customers
+    - paginationInfo
+    properties:
+      customers:
+        type: array
+        items:
+          $ref: '#/definitions/Customer'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateAddressesRequest:
+    description: Create addresses request
+    required:
+    - addresses
+    properties:
+      addresses:
+        type: array
+        items:
+          $ref: '#/definitions/Address'
+  GetAddressesResponse:
+    description: Get addresses response
+    required:
+    - addresses
+    - paginationInfo
+    properties:
+      addresses:
+        type: array
+        items:
+          $ref: '#/definitions/Address'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  GeocodeLocationsRequest:
+    description: Request containing locationIds needed to be geocoded
+    required:
+    - locationIds
+    properties:
+      locationIds:
+        type: array
+        items:
+          type: string
+  VerifyLocationsGeocodeRequest:
+    description: Request containing locationIds whose geocodes need to be verified
+    required:
+    - locationIds
+    properties:
+      locationIds:
+        type: array
+        items:
+          type: string
+  VerifyLocationsGeocodeResponse:
+    description: Response containing locationIds and its accuracyCategory
+    required:
+    - responses
+    properties:
+      responses:
+        description: List of Verify Location Geocode Response
+        type: array
+        items:
+          $ref: '#/definitions/VerifyLocationGeocodeResponse'
+  VerifyLocationGeocodeResponse:
+    description: Verify Location Geocode Response
+    required:
+    - locationId
+    - accuracyCategory
+    properties:
+      locationId:
+        description: Id of location
+        type: string
+      geocodedLatLng:
+        description: Geocoded Latlng
+        $ref: '#/definitions/LatLng'
+      accuracyCategory:
+        $ref: '#/definitions/AccuracyCategory'
+  CreateEntityResponseStatus:
+    description: SUCCESS if all the entities are created. FAILURE if atleast one entity has failed.
+    type: string
+    enum:
+    - SUCCESS
+    - FAILURE
+  OutletsData:
+    description: Outlets data for creating sales beats, provide either IDs or request to filter and consider the existing
+      outlets
+    properties:
+      ids:
+        type: array
+        items:
+          type: string
+      request:
+        description: A BulkGetRequest object
+        $ref: '#/definitions/BulkGetRequest'
+  OutletSalesCategoryResponse:
+    description: The unique list of sales categories in the outlets
+    required:
+    - salesCategories
+    properties:
+      salesCategories:
+        type: array
+        items:
+          $ref: '#/definitions/SalesCategory'
+  Contract:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/Contract
+  ContractId:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/ContractId
+  ContractType:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/ContractType
+  ContractStatusEnum:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/ContractStatusEnum
+  ContractCostLookup:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/ContractCostLookup
+  CostLookup:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostLookup
+  VehicleModelCostFunction:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/VehicleModelCostFunction
+  AddFixedCostRequest:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/AddFixedCostRequest
+  UpdateFixedCostRequest:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/UpdateFixedCostRequest
+  GetCostMatrixResponse:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/GetCostMatrixResponse
+  AddCostMatrixRequest:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/AddCostMatrixRequest
+  UpdateCostMatrixRequest:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/UpdateCostMatrixRequest
+  CostFunction:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostFunction
+  CostFunctionExpression:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostFunctionExpression
+  CostComponent:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostComponent
+  CostCondition:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostCondition
+  CostConditionType:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostConditionType
+  CostConditionOperator:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostConditionOperator
+  SegmentType:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/SegmentType
+  CostWeightSteps:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostWeightSteps
+  CostWeightStep:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostWeightStep
+  CostWeightType:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostWeightType
+  CostParameter:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostParameter
+  CostParameterFilterOn:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostParameterFilterOn
+  CostParameterUniqueType:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostParameterUniqueType
+  CostOperator:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostOperator
+  CostParameterType:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostParameterType
+  CostMatrixData:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/CostMatrixData
+  GetFixedCostResponse:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/GetFixedCostResponse
+  Workflow:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/Workflow
+  ContractNotificationMetadata:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/ContractNotificationMetadata
+  WorkflowStageMapping:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/WorkflowStageMapping
+  WorkflowStage:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/WorkflowStage
+  WorkflowAssignee:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/WorkflowAssignee
+  NotificationSettings:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/NotificationSettings
+  MinimalContract:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/MinimalContract
+  ActionType:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/ActionType
+  GetWorkflowRequest:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/GetWorkflowRequest
+  GetWorkflowResponse:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/GetWorkflowResponse
+  GetNotifierResponse:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/GetNotifierResponse
+  Notifier:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/Notifier
+  GetContractActionsResponse:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/GetContractActionsResponse
+  ActionCountMap:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/ActionCountMap
+  EffectiveStatusUpdateRequest:
+    $ref: https://swagger.locus-api.com/contracts.yaml#/definitions/EffectiveStatusUpdateRequest
+  CreateContractRequest:
+    description: Wrapper for contract create request
+    allOf:
+    - $ref: '#/definitions/Contract'
+    - type: object
+  CreateContractsResponse:
+    description: Response for create contracts request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  GetContractsResponse:
+    description: Response of getContracts API
+    required:
+    - contracts
+    - paginationInfo
+    properties:
+      contracts:
+        type: array
+        items:
+          $ref: '#/definitions/Contract'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateVehicleModelRequest:
+    description: Wrapper for create vehicle model request
+    allOf:
+    - $ref: '#/definitions/VehicleModel'
+    - type: object
+  CreateVehicleModelsResponse:
+    description: Response of create vehicle models request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  StructuredAddress:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/StructuredAddress
+  TimeSlot:
+    $ref: https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot
+  DaySlot:
+    $ref: https://swagger.locus-api.com/slots.yaml#/definitions/DaySlot
+  MultiDaySlot:
+    $ref: https://swagger.locus-api.com/slots.yaml#/definitions/MultiDaySlot
+  DaysOfWeek:
+    $ref: https://swagger.locus-api.com/slots.yaml#/definitions/DaysOfWeek
+  SalesCategoryGroup:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/SalesCategoryGroup
+  Week:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Week
+  FileUploadResponse:
+    $ref: https://locus-api.com/v1/docs-internal.json#/definitions/FileUploadResponse
+  TaskExportRequest:
+    allOf:
+    - $ref: '#/definitions/BaseExportRequest'
+    - type: object
+      properties:
+        selectedColumns:
+          description: List of columns to be exported in report, the order of items in list will determine the order of columns
+            in export
+          type: array
+          items:
+            type: string
+        timestamp:
+          type: string
+        lowerTimestamp:
+          type: string
+        taskStatus:
+          type: string
+        carrierClient:
+          type: string
+        carrierTeam:
+          type: string
+        shiftId:
+          type: string
+        shiftDate:
+          type: string
+        businessUnitId:
+          type: string
+  PlanExportRequest:
+    allOf:
+    - $ref: '#/definitions/BaseExportRequest'
+    - type: object
+      properties:
+        retainRawSheets:
+          type: boolean
+          default: false
+        tourIds:
+          description: Export all tours if left empty otherwise export selected tours.
+          type: array
+          items:
+            $ref: '#/definitions/TourId'
+        exportOriginal:
+          description: Export original plan along with the provided tour ids.
+          type: boolean
+          default: false
+  CreateRiderPersonaRequest:
+    description: Wrapper for rider persona create request
+    allOf:
+    - $ref: '#/definitions/RiderPersona'
+    - type: object
+  CreateRiderPersonasResponse:
+    description: Response of create rider personas request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  GetRiderPersonasResponse:
+    required:
+    - riderPersonas
+    - paginationInfo
+    properties:
+      riderPersonas:
+        type: array
+        items:
+          $ref: '#/definitions/RiderPersona'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateFleetConfigRequest:
+    description: Details of a fleet configuration entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      required:
+      - teamId
+      - fleetEntities
+      properties:
+        teamId:
+          $ref: '#/definitions/TeamId'
+        fleetEntities:
+          description: List of fleet components
+          type: array
+          items:
+            $ref: '#/definitions/FleetEntity'
+  GetFleetConfigsResponse:
+    required:
+    - configurations
+    - paginationInfo
+    properties:
+      configurations:
+        type: array
+        items:
+          $ref: '#/definitions/FleetConfig'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  FleetConfig:
+    description: A Fleet Configuration
+    allOf:
+    - $ref: '#/definitions/CreateFleetConfigRequest'
+    - type: object
+      required:
+      - primaryFleetType
+      - planUseCase
+      - summary
+      properties:
+        primaryFleetType:
+          readOnly: true
+          $ref: '#/definitions/FleetEntityType'
+        planUseCase:
+          readOnly: true
+          $ref: '#/definitions/PlanUseCase'
+        summary:
+          readOnly: true
+          $ref: '#/definitions/FleetConfigSummary'
+  FleetEntity:
+    description: Definition of a fleet entity (containing both primary and secondary entities) which will be used for planning.
+    required:
+    - modelId
+    properties:
+      modelId:
+        description: Id of the primary fleet model type ( can be vehicle model ID or rider persona ID)
+        type: string
+      model:
+        description: read-only field for the concrete model
+        readOnly: true
+        type: object
+      contractMeta:
+        description: Meta information if contract is associated to the fleet entity or not
+        type: string
+        default: NOT_APPLICABLE
+        enum:
+        - NOT_APPLICABLE
+        - ENABLED
+        - DISABLED
+      fleetEntityPairs:
+        description: List of Primary and associated Secondary Fleet entities
+        type: array
+        items:
+          $ref: '#/definitions/FleetEntityPair'
+  FleetEntityPair:
+    description: Primary and associated Secondary Fleet entities used for FleetConfig.
+    required:
+    - primaryFleetEntity
+    properties:
+      primaryFleetEntity:
+        $ref: '#/definitions/MinimalFleetEntity'
+      secondaryFleetEntity:
+        $ref: '#/definitions/MinimalFleetEntity'
+  MinimalFleetEntity:
+    description: A minimal fleet entity used for planning.
+    required:
+    - entityId
+    properties:
+      entityId:
+        type: string
+      entity:
+        readOnly: true
+        type: object
+      shiftId:
+        $ref: '#/definitions/ShiftId'
+      shift:
+        readOnly: true
+        $ref: '#/definitions/Shift'
+      startLocation:
+        $ref: '#/definitions/AddressLatLng'
+      endLocation:
+        $ref: '#/definitions/AddressLatLng'
+  FleetConfigId:
+    description: A unique id for fleet configuration - clientId - configurationId
+    properties:
+      clientId:
+        type: string
+      configurationId:
+        type: string
+      version:
+        type: integer
+        format: int32
+  Team:
+    description: Team entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        businessUnitId:
+          $ref: '#/definitions/BusinessUnitId'
+        businessUnit:
+          $ref: '#/definitions/BusinessUnit'
+        cityId:
+          $ref: '#/definitions/CityId'
+        color:
+          description: Color of the team
+          type: string
+        teamPreferences:
+          $ref: '#/definitions/TeamPreferences'
+        shortCode:
+          description: unique 4 character identifier for a team
+          type: string
+  TeamPreferences:
+    description: Settings for a team belonging to business client of a Locus
+    required:
+    - dispatcherVisibilitySettings
+    properties:
+      dispatcherVisibilitySettings:
+        $ref: '#/definitions/DispatcherVisibilitySettings'
+      liveViewSettings:
+        $ref: '#/definitions/LiveViewSettings'
+  CreateTeamRequest:
+    description: Team entity create request
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        businessUnitId:
+          $ref: '#/definitions/BusinessUnitId'
+        cityId:
+          $ref: '#/definitions/CityId'
+        color:
+          description: Color of the team
+          type: string
+  CreateTeamsResponse:
+    description: Response for create teams request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  GetTeamsResponse:
+    description: Response of getTeams API
+    required:
+    - teams
+    - paginationInfo
+    properties:
+      teams:
+        type: array
+        items:
+          $ref: '#/definitions/Team'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  GetHomebasesResponse:
+    description: Response of getHomebases API
+    required:
+    - homebases
+    - paginationInfo
+    properties:
+      clientId:
+        type: string
+      homebases:
+        type: array
+        items:
+          $ref: '#/definitions/Homebase'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  UpdatePincodesRequest:
+    required:
+    - pincodes
+    properties:
+      pincodes:
+        type: array
+        description: List of pincodes
+        items:
+          type: string
+      replace:
+        description: Boolean flag if true, will replace the existing pincodes with provided set of pincodes
+        type: boolean
+        default: false
+  Personnel:
+    description: A person using one of our systems (can be an admin using dashboard)
+    allOf:
+    - $ref: '#/definitions/BasePersonnel'
+    - type: object
+      properties:
+        canManageSystem:
+          description: Boolean indicating whether the personnel can manage system or not. Only personnel with write access
+            can have manage permission
+          type: boolean
+          default: false
+        canRequestWriteAccess:
+          description: Boolean indicating whether the personnel can request write or not
+          type: boolean
+          default: true
+        hasAllClientsAccess:
+          description: Boolean indicating whether the personnel has access to all teams of the client or not
+          type: boolean
+          default: false
+        operations:
+          description: Operations allowed for this personnel
+          type: array
+          items:
+            $ref: '#/definitions/Operation'
+        clientsReadAccess:
+          description: Ids of the clients for which the personnel has read access
+          type: array
+          items:
+            $ref: '#/definitions/ClientId'
+  BasePersonnel:
+    description: Base class for personnel related models
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        email:
+          description: Email ID of the personnel
+          $ref: '#/definitions/EmailAddress'
+        phone:
+          description: Phone number of the personnel
+          $ref: '#/definitions/PhoneNumber'
+        photoUrl:
+          description: Photo URL of the personnel
+          type: string
+        personnelType:
+          description: Type of personnel
+          $ref: '#/definitions/PersonnelType'
+        roleMasterId:
+          description: RBAC role assigned to the user
+          $ref: '#/definitions/RoleMasterId'
+        roleMaster:
+          description: RBAC role assigned to the user
+          $ref: '#/definitions/MasterRole'
+        teams:
+          description: Ids of the teams to which this personnel belongs
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        transporters:
+          description: Ids of the transporters which this personnel has access to
+          type: array
+          items:
+            $ref: '#/definitions/TransporterId'
+        hasAllTeamsAccess:
+          description: Boolean indicating whether the personnel has access to all teams or not
+          type: boolean
+          default: false
+        canManageEntities:
+          description: Boolean indicating whether the personnel can manage entities or not. Only personnel with write access
+            can have manage permission
+          type: boolean
+          default: false
+        canVerifyEntities:
+          description: Boolean indicating whether the personnel can verify entities or not. Only personnel with write access
+            can have verify permission
+          type: boolean
+          default: false
+        canManagePersonnel:
+          description: Boolean indicating whether the personnel can manage entities or not. Only personnel with write access
+            can have manage permission
+          type: boolean
+          default: false
+        language:
+          description: Language preference of the personnel
+          type: string
+        customRole:
+          description: Client specified custom role of personnel
+          type: string
+        timezone:
+          description: Time zone of the personnel
+          type: string
+  CreatePersonnelRequest:
+    description: Wrapper for personnel create request
+    allOf:
+    - $ref: '#/definitions/BasePersonnel'
+    - type: object
+      properties:
+        accessType:
+          $ref: '#/definitions/AccessType'
+  PersonnelResponse:
+    description: Wrapper for personnel create request
+    allOf:
+    - $ref: '#/definitions/BasePersonnel'
+    - type: object
+      properties:
+        accessType:
+          $ref: '#/definitions/AccessType'
+        authToken:
+          $ref: '#/definitions/AuthToken'
+        role:
+          description: Role assigned to personnel
+          type: string
+        businessUnitIds:
+          description: Id of the business units to which personnel belongs.
+          type: array
+          items:
+            $ref: '#/definitions/BusinessUnitId'
+  GetPersonnelsResponse:
+    required:
+    - personnels
+    - paginationInfo
+    properties:
+      personnels:
+        type: array
+        items:
+          $ref: '#/definitions/PersonnelResponse'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateRiderRequest:
+    description: Wrapper for rider create request
+    allOf:
+    - $ref: '#/definitions/Rider'
+    - type: object
+      properties:
+        retainAuth:
+          description: Boolean to indicate if Auth should be retained if already generated
+          type: boolean
+          default: true
+  UpdateSkillsRequest:
+    description: A request to update rider skills
+    required:
+    - skills
+    properties:
+      skills:
+        type: array
+        items:
+          $ref: '#/definitions/SkillId'
+  GenerateOtpRequest:
+    required:
+    - phoneNumber
+    properties:
+      phoneNumber:
+        type: string
+  VerifyOtpRequest:
+    description: A request to verify the OTP for auth, if enabled
+    required:
+    - otp
+    properties:
+      otp:
+        type: string
+  UpdateRiderPhoneNumberRequest:
+    description: A request to update phone number. If enabled, otp is verified
+    required:
+    - phoneNumber
+    properties:
+      phoneNumber:
+        type: string
+      otp:
+        type: string
+  GenerateJwtRequest:
+    required:
+    - type
+    - secret
+    properties:
+      credentialType:
+        type: string
+        default: PERSONNEL
+        enum:
+        - PERSONNEL
+        - CLIENT
+      secret:
+        type: string
+        description: Client or personnel secret
+  Jwt:
+    description: Javascript web tokens
+    required:
+    - accessToken
+    properties:
+      accessToken:
+        type: string
+  GetRoleMastersResponse:
+    required:
+    - roles
+    - paginationInfo
+    properties:
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/MasterRoleResponse'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  MasterRoleResponse:
+    allOf:
+    - $ref: '#/definitions/MasterRole'
+    - type: object
+      properties:
+        personnelCount:
+          type: integer
+          format: int32
+  GetVersionedTransportersResponse:
+    description: List of versioned transporters
+    required:
+    - versionedTransporters
+    properties:
+      versionedTransporters:
+        type: array
+        items:
+          $ref: '#/definitions/VersionedTransporter'
+  VersionedTransporter:
+    description: Versioned transporter response
+    properties:
+      transporterId:
+        $ref: '#/definitions/TransporterId'
+      transporter:
+        $ref: '#/definitions/Transporter'
+  GetVersionedVehicleModelsResponse:
+    description: List of versioned vehicle models
+    required:
+    - versionedVehicleModels
+    properties:
+      versionedVehicleModels:
+        type: array
+        items:
+          $ref: '#/definitions/VersionedVehicleModel'
+  VersionedVehicleModel:
+    description: Versioned vehicle model response
+    properties:
+      vehicleModelId:
+        $ref: '#/definitions/VehicleModelId'
+      vehicleModel:
+        $ref: '#/definitions/VehicleModel'
+  GetVersionedRiderPersonasResponse:
+    description: List of versioned rider personas
+    required:
+    - versionedRiderPersonas
+    properties:
+      versionedRiderPersonas:
+        type: array
+        items:
+          $ref: '#/definitions/VersionedRiderPersona'
+  VersionedRiderPersona:
+    description: Versioned rider persona response
+    properties:
+      riderPersonaId:
+        $ref: '#/definitions/RiderPersonaId'
+      riderPersona:
+        $ref: '#/definitions/RiderPersona'
+  CreateRoleMasterRequest:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CreateRoleMasterRequest
+  MasterRole:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterRole
+  RoleType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RoleType
+  BaseMinimalUser:
+    type: object
+  GetMinimalPersonnelResponse:
+    type: object
+  PasswordAuthDetails:
+    type: object
+  PasswordAuthProvider:
+    type: object
+  PasswordPolicyEnum:
+    type: object
+  SsoDetails:
+    type: object
+  AddressId:
+    type: object
+  ContactId:
+    type: object
+  LocationId:
+    type: object
+  LineItemPart:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LineItemPart
+  Weight:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Weight
+  WeightUnit:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/WeightUnit
+  Dimensions:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Dimensions
+  Volume:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Volume
+  VolumeDefinition:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VolumeDefinition
+  TransporterId:
+    type: object
+  CustomerId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CustomerId
+  VersionedMapId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VersionedMapId
+  MapId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MapId
+  BatchId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BatchId
+  PlanId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/PlanId
+  Actor:
+    type: object
+  Progress:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Progress
+  EntityStatusUpdateRequest:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/EntityStatusUpdateRequest
+  EntityStatus:
+    type: object
+  PaginationInfo:
+    type: object
+  Unit:
+    type: object
+  OperationStatusResponse:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/OperationStatusResponse
+  OperationStatus:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/OperationStatus
+  PjpRiderData:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/PjpRiderData
+  Outlet:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/Outlet
+  OutletLocation:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/OutletLocation
+  CreateOutletLocationRequest:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/CreateOutletLocationRequest
+  TerritoryInfo:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/TerritoryInfo
+  EntityDefinition:
+    type: object
+  TeamId:
+    type: object
+  LocationCrossDockInfo:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LocationCrossDockInfo
+  MasterLocation:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLocation
+  Homebase:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Homebase
+  CrossDockInfo:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CrossDockInfo
+  LocationLearningMetadata:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LocationLearningMetadata
+  LocationLearningSource:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LocationLearningSource
+  LatLng:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LatLng
+  CreateLocationRequest:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CreateLocationRequest
+  HomebaseId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/HomebaseId
+  LocationType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LocationType
+  GeocodingMetadata:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/GeocodingMetadata
+  Contact:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Contact
+  ContactType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ContactType
+  PhoneNumber:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/PhoneNumber
+  EmailAddress:
+    type: object
+  UserId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/UserId
+  SkillId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
+  VehicleModelId:
+    type: object
+  Revenue:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Revenue
+  Amount:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Amount
+  Rider:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider
+  RiderType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderType
+  OtpInfo:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/OtpInfo
+  LotrAppInfo:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LotrAppInfo
+  BaseLocations:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BaseLocations
+  AddressLatLng:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/AddressLatLng
+  Document:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Document
+  Limits:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Limits
+  Competency:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Competency
+  RiderRating:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderRating
+  VolumeLimit:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VolumeLimit
+  ResourceLimit:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ResourceLimit
+  ResourceDefinition:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ResourceDefinition
+  ShiftsInfo:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftsInfo
+  BioData:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BioData
+  Gender:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Gender
+  RiderId:
+    type: object
+  OutletId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/OutletId
+  RiderPersona:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderPersona
+  ShiftMetadata:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftMetadata
+  EntityResourceLimits:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/EntityResourceLimits
+  KnownResourceLimit:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/KnownResourceLimit
+  RiderPersonaCompetency:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderPersonaCompetency
+  Transporter:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
+  Rating:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rating
+  TransporterServices:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/TransporterServices
+  TransporterScope:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/TransporterScope
+  TransporterType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/TransporterType
+  FleetType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FleetType
+  CrossDockType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CrossDockType
+  RiderPersonaType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderPersonaType
+  RiderPersonaId:
+    type: object
+  SalesCategory:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/SalesCategory
+  SalesCategoryId:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/SalesCategoryId
+  Category:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/Category
+  LocationInfo:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/LocationInfo
+  HistoricalData:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/HistoricalData
+  DayInfo:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/DayInfo
+  WeekInfo:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/WeekInfo
+  DayOfWeek:
+    type: object
+  CurrentBeatInfo:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/CurrentBeatInfo
+  CurrentBeat:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/CurrentBeat
+  VisitFrequencyInfo:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/VisitFrequencyInfo
+  GroupInfo:
+    $ref: https://swagger.locus-api.com/pjp.yaml#/definitions/GroupInfo
+  AuditMetadata:
+    type: object
+  ShiftId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftId
+  Shift:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Shift
+  DayShift:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/DayShift
+  BreakShift:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BreakShift
+  ShiftInstant:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftInstant
+  BulkGetRequest:
+    type: object
+  ComplexFilter:
+    type: object
+  VersionedEntityId:
+    type: object
+  Filter:
+    type: object
+  FilterOperation:
+    type: object
+  LogicalOperation:
+    type: object
+  SortingInfo:
+    type: object
+  ExportStatus:
+    $ref: https://swagger.locus-api.com/export.yaml#/definitions/ExportStatus
+  PersonnelId:
+    type: object
+  PersonnelType:
+    type: object
+  RoleMasterId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RoleMasterId
+  ExportStatusEnum:
+    $ref: https://swagger.locus-api.com/export.yaml#/definitions/ExportStatusEnum
+  EntityExportRequest:
+    $ref: https://swagger.locus-api.com/export.yaml#/definitions/EntityExportRequest
+  BaseExportRequest:
+    $ref: https://swagger.locus-api.com/export.yaml#/definitions/BaseExportRequest
+  EntityExport:
+    $ref: https://swagger.locus-api.com/export.yaml#/definitions/EntityExport
+  LDate:
+    type: object
+  LineItemId:
+    type: object
+  TourId:
+    $ref: https://swagger.locus-api.com/tour.yaml#/definitions/TourId
+  LineItemSummary:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LineItemSummary
+  MasterLineItem:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLineItem
+  CreateLineItemRequest:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CreateLineItemRequest
+  TemperatureThreshold:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/TemperatureThreshold
+  Carton:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Carton
+  PatchRequest:
+    type: object
+  PatchDocument:
+    type: object
+  PatchOperation:
+    type: object
+  VehicleCostModel:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleCostModel
+  SystemOfMeasurement:
+    type: object
+  DispatcherVisibilitySettings:
+    $ref: https://swagger.locus-api.com/configurations.yaml#/definitions/DispatcherVisibilitySettings
+  PlanMapControlsSettings:
+    $ref: https://swagger.locus-api.com/configurations.yaml#/definitions/PlanMapControlsSettings
+  ExposedDispatcherVisibilitySettings:
+    $ref: https://swagger.locus-api.com/configurations.yaml#/definitions/ExposedDispatcherVisibilitySettings
+  PlanMetricsEnum:
+    $ref: https://swagger.locus-api.com/configurations.yaml#/definitions/PlanMetricsEnum
+  VehicleModel:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
+  VehicleCompartment:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleCompartment
+  VehicleLoadingParams:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleLoadingParams
+  VehicleTravelParams:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleTravelParams
+  VehicleType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleType
+  FuelType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FuelType
+  LoadingUnloadingSide:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LoadingUnloadingSide
+  GetVehicleModelsResponse:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/GetVehicleModelsResponse
+  CityId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CityId
+  BusinessUnitId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BusinessUnitId
+  BusinessUnit:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BusinessUnit
+  BusinessUnitStatusEnum:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BusinessUnitStatusEnum
+  IndustryType:
+    type: object
+  PlanUseCase:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/PlanUseCase
+  FleetEntityType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FleetEntityType
+  FleetConfigSummary:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FleetConfigSummary
+  AccessType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/AccessType
+  Operation:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Operation
+  AuthToken:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/AuthToken
+  UpdatePasswordRequest:
+    type: object
+  UpdateLanguageRequest:
+    type: object
+  GetPersonnelByEmailRequest:
+    type: object
+  GetPersonnelByEmailResponse:
+    type: object
+  RiderStatus:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderStatus
+  UserStatus:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/UserStatus
+  UserEffectiveStatus:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/UserEffectiveStatus
+  UserEffectiveStatusEnum:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/UserEffectiveStatusEnum
+  UserBusyReasonEnum:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/UserBusyReasonEnum
+  Skill:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Skill
+  EntityTeamMapping:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/EntityTeamMapping
+  LiveViewSettings:
+    description: Live view related settings for the client
+    properties:
+      customerNotesSettings:
+        $ref: '#/definitions/CustomerNotesSettings'
+  CustomerNotesSettings:
+    description: Customer notes related settings for client
+    required:
+    - notesDisplayText
+    properties:
+      notesDisplayText:
+        description: Customer notes display text on the live view page
+        type: string
+  City:
+    description: Details of a city
+    required:
+    - cityId
+    - name
+    - countryId
+    properties:
+      cityId:
+        type: string
+      name:
+        type: string
+      stateName:
+        type: string
+      countryId:
+        type: string
+        description: Country ID of this city
+      coordinates:
+        description: Coordinates of a city
+        $ref: '#/definitions/LatLng'
+      alternativeNames:
+        description: Alternatives names for the city
+        type: array
+        items:
+          type: string
+  GetCitiesResponse:
+    description: List of cities as response object
+    properties:
+      cities:
+        type: array
+        items:
+          $ref: '#/definitions/City'
+  ForgottenPassword:
+    description: ForgottenPassword details
+    required:
+    - password
+    - encodingSalt
+    - expiresAt
+    properties:
+      password:
+        type: string
+      encodingSalt:
+        type: string
+      expiresAt:
+        type: string
+        format: date-time
+        description: instant as of when, this request stands invalid
+  ChecklistConfiguration:
+    description: Checklist configuration for the client
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      required:
+      - checklistConfigurationId
+      properties:
+        checklistConfigurationId:
+          type: string
+        defaultChecklists:
+          type: array
+          items:
+            $ref: '#/definitions/DefaultChecklist'
+        lineItemTransactionSettings:
+          $ref: '#/definitions/LineItemTransactionSettings'
+        teams:
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        hasAllTeamsAccess:
+          type: boolean
+          default: false
+  Checklist:
+    type: object
+  LineItemTransactionSettings:
+    type: object
+    properties:
+      canTransactPartialAtHomebase:
+        type: boolean
+        default: false
+      canPickupPartial:
+        type: boolean
+        default: false
+      canDropPartial:
+        type: boolean
+        default: false
+      defaultPickupChecklist:
+        $ref: '#/definitions/Checklist'
+      defaultDropChecklist:
+        $ref: '#/definitions/Checklist'
+  DefaultChecklist:
+    allOf:
+    - $ref: '#/definitions/Checklist'
+    - type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+        visitNames:
+          type: array
+          items:
+            type: string
+        mergeWithExisiting:
+          type: boolean
+          default: false
+        script:
+          type: string
+        transactionType:
+          type: string
+          enum:
+          - PICKUP
+          - DROP
+          - SERVICE
+  CreateChecklistConfigurationRequest:
+    allOf:
+    - $ref: '#/definitions/ChecklistConfiguration'
+  GetChecklistConfigurationResponse:
+    description: Response of getRiders API
+    required:
+    - checklistConfigurations
+    - paginationInfo
+    properties:
+      checklistConfigurations:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistConfiguration'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  GetRosterResourceResponse:
+    description: Response of default roster resource
+    required:
+    - defaultConstraints
+    properties:
+      defaultConstraints:
+        description: Limits on the resources with the vehicle
+        type: array
+        items:
+          $ref: '#/definitions/ResourceLimit'
+  RosterUpdateRequest:
+    description: Request data to edit roster
+    properties:
+      shift:
+        $ref: '#/definitions/ShiftUpdateRequest'
+      skills:
+        type: array
+        items:
+          $ref: '#/definitions/SkillId'
+      resourceLimits:
+        type: array
+        items:
+          $ref: '#/definitions/ResourceLimit'
+  ShiftUpdateRequest:
+    description: Request data to edit roster
+    properties:
+      start:
+        $ref: '#/definitions/RosterShiftInstant'
+      end:
+        $ref: '#/definitions/RosterShiftInstant'
+      breaks:
+        type: array
+        items:
+          $ref: '#/definitions/RosterBreakShift'
+  ShiftTag:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTag
+  TagId:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/TagId
+  ShiftTagRequiredResources:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTagRequiredResources
+  ShiftTagResource:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTagResource
+  ShiftTagRosterDetails:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTagRosterDetails
+  ShiftTagRosterSummary:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTagRosterSummary
+  ShiftTagRosterResource:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTagRosterResource
+  ShiftTagRosterDetailedBreakup:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTagRosterDetailedBreakup
+  GetShiftTagsResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetShiftTagsResponse
+  CreateRosterRequest:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CreateRosterRequest
+  CreateRosterResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CreateRosterResponse
+  GetShiftTagsRosterResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetShiftTagsRosterResponse
+  ShiftTagWithRoster:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTagWithRoster
+  BulkCreateRoster:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/BulkCreateRoster
+  GetRosterSearchResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRosterSearchResponse
+  RosterCalendarViewResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterCalendarViewResponse
+  Roster:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/Roster
+  RosterShift:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShift
+  RosterBreakShift:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterBreakShift
+  BulkRequestRoster:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/BulkRequestRoster
+  CalendarRider:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CalendarRider
+  CalendarVehicle:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CalendarVehicle
+  DayWiseRosters:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/DayWiseRosters
+  RosterRider:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterRider
+  RosterVehicle:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterVehicle
+  MinimalRider:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/MinimalRider
+  RosterVehicleModel:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterVehicleModel
+  RosterShiftInstant:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftInstant
+  RosterShiftLocation:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation
+  RosterId:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterId
+  RosterEntityType:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterEntityType
+  RosterDayOff:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterDayOff
+  RosterManagementSettings:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterManagementSettings
+  RiderRosterSettings:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RiderRosterSettings
+  VehicleRosterSettings:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/VehicleRosterSettings
+  GetRosterResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRosterResponse
+  GetRostersResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRostersResponse
+  GetAvailableRidersResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetAvailableRidersResponse
+  GetAvailableVehiclesResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetAvailableVehiclesResponse
+  AvailableVehicle:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/AvailableVehicle
+  AvailableRider:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/AvailableRider
+  AvailabilityStatus:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/AvailabilityStatus
+  ReconciliationInvoice:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/ReconciliationInvoice
+  MinimalReconciliationInvoice:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/MinimalReconciliationInvoice
+  InvoiceComment:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoiceComment
+  CreateReconciliationInvoiceRequest:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/CreateReconciliationInvoiceRequest
+  NoDueCertificate:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/NoDueCertificate
+  GetReconciliationInvoicesResponse:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/GetReconciliationInvoicesResponse
+  PaymentDetailsEditRequest:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/PaymentDetailsEditRequest
+  InvoiceDetailsEditRequest:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoiceDetailsEditRequest
+  CreateNoDueCertificateRequest:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/CreateNoDueCertificateRequest
+  NoDueCertificateNotificationMetadata:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/NoDueCertificateNotificationMetadata
+  GetNoDueCertificateResponse:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/GetNoDueCertificateResponse
+  BulkEditRequest:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BulkEditRequest
+  BulkEditResponse:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BulkEditResponse
+  BulkEditSummary:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BulkEditSummary
+  InvoiceVerificationStatusEnum:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoiceVerificationStatusEnum
+  InvoicePaymentStatusEnum:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoicePaymentStatusEnum
+  InvoiceStatusEnum:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoiceStatusEnum
+  InvoiceStatusMap:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoiceStatusMap
+  InvoiceStatusMapTabInfo:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoiceStatusMapTabInfo
+  TaxInvoice:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/TaxInvoice
+  MiscellanousCost:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/MiscellanousCost
+  AddInvoiceCommentRequest:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/AddInvoiceCommentRequest
+  GetInvoiceCommentsResponse:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/GetInvoiceCommentsResponse
+  GetInvoiceComment:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/GetInvoiceComment
+  InvoiceWorkflow:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoiceWorkflow
+  PaymentDetails:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/PaymentDetails
+  InvoicePaymentModeEnum:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoicePaymentModeEnum
+  InvoiceDetails:
+    $ref: https://swagger.locus-api.com/reconciliation.yaml#/definitions/InvoiceDetails
+  MinimalRuleExecutionStatus:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/MinimalRuleExecutionStatus
+  OrderStatus:
+    $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderStatus
+  OrderSubStatus:
+    $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderSubStatus
+  OrderType:
+    $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
+  SmsConfiguration:
+    description: A generic Sms configuration entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      required:
+      - teams
+      properties:
+        entityType:
+          description: Type of entity for which sms needs to be sent
+          type: string
+          enum:
+          - TASK
+          - ORDER
+          default: TASK
+        teams:
+          description: List of teams which the riderpersona is part of
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        smsTemplates:
+          type: array
+          items:
+            $ref: '#/definitions/SmsTemplate'
+        orderSmsTemplates:
+          type: array
+          items:
+            $ref: '#/definitions/OrderSmsTemplate'
+        hasAllTeamsAccess:
+          type: boolean
+          default: false
+  SmsTemplate:
+    description: SMS Template
+    type: object
+    properties:
+      templateId:
+        type: string
+      name:
+        type: string
+      visitIds:
+        description: List of visit ids on which this configuration is applicable on
+        type: array
+        items:
+          type: string
+      visitNames:
+        description: List of visit names on which this configuration is applicable on
+        type: array
+        items:
+          type: string
+      status:
+        type: array
+        items:
+          $ref: https://swagger.locus-api.com/task.yaml#/definitions/VisitStatusEnum
+      timeFormatType:
+        type: string
+        enum:
+        - EXACT
+        - ROUND_UP
+        - RANGE
+        - RANGE_WITH_FIXED_DELTA
+        default: EXACT
+      timeFormatRange:
+        type: integer
+        default: 30
+      slotGap:
+        type: integer
+      adjustWithinVisitSlot:
+        type: boolean
+        default: false
+      triggerType:
+        type: string
+        enum:
+        - STATUS
+        - ETA
+        - SCHEDULED
+        - ON_REQUEST
+        default: STATUS
+      triggerBefore:
+        type: integer
+      scheduleAt:
+        type: string
+      slotStartBuffer:
+        type: integer
+        format: int32
+        default: 0
+      smsTemplateElements:
+        type: array
+        items:
+          $ref: '#/definitions/SmsTemplateElement'
+  SmsTemplateElement:
+    description: Sms template element
+    type: object
+    properties:
+      template:
+        type: string
+      language:
+        type: string
+      defaultContactNumbers:
+        type: array
+        items:
+          type: string
+      sendSmsToCustomer:
+        type: boolean
+        default: true
+      recipientVisitIds:
+        type: array
+        items:
+          type: string
+  OrderSmsTemplate:
+    description: OrderIQ SMS Template
+    type: object
+    properties:
+      templateId:
+        type: string
+      name:
+        type: string
+      orderType:
+        $ref: '#/definitions/OrderType'
+      status:
+        type: array
+        items:
+          $ref: '#/definitions/OrderStatus'
+      subStatus:
+        type: array
+        items:
+          $ref: '#/definitions/OrderSubStatus'
+      smsTemplateElements:
+        type: array
+        items:
+          $ref: '#/definitions/OrderSmsTemplateElement'
+  OrderSmsTemplateElement:
+    description: OrderIQ Sms template element
+    type: object
+    properties:
+      template:
+        type: string
+      defaultContactNumbers:
+        type: array
+        items:
+          type: string
+      sendSmsToCustomer:
+        type: boolean
+        default: true
+      language:
+        type: string
+      amountExchangeType:
+        description: Type of transaction.
+        $ref: '#/definitions/ExchangeTypeEnum'
+      skills:
+        description: List of skills
+        type: array
+        items:
+          $ref: '#/definitions/SkillId'
+      category:
+        type: string
+      fullfillmentChannel:
+        $ref: '#/definitions/SmsOrderFullfillmentChannel'
+  SmsOrderFullfillmentChannel:
+    description: Channel for which the SMS is fulfilled
+    type: string
+    enum:
+    - TRACK_IQ
+    - ORCHESTRATION_IQ
+  CreateSmsConfigurationRequest:
+    description: Request body to create new sms configuration
+    allOf:
+    - $ref: '#/definitions/SmsConfiguration'
+  GetSmsConfigurationsResponse:
+    description: Response of getSmsConfigurations API
+    required:
+    - smsConfigurations
+    - paginationInfo
+    properties:
+      smsConfigurations:
+        type: array
+        items:
+          $ref: '#/definitions/SmsConfiguration'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  InputSheetErrorsResponse:
+    description: The format in which multiple errors are returned for input sheet uploaded
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/InputSheetErrorResponse'
+  InputSheetErrorResponse:
+    description: The format in which errors are returned for input sheet uploaded
+    properties:
+      errorCode:
+        description: The code representing the error.
+        type: string
+      message:
+        description: Human Readable message about the error.
+        type: string
+      columnName:
+        description: The header for the column.
+        type: string
+      recordNumber:
+        description: The position of record in the column.
+        type: integer
+        format: int32
+  CreateRostersApiRequest:
+    description: API Roster request for bulk create
+    required:
+    - clientId
+    - startDate
+    - endDate
+    - entityType
+    - teamId
+    - riderIds
+    - vehicleIds
+    - vehicleModelId
+    - daysOff
+    - shift
+    - applyToAll
+    properties:
+      clientId:
+        type: string
+      startDate:
+        description: Roster start date in YYYY-MM-DD format. Eg. 2021-11-18
+        type: string
+      endDate:
+        description: Roster end date in YYYY-MM-DD format. Eg. 2021-11-18
+        type: string
+      entityType:
+        description: Entity type for the roster
+        $ref: '#/definitions/RosterEntityType'
+      teamId:
+        description: Teams id for Roster Creation
+        type: string
+      riderIds:
+        description: List of Riders
+        type: array
+        items:
+          type: string
+      vehicleIds:
+        description: List of Vehicles
+        type: array
+        items:
+          type: string
+      applyToAll:
+        type: boolean
+        default: false
+      vehicleModelId:
+        $ref: '#/definitions/VehicleModelId'
+      daysOff:
+        description: List of Days Off for Roster Creation
+        type: array
+        items:
+          type: string
+      shift:
+        $ref: '#/definitions/CreateRosterShiftApiRequest'
+      skills:
+        type: array
+        items:
+          $ref: '#/definitions/SkillId'
+  CreateRosterShiftApiRequest:
+    description: Shift Roster request for bulk create
+    required:
+    - tagId
+    - start
+    properties:
+      tagId:
+        description: Shift Tag Id for the Roster
+        type: string
+      start:
+        $ref: '#/definitions/RosterShiftLocation'
+      end:
+        $ref: '#/definitions/RosterShiftLocation'
+      breaks:
+        type: array
+        description: List of Breaks for the Roster
+        items:
+          $ref: '#/definitions/CreateBreaksApiRequest'
+  CreateBreaksApiRequest:
+    description: Shift Roster request for bulk create
+    required:
+    - startTime
+    - endTime
+    - duration
+    - breakType
+    properties:
+      startTime:
+        description: Break Start Time
+        type: string
+      endTime:
+        description: Break End Time
+        type: string
+      duration:
+        description: Duration of break
+        type: string
+      breakType:
+        description: Type of break - LUNCH, REFUEL
+        type: string
+        enum:
+        - LUNCH
+        - REFUEL
+        - NIGHT
+        - OTHER
+        default: LUNCH
+  CreateShiftTagsApiRequest:
+    description: ShiftTags request for bulk create
+    required:
+    - clientId
+    - shifts
+    properties:
+      clientId:
+        type: string
+      shifts:
+        description: List of Shift tags for shift creation
+        type: array
+        items:
+          $ref: '#/definitions/CreateShiftTagsDetailedBreakup'
+  CreateShiftTagsDetailedBreakup:
+    description: Detailed Shift tags for bulk create
+    required:
+    - shiftTagId
+    - shiftName
+    - startTime
+    - endTime
+    properties:
+      shiftTagId:
+        description: Shift Tag id for the shift
+        type: string
+      shiftName:
+        description: Shift Name for the shift
+        type: string
+      startTime:
+        description: Shift Start time for the shift
+        type: string
+      endTime:
+        description: Shift End time for the shift
+        type: string
+      totalDays:
+        description: Total no of days for the shift
+        type: string
+      riders:
+        description: Optional Riders for the shift
+        type: string
+      vehicles:
+        description: Optional Vehicle for the shift
+        type: string
+  CreateShiftTagsResponse:
+    description: Response of create shift response
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  BulkDisableRosterApiRequest:
+    description: API Roster request for bulk disable
+    required:
+    - startDate
+    - endDate
+    - entityType
+    properties:
+      riderIds:
+        description: List of Rider ids for roster disable
+        type: array
+        items:
+          type: string
+      vehicleIds:
+        description: List of vehicle ids for roster disable
+        type: array
+        items:
+          type: string
+      startDate:
+        description: Roster start date in YYYY-MM-DD format. Eg. 2021-11-18
+        type: string
+      endDate:
+        description: Roster end date in YYYY-MM-DD format. Eg. 2021-11-18
+        type: string
+      entityType:
+        description: Entity type for the roster
+        $ref: '#/definitions/RosterEntityType'
+      teamIds:
+        description: List of team ids for roster disable
+        type: array
+        items:
+          type: string
+  BulkEditRosterRequest:
+    description: API Roster request for bulk edit rosters
+    required:
+    - bulkGetRequest
+    - rosterData
+    properties:
+      bulkGetRequest:
+        $ref: '#/definitions/BulkGetRequest'
+      rosterData:
+        $ref: '#/definitions/RosterUpdateRequest'
+  GetRosterEnabledTeamsResponse:
+    description: Response of getRosterEnabledTeams API
+    required:
+    - teamIds
+    properties:
+      teamIds:
+        type: array
+        items:
+          $ref: '#/definitions/TeamId'
+  RouteMaster:
+    description: A generic route master route
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      required:
+      - route
+      properties:
+        description:
+          description: Description text for the Route Master Routes
+          type: string
+        operatorType:
+          $ref: '#/definitions/RouteOperatorType'
+        operators:
+          description: This contains list of operator ids (vehicle model ids, transporter ids etc)
+          type: array
+          items:
+            $ref: '#/definitions/OperatorId'
+        route:
+          description: This contains list of eligible routes
+          type: array
+          items:
+            $ref: '#/definitions/Routes'
+        skills:
+          type: array
+          items:
+            $ref: '#/definitions/SkillId'
+        isSequenced:
+          description: Boolean denotes to follow the sequence of the route.
+          type: boolean
+          default: false
+        timeSlots:
+          description: Preferred time slots
+          type: array
+          items:
+            $ref: '#/definitions/MultiDaySlot'
+        teams:
+          description: List of teams who use the route
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        vehicleCountLimit:
+          description: Min and max vehicle limit for route
+          $ref: '#/definitions/KnownResourceLimit'
+        transporterIds:
+          type: array
+          items:
+            $ref: '#/definitions/TransporterId'
+        vehicleModelIds:
+          type: array
+          items:
+            $ref: '#/definitions/VehicleModelId'
+        vehicleIds:
+          type: array
+          items:
+            $ref: '#/definitions/VehicleId'
+        riderPersonaIds:
+          type: array
+          items:
+            $ref: '#/definitions/RiderPersonaId'
+        riderIds:
+          type: array
+          items:
+            $ref: '#/definitions/RiderId'
+  RouteOperatorType:
+    type: string
+    enum:
+    - VEHICLE
+    - VEHICLE_MODEL
+    - TRANSPORTER
+    - RIDER
+    - RIDER_PERSONA
+  Routes:
+    description: Contains the region names for route master
+    properties:
+      pincode:
+        type: string
+      locality:
+        type: string
+      zoneId:
+        type: string
+      city:
+        type: string
+      locationId:
+        type: string
+      subLocality:
+        type: string
+  OperatorId:
+    description: A unique id for route operator
+    required:
+    - clientId
+    - id
+    - name
+    properties:
+      clientId:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+  CreateRouteMasterRequest:
+    description: Wrapper for vehicle create request
+    allOf:
+    - $ref: '#/definitions/RouteMaster'
+    - type: object
+  CreateRouteMasterResponse:
+    description: Response of create route master request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  GetOperatorIdResponse:
+    description: Response of get operators
+    required:
+    - operatorIds
+    - operatorType
+    properties:
+      operatorIds:
+        type: array
+        items:
+          $ref: '#/definitions/OperatorId'
+      operatorType:
+        $ref: '#/definitions/RouteOperatorType'
+  GetRouteMasterResponse:
+    required:
+    - routes
+    - paginationInfo
+    properties:
+      routes:
+        type: array
+        items:
+          $ref: '#/definitions/RouteMaster'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  MapUsecaseSortRequest:
+    description: Request to sort an address by map usecase
+    required:
+    - sourceId
+    - teamId
+    properties:
+      sourceId:
+        description: Id of the entity for which this request was done
+        type: string
+      teamId:
+        $ref: '#/definitions/TeamId'
+      address:
+        $ref: '#/definitions/StructuredAddress'
+      latLng:
+        $ref: '#/definitions/MinimalLatLng'
+  MapUsecaseSortResponse:
+    description: Resonse of sorting an address by map usecase
+    properties:
+      latLng:
+        $ref: '#/definitions/MinimalLatLng'
+      zoneInfo:
+        description: Information about the zone in which this address falls
+        $ref: '#/definitions/MapUsecaseSortZoneInfo'
+  MapUsecaseSortZoneInfo:
+    description: Information about the zone of the map which was used to sort an address for the map usecase
+    properties:
+      versionedMapId:
+        $ref: '#/definitions/VersionedMapId'
+      transactionTimeInfo:
+        $ref: '#/definitions/TransactionTimeInfo'
+  MinimalLatLng:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MinimalLatLng
+  ExchangeTypeEnum:
+    $ref: https://swagger.locus-api.com/task.yaml#/definitions/ExchangeTypeEnum

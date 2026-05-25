@@ -1,0 +1,171 @@
+aid: locus-sh
+name: Locus
+description: >-
+  Locus is an AI-powered last-mile and dispatch logistics platform headquartered
+  in Bengaluru, India (with US operations in Wilmington, Delaware) that helps
+  enterprises plan, execute, and orchestrate deliveries across captive,
+  contracted, outsourced, and hybrid fleets. The platform spans transportation
+  management, dispatch planning and route optimization (across 180+ variables
+  including time, distance, fuel, capacity, and SLAs), hub operations,
+  delivery orchestration and carrier management, fulfillment automation,
+  driver app and control tower track-and-trace, and analytics. Locus claims
+  360+ enterprise customers across 30+ countries — including Unilever, Nestlé,
+  Blue Dart DHL, Meesho, Lenskart, and Justo — with 1.5B+ deliveries optimized
+  and $320M+ in cost savings generated. The company was acquired by Ingka
+  Group (the world's largest IKEA retailer) in 2024 while continuing to
+  operate as an independent product organization. Locus exposes a SwaggerUI
+  developer surface with three OpenAPI 2.0 specifications covering Order
+  Management (oms.locus-api.com), Entity Management (locus-api.com), and
+  Platform Entities (platform.locus-api.com); authentication is via HTTP
+  Basic plus API key, provisioned by a Locus representative.
+tags:
+  - Logistics
+  - Last Mile Delivery
+  - Route Optimization
+  - Dispatch Planning
+  - Transportation Management
+  - Fleet Management
+  - Supply Chain
+  - Order Management
+  - Fulfillment
+  - Track and Trace
+  - Retail
+  - E-Commerce
+  - Artificial Intelligence
+  - India
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/locus-sh/refs/heads/main/apis.yml
+created: '2026-05-25'
+modified: '2026-05-25'
+specificationVersion: '0.20'
+position: Provider
+access: 3rd-Party
+apis:
+  - aid: locus-sh:locus-order-management-api
+    name: Locus Order Management API
+    description: >-
+      Manage the delivery order lifecycle on the Locus OMS — create, retrieve,
+      cancel, complete, open, park, reschedule, and verify inventory for
+      client orders, plus look up delivery slots and configure service types.
+      Base URL https://oms.locus-api.com/v1.
+    humanURL: https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+    baseURL: https://oms.locus-api.com/v1
+    tags:
+      - Order Management
+      - Orders
+      - Delivery Slots
+      - Service Types
+    properties:
+      - type: Documentation
+        url: https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+      - type: OpenAPI
+        url: openapi/locus-oms-openapi.yml
+      - type: SignUp
+        url: https://locus.sh/schedule-demo/
+  - aid: locus-sh:locus-entity-management-api
+    name: Locus Entity Management API
+    description: >-
+      Manage core delivery-domain entities on the Locus platform: locations,
+      riders, rider personas, rosters (including auto-create), shift
+      managers, transporters, vehicles, vehicle models, homebases, and
+      line items. Each entity supports create/update, fetch, and disable
+      operations against base URL https://locus-api.com/v1.
+    humanURL: https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+    baseURL: https://locus-api.com/v1
+    tags:
+      - Entities
+      - Riders
+      - Vehicles
+      - Locations
+      - Rosters
+      - Transporters
+      - Homebase
+      - Line Items
+    properties:
+      - type: Documentation
+        url: https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+      - type: OpenAPI
+        url: openapi/locus-entities-openapi.yml
+      - type: SignUp
+        url: https://locus.sh/schedule-demo/
+  - aid: locus-sh:locus-platform-entities-api
+    name: Locus Platform Entities API
+    description: >-
+      Manage personnel and team master records on the Locus platform service.
+      Provides a compact personnel-create operation, personnel and team
+      status management, and team master upserts against base URL
+      https://platform.locus-api.com/v1.
+    humanURL: https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+    baseURL: https://platform.locus-api.com/v1
+    tags:
+      - Platform
+      - Personnel
+      - Teams
+    properties:
+      - type: Documentation
+        url: https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+      - type: OpenAPI
+        url: openapi/locus-platform-openapi.yml
+      - type: SignUp
+        url: https://locus.sh/schedule-demo/
+common:
+  - type: Website
+    url: https://locus.sh
+  - type: Portal
+    url: https://locus.sh
+  - type: Documentation
+    url: https://docs.locus.sh/
+  - type: APIReference
+    url: https://locus.sh/resources/api-references/
+  - type: Product
+    name: Transportation Management System
+    url: https://locus.sh/transportation-management-system/
+  - type: Product
+    name: Last Mile Delivery
+    url: https://locus.sh/delivery-optimization-software/
+  - type: Product
+    name: Route Optimization
+    url: https://locus.sh/route-optimization/route-optimization-software/
+  - type: Product
+    name: Dispatch Planning
+    url: https://locus.sh/dispatch-management-software/
+  - type: Product
+    name: Fulfillment Automation
+    url: https://locus.sh/fulfillment-automation/
+  - type: Product
+    name: Track and Trace
+    url: https://locus.sh/track-and-trace/
+  - type: Product
+    name: Analytics and Insights
+    url: https://locus.sh/analytics-and-insights/
+  - type: Customers
+    url: https://locus.sh/customer-success-stories/
+  - type: Blog
+    url: https://locus.sh/blogs/
+  - type: Newsroom
+    url: https://locus.sh/resources/news/
+  - type: Careers
+    url: https://locus.sh/careers/
+  - type: AboutUs
+    url: https://locus.sh/about-us/
+  - type: Contact
+    url: https://locus.sh/contactus/
+  - type: SignUp
+    url: https://locus.sh/schedule-demo/
+  - type: PrivacyPolicy
+    url: https://locus.sh/privacy-policy/
+  - type: TermsOfService
+    url: https://locus.sh/documents/MaraLabsTermsOfUse.pdf
+  - type: GitHubOrganization
+    url: https://github.com/locus-sh
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/locus-sh
+  - type: Twitter
+    url: https://twitter.com/Locus_Sh
+  - type: YouTube
+    url: https://www.youtube.com/channel/UCtbHoTbKKmhTAkKu4zY8WKA
+  - type: Instagram
+    url: https://www.instagram.com/locus.sh/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
