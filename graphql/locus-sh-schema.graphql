@@ -1,0 +1,1149 @@
+"""
+Locus GraphQL Schema
+Conceptual GraphQL schema for the Locus AI-powered last-mile logistics and dispatch platform.
+Derived from: https://docs.locus.sh/
+APIs: Order Management (oms.locus-api.com), Entity Management (locus-api.com), Platform Entities (platform.locus-api.com)
+"""
+
+# ─── Scalars ────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar JSON
+scalar Float
+
+# ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum OrderStatusValue {
+  CREATED
+  ALLOCATED
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  ATTEMPTED
+  PARKED
+  CANCELLED
+  COMPLETED
+  FAILED
+}
+
+enum TripStatusValue {
+  PLANNED
+  DISPATCHED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum DispatchStatusValue {
+  PENDING
+  DISPATCHED
+  ACCEPTED
+  REJECTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum DriverStatusValue {
+  ACTIVE
+  INACTIVE
+  ON_TRIP
+  OFF_DUTY
+  DISABLED
+}
+
+enum VehicleTypeValue {
+  TWO_WHEELER
+  THREE_WHEELER
+  FOUR_WHEELER
+  LIGHT_COMMERCIAL
+  HEAVY_COMMERCIAL
+  BICYCLE
+  DRONE
+}
+
+enum StopTypeValue {
+  PICKUP
+  DELIVERY
+  RETURN
+  HOMEBASE
+}
+
+enum PODTypeValue {
+  SIGNATURE
+  PHOTO
+  OTP
+  BARCODE
+  RECIPIENT_NAME
+}
+
+enum WebhookEventTypeValue {
+  ORDER_CREATED
+  ORDER_ALLOCATED
+  ORDER_DISPATCHED
+  ORDER_DELIVERED
+  ORDER_CANCELLED
+  ORDER_ATTEMPTED
+  ORDER_PARKED
+  TRIP_STARTED
+  TRIP_COMPLETED
+  DRIVER_LOCATION_UPDATE
+  ETA_UPDATE
+  POD_CAPTURED
+}
+
+# ─── Core Order Types ────────────────────────────────────────────────────────
+
+"""A delivery order in the Locus OMS."""
+type Order {
+  orderId: String!
+  clientId: String!
+  client: Client
+  orderType: OrderType
+  status: OrderStatus!
+  details: OrderDetails
+  items: [Item]
+  location: Location
+  serviceType: ServiceType
+  timestamps: [OrderTimestamp]
+  tracking: Tracking
+  pod: POD
+  rating: Rating
+  allocation: Allocation
+  trip: Trip
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""High-level classification of an order."""
+type OrderType {
+  code: String!
+  name: String
+  description: String
+  isReturn: Boolean
+  requiresPickup: Boolean
+}
+
+"""Current status of an order."""
+type OrderStatus {
+  value: OrderStatusValue!
+  label: String
+  reason: String
+  updatedAt: DateTime
+}
+
+"""Extended order details including item list and delivery instructions."""
+type OrderDetails {
+  orderId: String!
+  referenceId: String
+  externalOrderId: String
+  deliveryInstructions: String
+  specialHandling: String
+  cashOnDelivery: Float
+  currency: String
+  deliveryWindow: WorkingHours
+  promisedDeliveryTime: DateTime
+  totalWeight: Float
+  totalVolume: Float
+  totalItems: Int
+  lineItems: [Item]
+  metadata: JSON
+}
+
+"""Timestamp event recorded against an order lifecycle."""
+type OrderTimestamp {
+  event: String!
+  occurredAt: DateTime!
+  recordedAt: DateTime
+  actorId: String
+  actorType: String
+  location: GeoCoordinate
+  remarks: String
+}
+
+"""A configured service type defining delivery SLAs and constraints."""
+type ServiceType {
+  serviceTypeId: String!
+  clientId: String!
+  name: String!
+  code: String
+  description: String
+  isActive: Boolean
+  deliveryWindowHours: Int
+  maxAttempts: Int
+  priority: Int
+  capacityConstraints: VehicleCapacity
+}
+
+# ─── Client Types ────────────────────────────────────────────────────────────
+
+"""A Locus client (tenant/customer account)."""
+type Client {
+  clientId: String!
+  name: String!
+  details: ClientDetails
+  teams: [Team]
+  serviceTypes: [ServiceType]
+  zones: [Zone]
+  webhooks: [Webhook]
+  apiKeys: [APIKey]
+}
+
+"""Extended client configuration and metadata."""
+type ClientDetails {
+  clientId: String!
+  displayName: String
+  timezone: String
+  currency: String
+  country: String
+  locale: String
+  contactEmail: String
+  contactPhone: String
+  defaultServiceTypeId: String
+  optimizationConfig: JSON
+  isActive: Boolean
+  createdAt: DateTime
+}
+
+# ─── Item Types ──────────────────────────────────────────────────────────────
+
+"""A line item or package within an order."""
+type Item {
+  itemId: String!
+  orderId: String
+  itemType: ItemType
+  details: ItemDetails
+  quantity: Int
+  weight: Float
+  volume: Float
+  isFragile: Boolean
+  requiresRefrigeration: Boolean
+}
+
+"""Extended item attributes."""
+type ItemDetails {
+  itemId: String!
+  name: String
+  sku: String
+  barcode: String
+  description: String
+  unitPrice: Float
+  currency: String
+  dimensions: JSON
+  category: String
+  metadata: JSON
+}
+
+"""Classification of an item."""
+type ItemType {
+  code: String!
+  name: String
+  handlingInstructions: String
+  storageRequirement: String
+}
+
+# ─── Location Types ──────────────────────────────────────────────────────────
+
+"""A delivery location entity (drop point, pickup point, or homebase)."""
+type Location {
+  locationId: String!
+  clientId: String!
+  details: LocationDetails
+  geoCoordinate: GeoCoordinate
+  address: Address
+  serviceability: Serviceability
+  team: Team
+  isActive: Boolean
+}
+
+"""Extended location metadata."""
+type LocationDetails {
+  locationId: String!
+  name: String
+  type: String
+  clientLocationId: String
+  contactName: String
+  contactPhone: String
+  operatingHours: WorkingHours
+  landmark: String
+  instructions: String
+  metadata: JSON
+}
+
+"""A geographic coordinate (latitude/longitude)."""
+type GeoCoordinate {
+  latitude: Float!
+  longitude: Float!
+  accuracy: Float
+  altitude: Float
+  capturedAt: DateTime
+}
+
+"""A postal address."""
+type Address {
+  line1: String
+  line2: String
+  city: String
+  state: String
+  country: String
+  postalCode: String
+  landmark: String
+  formatted: String
+}
+
+"""Geocoding result for an address."""
+type GeoCode {
+  address: Address
+  geoCoordinate: GeoCoordinate
+  confidence: Float
+  source: String
+  geocodedAt: DateTime
+}
+
+# ─── Team Types ──────────────────────────────────────────────────────────────
+
+"""A Locus team representing a hub, branch, or operational unit."""
+type Team {
+  teamId: String!
+  clientId: String!
+  details: TeamDetails
+  homebase: Location
+  drivers: [Driver]
+  vehicles: [Vehicle]
+  isActive: Boolean
+}
+
+"""Extended team metadata."""
+type TeamDetails {
+  teamId: String!
+  name: String
+  code: String
+  description: String
+  managerName: String
+  managerPhone: String
+  timezone: String
+  capacity: Int
+  zoneIds: [String]
+  metadata: JSON
+}
+
+# ─── Driver Types ────────────────────────────────────────────────────────────
+
+"""A rider or driver entity on the Locus platform."""
+type Driver {
+  driverId: String!
+  clientId: String!
+  status: DriverStatus!
+  profile: DriverProfile
+  details: DriverDetails
+  team: Team
+  vehicle: Vehicle
+  currentLocation: GeoCoordinate
+  activeTrip: Trip
+  shifts: [ShiftDetails]
+}
+
+"""Current operational status of a driver."""
+type DriverStatus {
+  value: DriverStatusValue!
+  label: String
+  reason: String
+  updatedAt: DateTime
+  lastActiveAt: DateTime
+}
+
+"""Driver profile and identity information."""
+type DriverProfile {
+  driverId: String!
+  name: String!
+  phone: String
+  email: String
+  photoUrl: String
+  licenseNumber: String
+  licenseExpiry: DateTime
+  rating: Float
+  totalDeliveries: Int
+}
+
+"""Extended driver operational details."""
+type DriverDetails {
+  driverId: String!
+  clientDriverId: String
+  personaId: String
+  homebaseId: String
+  employmentType: String
+  transporterId: String
+  vehiclePreferences: [String]
+  capacityMultiplier: Float
+  skillTags: [String]
+  metadata: JSON
+}
+
+# ─── Vehicle Types ────────────────────────────────────────────────────────────
+
+"""A vehicle entity in the Locus fleet."""
+type Vehicle {
+  vehicleId: String!
+  clientId: String!
+  vehicleType: VehicleType
+  details: VehicleDetails
+  capacity: VehicleCapacity
+  team: Team
+  assignedDriver: Driver
+  isActive: Boolean
+}
+
+"""Extended vehicle operational details."""
+type VehicleDetails {
+  vehicleId: String!
+  clientVehicleId: String
+  registrationNumber: String
+  make: String
+  model: String
+  year: Int
+  color: String
+  fuelType: String
+  averageSpeed: Float
+  costPerKm: Float
+  modelId: String
+  metadata: JSON
+}
+
+"""Vehicle type classification."""
+type VehicleType {
+  code: VehicleTypeValue!
+  name: String
+  description: String
+  maxCapacity: VehicleCapacity
+}
+
+"""Capacity constraints for a vehicle."""
+type VehicleCapacity {
+  maxWeight: Float
+  maxVolume: Float
+  maxItems: Int
+  maxParcels: Int
+  unit: String
+}
+
+# ─── Shift and Working Hours Types ──────────────────────────────────────────
+
+"""Working hours window (start and end time)."""
+type WorkingHours {
+  startTime: String
+  endTime: String
+  timezone: String
+  daysOfWeek: [String]
+}
+
+"""A shift/roster assignment for a driver."""
+type ShiftDetails {
+  shiftId: String!
+  driverId: String!
+  teamId: String
+  date: String!
+  startTime: String!
+  endTime: String!
+  vehicleId: String
+  homebaseId: String
+  isAutoCreated: Boolean
+  metadata: JSON
+}
+
+# ─── Trip Types ──────────────────────────────────────────────────────────────
+
+"""A dispatched or planned trip grouping a route with a driver and vehicle."""
+type Trip {
+  tripId: String!
+  clientId: String!
+  status: TripStatus!
+  details: TripDetails
+  driver: Driver
+  vehicle: Vehicle
+  route: Route
+  stops: [Stop]
+  dispatching: Dispatching
+  startedAt: DateTime
+  completedAt: DateTime
+  createdAt: DateTime!
+}
+
+"""Current status of a trip."""
+type TripStatus {
+  value: TripStatusValue!
+  label: String
+  reason: String
+  updatedAt: DateTime
+}
+
+"""Extended trip metadata."""
+type TripDetails {
+  tripId: String!
+  clientTripId: String
+  teamId: String
+  date: String
+  plannedStartTime: DateTime
+  plannedEndTime: DateTime
+  actualStartTime: DateTime
+  actualEndTime: DateTime
+  totalDistance: Float
+  totalDuration: Int
+  totalOrders: Int
+  totalWeight: Float
+  totalVolume: Float
+  metadata: JSON
+}
+
+# ─── Route Types ─────────────────────────────────────────────────────────────
+
+"""A planned route for a trip."""
+type Route {
+  routeId: String!
+  clientId: String!
+  details: RouteDetails
+  optimization: RouteOptimization
+  stops: [Stop]
+  polyline: String
+  totalDistance: Float
+  totalDuration: Int
+  createdAt: DateTime!
+}
+
+"""Extended route metadata."""
+type RouteDetails {
+  routeId: String!
+  tripId: String
+  teamId: String
+  date: String
+  vehicleType: String
+  startLocation: GeoCoordinate
+  endLocation: GeoCoordinate
+  constraints: JSON
+  metadata: JSON
+}
+
+"""Result of a route optimization computation."""
+type RouteOptimization {
+  optimizationId: String!
+  status: String!
+  requestedAt: DateTime
+  completedAt: DateTime
+  algorithm: String
+  variablesConsidered: [String]
+  objectiveValue: Float
+  savingsVsBaseline: Float
+  ordersOptimized: Int
+  routesGenerated: Int
+  unallocatedOrders: [String]
+  metadata: JSON
+}
+
+# ─── Stop Types ──────────────────────────────────────────────────────────────
+
+"""A stop within a route (pickup, delivery, or return)."""
+type Stop {
+  stopId: String!
+  routeId: String
+  tripId: String
+  stopType: StopTypeValue!
+  details: StopDetails
+  sequence: StopSequence
+  location: Location
+  order: Order
+  eta: ETA
+  arrivedAt: DateTime
+  departedAt: DateTime
+  status: String
+}
+
+"""Extended stop metadata."""
+type StopDetails {
+  stopId: String!
+  instructions: String
+  plannedDuration: Int
+  actualDuration: Int
+  serviceTime: Int
+  failureReason: String
+  attemptCount: Int
+  metadata: JSON
+}
+
+"""Sequence position of a stop within a route."""
+type StopSequence {
+  position: Int!
+  totalStops: Int
+  distanceFromPrevious: Float
+  durationFromPrevious: Int
+  cumulativeDistance: Float
+  cumulativeDuration: Int
+}
+
+# ─── ETA Types ───────────────────────────────────────────────────────────────
+
+"""Estimated time of arrival for a stop or order."""
+type ETA {
+  stopId: String
+  orderId: String
+  estimatedArrival: DateTime!
+  estimatedDeparture: DateTime
+  confidenceScore: Float
+  details: ETADetails
+  updatedAt: DateTime!
+}
+
+"""Detailed ETA computation metadata."""
+type ETADetails {
+  method: String
+  bufferMinutes: Int
+  trafficFactor: Float
+  distanceKm: Float
+  durationMinutes: Int
+  isDelayed: Boolean
+  delayMinutes: Int
+  lastUpdatedBy: String
+}
+
+# ─── Dispatch Types ──────────────────────────────────────────────────────────
+
+"""Dispatch assignment linking a trip or order to a driver."""
+type Dispatching {
+  dispatchId: String!
+  clientId: String!
+  status: DispatchStatus!
+  details: DispatchDetails
+  driver: Driver
+  vehicle: Vehicle
+  trip: Trip
+  dispatchedAt: DateTime
+  acceptedAt: DateTime
+  metadata: JSON
+}
+
+"""Current status of a dispatch assignment."""
+type DispatchStatus {
+  value: DispatchStatusValue!
+  label: String
+  reason: String
+  updatedAt: DateTime
+}
+
+"""Extended dispatch metadata."""
+type DispatchDetails {
+  dispatchId: String!
+  tripId: String
+  driverId: String
+  vehicleId: String
+  teamId: String
+  dispatchMode: String
+  notificationChannel: String
+  retryCount: Int
+  expiresAt: DateTime
+  metadata: JSON
+}
+
+# ─── Allocation Types ────────────────────────────────────────────────────────
+
+"""Allocation of an order to a trip and driver."""
+type Allocation {
+  allocationId: String!
+  orderId: String!
+  tripId: String
+  driverId: String
+  vehicleId: String
+  teamId: String
+  details: AllocationDetails
+  allocatedAt: DateTime!
+  updatedAt: DateTime
+}
+
+"""Extended allocation metadata."""
+type AllocationDetails {
+  allocationId: String!
+  allocationMethod: String
+  priority: Int
+  constraints: JSON
+  overrideReason: String
+  isManual: Boolean
+  allocatedBy: String
+  metadata: JSON
+}
+
+# ─── Zone Types ──────────────────────────────────────────────────────────────
+
+"""A geographic serviceability zone."""
+type Zone {
+  zoneId: String!
+  clientId: String!
+  details: ZoneDetails
+  boundary: JSON
+  serviceability: Serviceability
+  teamId: String
+  isActive: Boolean
+}
+
+"""Extended zone metadata."""
+type ZoneDetails {
+  zoneId: String!
+  name: String
+  code: String
+  description: String
+  area: Float
+  centroid: GeoCoordinate
+  assignedServiceTypes: [String]
+  priority: Int
+  metadata: JSON
+}
+
+# ─── Serviceability Types ────────────────────────────────────────────────────
+
+"""Serviceability check result for a location or coordinate."""
+type Serviceability {
+  isServiceable: Boolean!
+  zoneId: String
+  zone: Zone
+  details: ServiceabilityDetails
+  checkedAt: DateTime
+}
+
+"""Extended serviceability result details."""
+type ServiceabilityDetails {
+  locationId: String
+  geoCoordinate: GeoCoordinate
+  availableServiceTypes: [ServiceType]
+  nextAvailableSlot: DateTime
+  estimatedDistance: Float
+  estimatedDuration: Int
+  restrictions: [String]
+  metadata: JSON
+}
+
+# ─── Tracking Types ──────────────────────────────────────────────────────────
+
+"""Real-time tracking information for an order or driver."""
+type Tracking {
+  trackingId: String!
+  orderId: String
+  driverId: String
+  details: TrackingDetails
+  currentLocation: GeoCoordinate
+  eta: ETA
+  status: OrderStatus
+  updatedAt: DateTime!
+}
+
+"""Extended tracking metadata."""
+type TrackingDetails {
+  trackingId: String!
+  shareableUrl: String
+  shareToken: String
+  expiresAt: DateTime
+  locationHistory: [GeoCoordinate]
+  distanceCovered: Float
+  speedKmh: Float
+  batteryLevel: Int
+  networkType: String
+  metadata: JSON
+}
+
+# ─── POD Types ───────────────────────────────────────────────────────────────
+
+"""Proof of delivery captured at the point of handoff."""
+type POD {
+  podId: String!
+  orderId: String!
+  driverId: String
+  details: PODDetails
+  capturedAt: DateTime!
+  capturedLocation: GeoCoordinate
+  isVerified: Boolean
+}
+
+"""Extended POD artifacts and verification details."""
+type PODDetails {
+  podId: String!
+  podTypes: [PODTypeValue]
+  signatureImageUrl: String
+  deliveryPhotoUrl: String
+  recipientName: String
+  otpVerified: Boolean
+  barcodeScanned: String
+  remarks: String
+  attemptNumber: Int
+  metadata: JSON
+}
+
+# ─── Rating Types ─────────────────────────────────────────────────────────────
+
+"""Customer rating for a delivery experience."""
+type Rating {
+  ratingId: String!
+  orderId: String!
+  driverId: String
+  score: Float!
+  details: RatingDetails
+  feedback: FeedbackDetails
+  ratedAt: DateTime!
+}
+
+"""Rating score breakdown."""
+type RatingDetails {
+  ratingId: String!
+  maxScore: Float
+  speedScore: Float
+  courtesyScore: Float
+  conditionScore: Float
+  overallScore: Float
+  source: String
+}
+
+"""Customer feedback text and tags."""
+type FeedbackDetails {
+  feedbackId: String
+  comment: String
+  tags: [String]
+  isPositive: Boolean
+  language: String
+  translatedComment: String
+  submittedAt: DateTime
+}
+
+# ─── Analytics Types ──────────────────────────────────────────────────────────
+
+"""An analytics report for a client over a date range."""
+type Report {
+  reportId: String!
+  clientId: String!
+  reportType: String!
+  dateRange: DateRange
+  details: AnalyticsDetails
+  generatedAt: DateTime!
+  downloadUrl: String
+}
+
+"""Aggregated analytics metrics."""
+type AnalyticsDetails {
+  reportId: String!
+  totalOrders: Int
+  deliveredOrders: Int
+  failedOrders: Int
+  cancelledOrders: Int
+  onTimeDeliveryRate: Float
+  averageDeliveryTime: Float
+  averageCostPerDelivery: Float
+  totalDistanceKm: Float
+  totalCost: Float
+  slaComplianceRate: Float
+  firstAttemptSuccessRate: Float
+  customerSatisfactionScore: Float
+  driverUtilizationRate: Float
+  vehicleUtilizationRate: Float
+  breakdownByTeam: JSON
+  breakdownByZone: JSON
+  breakdownByServiceType: JSON
+  metadata: JSON
+}
+
+"""A date range for filtering or reporting."""
+type DateRange {
+  startDate: String!
+  endDate: String!
+  timezone: String
+}
+
+# ─── Webhook Types ────────────────────────────────────────────────────────────
+
+"""An event payload delivered via webhook."""
+type WebhookEvent {
+  eventId: String!
+  eventType: WebhookEventTypeValue!
+  clientId: String!
+  payload: JSON!
+  occurredAt: DateTime!
+  deliveredAt: DateTime
+  attempts: Int
+  isDelivered: Boolean
+}
+
+"""A registered webhook endpoint."""
+type Webhook {
+  webhookId: String!
+  clientId: String!
+  url: String!
+  events: [WebhookEventTypeValue]!
+  isActive: Boolean!
+  secret: String
+  headers: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime
+  lastTriggeredAt: DateTime
+}
+
+# ─── Auth Types ───────────────────────────────────────────────────────────────
+
+"""An API key for authenticating Locus API requests."""
+type APIKey {
+  keyId: String!
+  clientId: String!
+  name: String
+  keyPrefix: String
+  isActive: Boolean!
+  scopes: [String]
+  createdAt: DateTime!
+  expiresAt: DateTime
+  lastUsedAt: DateTime
+}
+
+"""An authentication token."""
+type Token {
+  tokenId: String!
+  clientId: String!
+  accessToken: String!
+  tokenType: String
+  expiresIn: Int
+  expiresAt: DateTime
+  scopes: [String]
+  issuedAt: DateTime!
+}
+
+# ─── Input Types ─────────────────────────────────────────────────────────────
+
+input GeoCoordinateInput {
+  latitude: Float!
+  longitude: Float!
+}
+
+input DateRangeInput {
+  startDate: String!
+  endDate: String!
+  timezone: String
+}
+
+input OrderFilters {
+  status: OrderStatusValue
+  serviceTypeId: String
+  teamId: String
+  driverId: String
+  dateFrom: String
+  dateTo: String
+  zoneId: String
+}
+
+input TripFilters {
+  status: TripStatusValue
+  teamId: String
+  driverId: String
+  date: String
+  dateFrom: String
+  dateTo: String
+}
+
+input CreateOrderInput {
+  clientOrderId: String
+  serviceTypeId: String!
+  locationId: String
+  address: AddressInput
+  geoCoordinate: GeoCoordinateInput
+  deliveryWindow: WorkingHoursInput
+  items: [ItemInput]
+  cashOnDelivery: Float
+  currency: String
+  deliveryInstructions: String
+  metadata: JSON
+}
+
+input AddressInput {
+  line1: String!
+  line2: String
+  city: String!
+  state: String
+  country: String!
+  postalCode: String
+  landmark: String
+}
+
+input WorkingHoursInput {
+  startTime: String!
+  endTime: String!
+  timezone: String
+}
+
+input ItemInput {
+  itemId: String
+  sku: String
+  name: String
+  quantity: Int!
+  weight: Float
+  volume: Float
+  isFragile: Boolean
+}
+
+input RescheduleInput {
+  newDeliveryWindow: WorkingHoursInput!
+  reason: String
+}
+
+input InventoryInput {
+  items: [ItemInput]!
+  verificationMethod: String
+}
+
+input CreateLocationInput {
+  clientLocationId: String
+  name: String!
+  type: String!
+  address: AddressInput!
+  geoCoordinate: GeoCoordinateInput
+  contactName: String
+  contactPhone: String
+  operatingHours: WorkingHoursInput
+  teamId: String
+  metadata: JSON
+}
+
+input CreateDriverInput {
+  clientDriverId: String
+  name: String!
+  phone: String!
+  email: String
+  licenseNumber: String
+  vehicleTypePreference: VehicleTypeValue
+  homebaseId: String
+  teamId: String
+  personaId: String
+  metadata: JSON
+}
+
+input UpdateDriverInput {
+  name: String
+  phone: String
+  email: String
+  vehicleTypePreference: VehicleTypeValue
+  homebaseId: String
+  teamId: String
+  metadata: JSON
+}
+
+input CreateVehicleInput {
+  clientVehicleId: String
+  registrationNumber: String!
+  vehicleType: VehicleTypeValue!
+  modelId: String
+  teamId: String
+  maxWeight: Float
+  maxVolume: Float
+  maxItems: Int
+  metadata: JSON
+}
+
+input UpdateVehicleInput {
+  registrationNumber: String
+  teamId: String
+  maxWeight: Float
+  maxVolume: Float
+  maxItems: Int
+  metadata: JSON
+}
+
+input CreateTeamInput {
+  clientTeamId: String
+  name: String!
+  homebaseId: String!
+  timezone: String
+  managerName: String
+  managerPhone: String
+  zoneIds: [String]
+  metadata: JSON
+}
+
+input CreateRosterInput {
+  driverId: String!
+  teamId: String!
+  date: String!
+  startTime: String!
+  endTime: String!
+  vehicleId: String
+  homebaseId: String
+}
+
+input AutoRosterInput {
+  teamId: String!
+  date: String!
+  driverIds: [String]
+  vehicleIds: [String]
+  defaultStartTime: String!
+  defaultEndTime: String!
+}
+
+input RouteOptimizationInput {
+  teamId: String!
+  date: String!
+  orderIds: [String]!
+  vehicleIds: [String]
+  driverIds: [String]
+  constraints: JSON
+  objectiveWeights: JSON
+}
+
+input WebhookInput {
+  url: String!
+  events: [WebhookEventTypeValue]!
+  secret: String
+  headers: JSON
+  isActive: Boolean
+}
+
+# ─── Root Types ───────────────────────────────────────────────────────────────
+
+type Query {
+  order(clientId: String!, orderId: String!): Order
+  orders(clientId: String!, filters: OrderFilters): [Order]
+  deliverySlots(clientId: String!, locationId: String!, serviceType: String): [ServiceType]
+  serviceTypes(clientId: String!): [ServiceType]
+  client(clientId: String!): Client
+  location(clientId: String!, locationId: String!): Location
+  locations(clientId: String!): [Location]
+  driver(clientId: String!, driverId: String!): Driver
+  drivers(clientId: String!, teamId: String): [Driver]
+  vehicle(clientId: String!, vehicleId: String!): Vehicle
+  vehicles(clientId: String!): [Vehicle]
+  team(clientId: String!, teamId: String!): Team
+  teams(clientId: String!): [Team]
+  trip(clientId: String!, tripId: String!): Trip
+  trips(clientId: String!, filters: TripFilters): [Trip]
+  route(clientId: String!, routeId: String!): Route
+  tracking(clientId: String!, orderId: String!): Tracking
+  zone(clientId: String!, zoneId: String!): Zone
+  zones(clientId: String!): [Zone]
+  serviceability(clientId: String!, geoCoordinate: GeoCoordinateInput!): Serviceability
+  pod(clientId: String!, orderId: String!): POD
+  rating(clientId: String!, orderId: String!): Rating
+  report(clientId: String!, reportType: String!, dateRange: DateRangeInput!): Report
+  webhooks(clientId: String!): [Webhook]
+  apiKeys(clientId: String!): [APIKey]
+}
+
+type Mutation {
+  createOrder(clientId: String!, input: CreateOrderInput!): Order
+  cancelOrder(clientId: String!, orderId: String!): Order
+  completeOrder(clientId: String!, orderId: String!): Order
+  openOrder(clientId: String!, orderId: String!): Order
+  parkOrder(clientId: String!, orderId: String!): Order
+  rescheduleOrder(clientId: String!, orderId: String!, input: RescheduleInput!): Order
+  verifyInventory(clientId: String!, orderId: String!, input: InventoryInput!): Order
+  createLocation(clientId: String!, input: CreateLocationInput!): Location
+  disableLocation(clientId: String!, locationId: String!): Location
+  createDriver(clientId: String!, input: CreateDriverInput!): Driver
+  updateDriver(clientId: String!, driverId: String!, input: UpdateDriverInput!): Driver
+  disableDriver(clientId: String!, driverId: String!): Driver
+  createVehicle(clientId: String!, input: CreateVehicleInput!): Vehicle
+  updateVehicle(clientId: String!, vehicleId: String!, input: UpdateVehicleInput!): Vehicle
+  createTeam(clientId: String!, input: CreateTeamInput!): Team
+  updateTeamStatus(clientId: String!, teamId: String!, status: String!): Team
+  createRoster(clientId: String!, input: CreateRosterInput!): ShiftDetails
+  autoCreateRoster(clientId: String!, input: AutoRosterInput!): [ShiftDetails]
+  dispatchTrip(clientId: String!, tripId: String!): Trip
+  optimizeRoute(clientId: String!, input: RouteOptimizationInput!): RouteOptimization
+  registerWebhook(clientId: String!, input: WebhookInput!): Webhook
+  deleteWebhook(clientId: String!, webhookId: String!): Boolean
+  createAPIKey(clientId: String!): APIKey
+  revokeAPIKey(clientId: String!, keyId: String!): Boolean
+}
