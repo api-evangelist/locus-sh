@@ -1,0 +1,385 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus Order API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Order",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/order",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "sourceOrderId",
+                "value": "",
+                "type": "query",
+                "description": "Source Id of the order"
+              }
+            ]
+          },
+          "docs": "Get an order"
+        },
+        {
+          "info": {
+            "name": "Get an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/order/:orderId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the order"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be included for the Order. Supported values are HOMEBASE & LOCATION"
+              }
+            ]
+          },
+          "docs": "Get an order"
+        },
+        {
+          "info": {
+            "name": "Create an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/order/:orderId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the order"
+              },
+              {
+                "name": "suffix",
+                "value": "",
+                "type": "query",
+                "description": "Append given suffix to all orderIds, if provided"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create an order"
+        },
+        {
+          "info": {
+            "name": "parkOrder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/order/:orderId/park",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the order"
+              }
+            ]
+          },
+          "docs": "Update status as parked for a single order"
+        },
+        {
+          "info": {
+            "name": "cancelOrder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/order/:orderId/cancel",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the order"
+              }
+            ]
+          },
+          "docs": "Update status as cancelled for a single order"
+        },
+        {
+          "info": {
+            "name": "openOrder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/order/:orderId/open",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the order"
+              }
+            ]
+          },
+          "docs": "Update status as open for a single order"
+        },
+        {
+          "info": {
+            "name": "completeOrder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/order/:orderId/complete",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the order"
+              }
+            ]
+          },
+          "docs": "Update the order status to COMPLETE"
+        },
+        {
+          "info": {
+            "name": "rescheduleOrder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/order/:orderId/reschedule",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the order"
+              }
+            ]
+          },
+          "docs": "Reschedule the order for given date"
+        },
+        {
+          "info": {
+            "name": "Inventory Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/order/:orderId/verify-inventory",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the order"
+              }
+            ]
+          },
+          "docs": "Inventory Verification"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "OrderServiceability",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get available future slots for the given order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/get-slots",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              }
+            ]
+          },
+          "docs": "Get available future slots for the given order"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ServiceType",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get service type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/service-type/:serviceTypeId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "serviceTypeId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the service type"
+              }
+            ]
+          },
+          "docs": "Get service type"
+        },
+        {
+          "info": {
+            "name": "Create service type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/service-type/:serviceTypeId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "serviceTypeId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the service type"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create service type"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ServiceTypeConfiguration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "disableServiceType",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/service-type/:serviceTypeId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "serviceTypeId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the service type"
+              }
+            ]
+          },
+          "docs": "Disable a specific service type"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

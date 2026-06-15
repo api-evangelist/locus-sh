@@ -1,0 +1,163 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PersonnelMaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create personnel with minimal request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/personnel-master/create-compact",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create personnel in the system, with minimal fields required"
+        },
+        {
+          "info": {
+            "name": "Update personnel status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/personnel-master/:personnelId/status",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "personnelId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the personnel"
+              }
+            ]
+          },
+          "docs": "Enable or disable the personnel"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "TeamMaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/team-master/:teamId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the team"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are BUSINESS_UNIT, PREFERENCES."
+              }
+            ]
+          },
+          "docs": "Get a team"
+        },
+        {
+          "info": {
+            "name": "Create a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/team-master/:teamId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the team"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a team"
+        },
+        {
+          "info": {
+            "name": "updateTeamStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/team-master/:teamId/status",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the team"
+              }
+            ]
+          },
+          "docs": "Update status for a specific team"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

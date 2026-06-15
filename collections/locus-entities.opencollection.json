@@ -1,0 +1,954 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "LocationMaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a location",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/location/:locationId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the location"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are CONTACT."
+              }
+            ]
+          },
+          "docs": "Get a location"
+        },
+        {
+          "info": {
+            "name": "Create a location",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/location/:locationId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the location"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a location"
+        },
+        {
+          "info": {
+            "name": "disableLocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/location/:locationId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the location"
+              }
+            ]
+          },
+          "docs": "Disable a specific location"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SKUMaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a line item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/lineitem/:lineItemId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "lineItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the line item"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are LOCATIONS."
+              }
+            ]
+          },
+          "docs": "Get a line item"
+        },
+        {
+          "info": {
+            "name": "Create a line item",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/lineitem/:lineItemId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "lineItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the line item"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a line item"
+        },
+        {
+          "info": {
+            "name": "disableLineItem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/lineitem/:lineItemId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "lineItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the line item"
+              }
+            ]
+          },
+          "docs": "Disable a specific line item"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Transporter",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a transporter",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/transporter/:transporterId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "transporterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the transporter"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are CONTACT"
+              }
+            ]
+          },
+          "docs": "Get a transporter"
+        },
+        {
+          "info": {
+            "name": "Create a transporter",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/transporter/:transporterId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "transporterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the transporter"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a transporter"
+        },
+        {
+          "info": {
+            "name": "disableTransporter",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/transporter/:transporterId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "transporterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the transporter"
+              }
+            ]
+          },
+          "docs": "Disable a specific transporter"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Rider",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a rider",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/rider/:riderId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are SHIFTS, SALES_CATEGORIES, RIDER_PERSONA"
+              }
+            ]
+          },
+          "docs": "Get a rider"
+        },
+        {
+          "info": {
+            "name": "Create a rider",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/rider/:riderId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a rider"
+        },
+        {
+          "info": {
+            "name": "disableRider",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/rider/:riderId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider"
+              }
+            ]
+          },
+          "docs": "Disable a specific rider"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Vehicle",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a vehicle by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/vehicle/:vehicleId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "vehicleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the vehicle"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are SHIFTS, TRANSPORTER, RIDER, VEHICLE_MODEL."
+              }
+            ]
+          },
+          "docs": "Get a vehicle by id"
+        },
+        {
+          "info": {
+            "name": "Create a new vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/vehicle/:vehicleId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "vehicleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the vehicle"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a new vehicle"
+        },
+        {
+          "info": {
+            "name": "disableVehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/vehicle/:vehicleId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "vehicleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the vehicle"
+              }
+            ]
+          },
+          "docs": "Disable a specific vehicle"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "VehicleModel",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a vehicle model",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/vehicle-model/:vehicleModelId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "vehicleModelId",
+                "value": "",
+                "type": "path",
+                "description": "Id of a vehicle model"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Extra field that should be returned. Supported value is TRANSPORTERS"
+              }
+            ]
+          },
+          "docs": "Get a vehicle model"
+        },
+        {
+          "info": {
+            "name": "Create a vehicle model",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/vehicle-model/:vehicleModelId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "vehicleModelId",
+                "value": "",
+                "type": "path",
+                "description": "Id of a vehicle model"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a vehicle model"
+        },
+        {
+          "info": {
+            "name": "disableVehicleModel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/vehicle-model/:vehicleModelId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "vehicleModelId",
+                "value": "",
+                "type": "path",
+                "description": "Id of a vehicle model"
+              }
+            ]
+          },
+          "docs": "Disable a specific vehicle model"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "RiderPersona",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a rider persona by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/rider-persona/:riderPersonaId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderPersonaId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider persona"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are TRANSPORTER."
+              }
+            ]
+          },
+          "docs": "Get a rider persona by id"
+        },
+        {
+          "info": {
+            "name": "Create a new rider persona",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/rider-persona/:riderPersonaId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderPersonaId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider persona"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a new rider persona"
+        },
+        {
+          "info": {
+            "name": "disableRiderPersona",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/rider-persona/:riderPersonaId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderPersonaId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider persona"
+              }
+            ]
+          },
+          "docs": "Disable a specific rider persona"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Roster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Roster by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/roster/:rosterId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "rosterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of roster"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are RESOURCES."
+              }
+            ]
+          },
+          "docs": "Get Roster by Id"
+        },
+        {
+          "info": {
+            "name": "API Bulk create rosters for api integrated clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/rosters-auto-create",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "API Bulk create rosters for api integrated clients"
+        },
+        {
+          "info": {
+            "name": "disableRoster",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/roster/:rosterId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "rosterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of roster"
+              }
+            ]
+          },
+          "docs": "Disable a specific roster"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "HomebaseMaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a homebase",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/homebase-master/:homebaseId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "homebaseId",
+                "value": "",
+                "type": "path",
+                "description": "Id of homebase"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are CONTACT."
+              }
+            ]
+          },
+          "docs": "Get a homebase"
+        },
+        {
+          "info": {
+            "name": "Create a homebase",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/homebase-master/:homebaseId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "homebaseId",
+                "value": "",
+                "type": "path",
+                "description": "Id of homebase"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a homebase"
+        },
+        {
+          "info": {
+            "name": "updateHomebaseStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/homebase-master/:homebaseId/status",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "homebaseId",
+                "value": "",
+                "type": "path",
+                "description": "Id of homebase"
+              }
+            ]
+          },
+          "docs": "Update status for a specific homebase"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ShiftTag",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "fetch shiftTag by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/shift-manager/:tagId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "tagId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shiftTag"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Extra fields that should be returned."
+              }
+            ]
+          },
+          "docs": "fetch shiftTag by id"
+        },
+        {
+          "info": {
+            "name": "Create a given shiftTag",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/shift-manager/:tagId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "tagId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shiftTag"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a given shiftTag"
+        },
+        {
+          "info": {
+            "name": "disableShiftTag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/shift-manager/:tagId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "tagId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shiftTag"
+              }
+            ]
+          },
+          "docs": "Disable a specific Shift Tag"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
