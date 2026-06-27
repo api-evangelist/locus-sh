@@ -55,7 +55,7 @@ apis:
     url: https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: OpenAPI
     url: openapi/locus-oms-openapi.yml
-  - type: SignUp
+  - type: Signup
     url: https://locus.sh/schedule-demo/
   - url: graphql/locus-sh-graphql.md
     type: GraphQL
@@ -81,7 +81,7 @@ apis:
     url: https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
   - type: OpenAPI
     url: openapi/locus-entities-openapi.yml
-  - type: SignUp
+  - type: Signup
     url: https://locus.sh/schedule-demo/
 - aid: locus-sh:locus-platform-entities-api
   name: Locus Platform Entities API
@@ -99,7 +99,7 @@ apis:
     url: https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
   - type: OpenAPI
     url: openapi/locus-platform-openapi.yml
-  - type: SignUp
+  - type: Signup
     url: https://locus.sh/schedule-demo/
 common:
 - type: Website
@@ -143,7 +143,7 @@ common:
   url: https://locus.sh/about-us/
 - type: Contact
   url: https://locus.sh/contactus/
-- type: SignUp
+- type: Signup
   url: https://locus.sh/schedule-demo/
 - type: PrivacyPolicy
   url: https://locus.sh/privacy-policy/
