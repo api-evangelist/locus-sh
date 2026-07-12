@@ -1,0 +1,18 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://locus.sh/trust/
+url: https://locus.sh/trust/
+certifications:
+- SOC 2
+- ISO 27001
+- HIPAA
+- GDPR
+evidence:
+- source: https://locus.sh/trust/
+  keywords:
+  - soc 2
+  - iso 27001
+  - hipaa
+  - trust center
+  - gdpr

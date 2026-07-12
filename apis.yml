@@ -102,6 +102,12 @@ apis:
   - type: Signup
     url: https://locus.sh/schedule-demo/
 common:
+- type: TrustCenter
+  url: security/locus-sh-trust-center.yml
+- type: DomainSecurity
+  url: security/locus-sh-domain-security.yml
+- type: Authentication
+  url: authentication/locus-sh-authentication.yml
 - type: Website
   url: https://locus.sh
 - type: Portal

@@ -1,0 +1,26 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/locus-entities-openapi.yml, openapi/locus-oms-openapi.yml, openapi/locus-platform-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: locusauth
+  type: http
+  scheme: basic
+  description: HTTP Basic Authentication
+  sources:
+  - openapi/locus-entities-openapi.yml
+  - openapi/locus-oms-openapi.yml
+  - openapi/locus-platform-openapi.yml
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  sources:
+  - openapi/locus-entities-openapi.yml
+  - openapi/locus-oms-openapi.yml
+  - openapi/locus-platform-openapi.yml
