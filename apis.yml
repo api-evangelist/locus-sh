@@ -102,6 +102,8 @@ apis:
   - type: Signup
     url: https://locus.sh/schedule-demo/
 common:
+- type: AgenticAccess
+  url: agentic-access/locus-sh-agentic-access.yml
 - type: TrustCenter
   url: security/locus-sh-trust-center.yml
 - type: DomainSecurity
