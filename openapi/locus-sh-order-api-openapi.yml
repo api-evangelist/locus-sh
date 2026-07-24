@@ -1,0 +1,2052 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster Order API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Order
+paths:
+  /client/{clientId}/order:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    get:
+      summary: Get an order
+      operationId: getOrderBySourceId
+      parameters:
+      - name: sourceOrderId
+        in: query
+        description: Source Id of the order
+        required: true
+        type: string
+      tags:
+      - Order
+      responses:
+        '200':
+          description: The latest order in terms of orderDate with the given sourceOrderId
+          schema:
+            $ref: '#/definitions/Order'
+      security:
+      - locusauth: []
+  /client/{clientId}/order/{orderId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/OrderIdParam'
+    get:
+      summary: Get an order
+      operationId: getOrder
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be included for the Order. Supported values are HOMEBASE & LOCATION
+        required: false
+        type: string
+      tags:
+      - Order
+      responses:
+        '200':
+          description: Requested Order
+          schema:
+            $ref: '#/definitions/Order'
+      security:
+      - locusauth: []
+    put:
+      summary: Create an order
+      operationId: createOrder
+      parameters:
+      - name: body
+        in: body
+        description: Order create request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateOrderRequest'
+      - name: suffix
+        in: query
+        description: Append given suffix to all orderIds, if provided
+        required: false
+        type: string
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - Order
+      responses:
+        '200':
+          description: Created Order
+          schema:
+            $ref: '#/definitions/Order'
+      security:
+      - locusauth: []
+  /client/{clientId}/order/{orderId}/park:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/OrderIdParam'
+    put:
+      description: Update status as parked for a single order
+      operationId: parkOrder
+      parameters:
+      - name: request
+        in: body
+        description: park request
+        required: false
+        schema:
+          $ref: '#/definitions/ParkOrderRequest'
+      tags:
+      - Order
+      responses:
+        '200':
+          description: Success response
+          schema:
+            $ref: '#/definitions/GenericResponse'
+      security:
+      - locusauth: []
+  /client/{clientId}/order/{orderId}/cancel:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/OrderIdParam'
+    put:
+      description: Update status as cancelled for a single order
+      operationId: cancelOrder
+      parameters:
+      - name: request
+        in: body
+        description: cancel order request
+        required: false
+        schema:
+          $ref: '#/definitions/CancelOrderRequest'
+      tags:
+      - Order
+      responses:
+        '200':
+          description: Success response
+          schema:
+            $ref: '#/definitions/GenericResponse'
+      security:
+      - locusauth: []
+  /client/{clientId}/order/{orderId}/open:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/OrderIdParam'
+    put:
+      description: Update status as open for a single order
+      operationId: openOrder
+      tags:
+      - Order
+      responses:
+        '200':
+          description: Success response
+          schema:
+            $ref: '#/definitions/GenericResponse'
+      security:
+      - locusauth: []
+  /client/{clientId}/order/{orderId}/complete:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/OrderIdParam'
+    put:
+      description: Update the order status to COMPLETE
+      operationId: completeOrder
+      parameters:
+      - name: request
+        in: body
+        description: Complete order request
+        required: true
+        schema:
+          $ref: '#/definitions/CompleteOrderRequest'
+      tags:
+      - Order
+      responses:
+        '200':
+          description: Success response
+          schema:
+            $ref: '#/definitions/GenericResponse'
+      security:
+      - locusauth: []
+  /client/{clientId}/order/{orderId}/reschedule:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/OrderIdParam'
+    post:
+      description: Reschedule the order for given date
+      operationId: rescheduleOrder
+      parameters:
+      - name: request
+        in: body
+        description: Order reschedule request
+        required: true
+        schema:
+          $ref: '#/definitions/OrderRescheduleRequest'
+      tags:
+      - Order
+      responses:
+        '200':
+          description: Success response
+          schema:
+            $ref: '#/definitions/GenericResponse'
+      security:
+      - locusauth: []
+  /client/{clientId}/order/{orderId}/verify-inventory:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/OrderIdParam'
+    put:
+      summary: Inventory Verification
+      operationId: verifyInventory
+      parameters:
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/InventoryVerificationRequest'
+      tags:
+      - Order
+      responses:
+        '200':
+          description: Void response
+      security:
+      - locusauth: []
+definitions:
+  GeocodingMetadata:
+    description: Metadata for geocoding of the address
+    properties:
+      provider:
+        $ref: '#/definitions/GeocodingProvider'
+      latLng:
+        description: Optional location coordinates
+        $ref: '#/definitions/MinimalLatLng'
+      accuracy:
+        type: integer
+        format: int32
+        default: 0
+      confidence:
+        $ref: '#/definitions/GeocodingConfidence'
+      verified:
+        description: Boolean to denote whether the geocoding is verified or not
+        type: boolean
+        default: false
+      requestId:
+        description: Id for the stored geocode request
+        type: string
+      isCentroidResponse:
+        description: Denotes if the response is centroid response of any kind
+        type: boolean
+        default: false
+      responseSource:
+        $ref: '#/definitions/ResponseSource'
+  PaymentChecklistItems:
+    properties:
+      skipPaymentChecklist:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+      partialPaymentChecklist:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+      fullPaymentChecklist:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+  AmountType:
+    description: Payment status of an order.
+    type: string
+    enum:
+    - CURRENT
+    - EXECUTED
+  TransitCode:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+  BaseAmount:
+    description: Amount value of an item
+    properties:
+      amount:
+        type: number
+        format: double
+  OrderPaymentStatus:
+    description: Payment status of an order.
+    type: string
+    enum:
+    - PAID
+    - PARTIALLY_PAID
+    - UNPAID
+    - PENDING
+  Checklist:
+    description: A map containing selected values for each checklist item.
+    type: object
+    allOf:
+    - $ref: '#/definitions/StringObjectMap'
+    - type: object
+  LocationSource:
+    description: location provider source.
+    type: string
+    enum:
+    - LOCATION_MASTER
+  RejectedTourDetail:
+    description: Tour details
+    properties:
+      tourId:
+        type: string
+      riderId:
+        type: string
+      vehicleId:
+        type: string
+  FulfillmentMode:
+    description: Channel through which the Order is fulfilled
+    type: string
+    enum:
+    - DISPATCH_IQ
+    - TRACK_IQ
+    - ORCHESTRATION_IQ
+    - TOUR_DISPATCH_MANAGEMENT
+  FulfillmentChannel:
+    description: Channel through which the Order is fulfilled
+    type: string
+    enum:
+    - DISPATCH_IQ
+    - TRACK_IQ
+    - ORCHESTRATION_IQ
+    - TOUR_DISPATCH_MANAGEMENT
+  TransactionStatus:
+    allOf:
+    - $ref: '#/definitions/BaseTransactionStatus'
+    - type: object
+      properties:
+        orderedWeight:
+          description: Weight of the item that has been ordered
+          $ref: '#/definitions/Weight'
+        transactedWeight:
+          description: Weight of the item that has been transacted
+          $ref: '#/definitions/Weight'
+        orderedVolume:
+          description: Volume of the item that has been ordered
+          $ref: '#/definitions/Volume'
+        transactedVolume:
+          description: Volume of the item that has been transacted
+          $ref: '#/definitions/Volume'
+  StringObjectMap:
+    type: object
+  ResponseSource:
+    $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/ResponseSource
+  PodChecklistVerificationResult:
+    properties:
+      podVerificationStatus:
+        description: Status of the POD verification result
+        $ref: '#/definitions/PodVerificationStatusEnum'
+      podVerificationResult:
+        description: A map of POD verification results with checklist item id and result
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/PodVerificationResult'
+  ChecklistItem:
+    $ref: https://swagger.locus-api.com/task.yaml#/definitions/ChecklistItem
+  ReasonCode:
+    description: Reason Code Enum
+    type: string
+    enum:
+    - UNALLOCATED_IN_PLAN
+    - RESCHEDULED
+    - CANCELLATION_REASON
+    - DATA_ISSUE
+    - NO_WORKFLOW_MATCHED
+    - NO_DISPATCH_WAVE_MATCHED
+    - ATTEMPTS_EXHAUSTED
+    - REATTEMPTS_EXHAUSTED
+    - PARK_ATTEMPTS_EXHAUSTED
+    - RESCHEDULES_EXHAUSTED
+    - DELIVERY_WINDOW_EXHAUSTED
+    - QUOTE_NOT_FOUND
+    - CARRIER_REJECTED
+    - QUOTE_REJECTED
+    - QUOTE_AUTO_ACCEPTED
+    - QUOTE_ACCEPTED_BY_USER
+    - NO_SLOTS_AVAILABLE
+    - GEOCODING_ERROR
+    - PARKED
+    - AUTOSORT_ERROR
+    - CAPACITY_EXCEEDED
+  MinimalLatLng:
+    description: A latitude, longitude pair
+    required:
+    - lat
+    - lng
+    properties:
+      lat:
+        type: number
+        format: double
+      lng:
+        type: number
+        format: double
+  VolumeUnit:
+    description: Unit for volume
+    type: string
+    enum:
+    - CMM
+    - CCM
+    - CC
+    - CM
+    - M3
+    - CIN
+    - CI
+    - CFT
+    - CF
+    - CYD
+    - IC
+    - TC
+    - L
+  OrderVisitDetails:
+    description: visit related details by statuses
+    properties:
+      homebaseStartedBy:
+        type: string
+      homebaseStartedAt:
+        type: string
+        format: date-time
+      homebaseReachedBy:
+        type: string
+      homebaseReachedAt:
+        type: string
+        format: date-time
+      homebaseTransactingBy:
+        type: string
+      homebaseTransactingAt:
+        type: string
+        format: date-time
+      homebaseCompletedBy:
+        type: string
+      homebaseCompletedOn:
+        type: string
+        format: date-time
+      homebaseCancelledBy:
+        type: string
+      homebaseCancelledAt:
+        type: string
+        format: date-time
+      customerVisitStartedBy:
+        type: string
+      customerVisitStartedAt:
+        type: string
+      customerVisitReachedBy:
+        type: string
+      customerVisitReachedAt:
+        type: string
+      customerVisitTransactingBy:
+        type: string
+      customerVisitTransactingAt:
+        type: string
+        format: date-time
+      customerVisitCompletedBy:
+        type: string
+      customerVisitCompletedAt:
+        type: string
+      customerVisitCancelledBy:
+        type: string
+      customerVisitCancelledAt:
+        type: string
+  TransporterType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/TransporterType
+  AmountDetails:
+    description: It represents all amount components.
+    properties:
+      id:
+        type: string
+      grossAmount:
+        description: Total unadjusted amount
+        $ref: '#/definitions/Amount'
+      netAmount:
+        description: Adjusted amount after discounts or taxes
+        $ref: '#/definitions/Amount'
+      amountToBeCollected:
+        description: The actual amount to be collected from the customer
+        $ref: '#/definitions/Amount'
+  OmsDimensions:
+    description: Dimensions of an item
+    properties:
+      length:
+        description: Length of the item in meters
+        type: number
+        format: double
+      breadth:
+        description: Breadth of the item in meters
+        type: number
+        format: double
+      height:
+        description: Height of the item in meters
+        type: number
+        format: double
+      unit:
+        $ref: '#/definitions/LengthUnit'
+  OrchestrationStatus:
+    type: object
+  OrderDetailStatusEnum:
+    type: string
+    enum:
+    - DELIVERED
+    - NOT_DELIVERED
+    - PARTIALLY_DELIVERED
+  CreatePromiseInformationRequest:
+    properties:
+      serviceTypeId:
+        type: string
+  Amount:
+    description: Amount of an item
+    properties:
+      amount:
+        type: number
+        format: double
+      currency:
+        type: string
+        description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
+      symbol:
+        type: string
+        description: A symbol for the currency. If missing, will default to currency string
+  DateSlotInfoElement:
+    properties:
+      date:
+        type: string
+      slotIds:
+        type: array
+        items:
+          type: string
+  TrackingInfo:
+    description: Tracking info
+    properties:
+      link:
+        description: Url of the tracking link
+        type: string
+  PromiseTimelineElement:
+    properties:
+      serviceTypeId:
+        type: string
+      dateSlots:
+        type: array
+        items:
+          $ref: '#/definitions/DateSlotInfoElement'
+      timestamp:
+        type: string
+        format: date-time
+      actor:
+        $ref: '#/definitions/Actor'
+      reason:
+        $ref: '#/definitions/Reason'
+  ContractId:
+    type: object
+  Quantity:
+    description: Quantity of items
+    required:
+    - value
+    - unit
+    properties:
+      value:
+        description: Quantity of the item in the given unit.
+        type: integer
+        format: int32
+      unit:
+        type: string
+  PaymentId:
+    description: Id of the payment instrument as identified by a provider
+    required:
+    - instrumentId
+    - paymentId
+    properties:
+      instrumentId:
+        $ref: '#/definitions/ProviderInstrumentId'
+      paymentId:
+        description: Id for the payment as identified by the provider.
+        type: string
+  TransactionDetail:
+    $ref: https://swagger.locus-api.com/oms.yaml#/definitions/TransactionDetail
+  Weight:
+    description: Weight of order
+    required:
+    - value
+    - unit
+    properties:
+      value:
+        description: Value of the weight in the given unit.
+        type: string
+      unit:
+        $ref: '#/definitions/WeightUnit'
+  PodVerificationStatusEnum:
+    $ref: https://swagger.locus-api.com/task.yaml#/definitions/PodVerificationStatusEnum
+  TransactionDurationInfo:
+    properties:
+      zone:
+        description: Transaction duration based on the zone of the order
+        type: integer
+        format: int32
+      skill:
+        description: Transaction duration based on the skills of the order
+        type: integer
+        format: int32
+      location:
+        description: Transaction duration based on the location of the order
+        type: integer
+        format: int32
+      lineitem:
+        description: Transaction duration based on the lineitems of the order
+        type: integer
+        format: int32
+      lineitemMultiplier:
+        type: number
+        format: double
+        default: 1
+  AutoSortDetails:
+    description: details containing the route
+    properties:
+      route:
+        description: Route for given order
+        $ref: '#/definitions/MinimalAutosortRoute'
+      versionedMapIds:
+        type: array
+        items:
+          $ref: '#/definitions/VersionedMapId'
+      autosortId:
+        description: Id of the auto sort request
+        type: string
+  ProviderInstrumentId:
+    description: Id of the payment instrument as identified by a provider
+    required:
+    - providerId
+    - instrumentId
+    properties:
+      providerId:
+        description: Id of payment instrument provider. For eg, razor-pay for RazorPay instruments. This should be one of the supported values.
+        type: string
+      instrumentId:
+        description: Id of the payment instrument as identified by the provider.
+        type: string
+  VersionedMapId:
+    type: object
+  FreightCostSource:
+    type: string
+    enum:
+    - CLIENT
+    - CONTRACT
+  ParkOrderRequest:
+    properties:
+      reason:
+        $ref: '#/definitions/Reason'
+  PaymentInstrumentType:
+    description: Denotes the type of payment instrument
+    type: string
+    enum:
+    - CASH
+    - COUPON
+    - ECOD
+    - ONLINE
+  WeightUnit:
+    description: Unit for weight
+    type: string
+    enum:
+    - MG
+    - G
+    - KG
+    - T
+    - OZ
+    - LB
+  LineItemDetails:
+    $ref: https://swagger.locus-api.com/oms.yaml#/definitions/LineItemDetails
+  OrderStatusUpdate:
+    description: Merge patch request wrapper
+    properties:
+      channel:
+        $ref: '#/definitions/FulfillmentChannel'
+      orderStatus:
+        $ref: '#/definitions/OrderStatus'
+      orderSubStatus:
+        $ref: '#/definitions/OrderSubStatus'
+      orderMetadata:
+        $ref: '#/definitions/OrderMetadata'
+      updatedBy:
+        type: string
+      updatedOn:
+        type: string
+        format: date-time
+  ShipmentRateDetail:
+    type: object
+  AmountTransaction:
+    description: Transaction of an amount.
+    properties:
+      refId:
+        description: id of amount transaction
+        type: string
+      amount:
+        $ref: '#/definitions/Amount'
+      net:
+        $ref: '#/definitions/BaseAmount'
+      gross:
+        $ref: '#/definitions/BaseAmount'
+      exchangeType:
+        description: Type of transaction.
+        type: string
+        enum:
+        - COLLECT
+        - GIVE
+        - NONE
+  OrderFreightCostMetadata:
+    properties:
+      freightCost:
+        $ref: '#/definitions/FreightCost'
+  Actor:
+    type: object
+  AutomationMetadata:
+    description: Order automation metadata
+    properties:
+      reattemptCount:
+        type: integer
+        format: int32
+        default: 0
+      rescheduleCount:
+        type: integer
+        format: int32
+        default: 0
+      reasonCode:
+        $ref: '#/definitions/ReasonCode'
+      reasonDescription:
+        type: string
+      attemptCount:
+        type: integer
+        format: int32
+        default: 0
+      firstAttemptDate:
+        type: string
+      deliveryWindowEndDate:
+        type: string
+      shipFlexTransferCount:
+        type: integer
+        format: int32
+        default: 0
+  EntityDefinition:
+    type: object
+  LineItemTransactionStatus:
+    allOf:
+    - $ref: '#/definitions/BaseLineItemTransactionStatus'
+    - type: object
+      properties:
+        transactionStatus:
+          $ref: '#/definitions/TransactionStatus'
+        homebaseTransactionStatus:
+          $ref: '#/definitions/TransactionStatus'
+        outboundTransactionStatus:
+          $ref: '#/definitions/TransactionStatus'
+        boxDetailSummary:
+          $ref: '#/definitions/BoxDetailSummary'
+  LineItemPart:
+    description: A part of the line item which can be shipped separately
+    required:
+    - volume
+    properties:
+      id:
+        type: string
+      volume:
+        $ref: '#/definitions/Volume'
+      weight:
+        $ref: '#/definitions/Weight'
+      originalWeight:
+        $ref: '#/definitions/Weight'
+      dimensions:
+        $ref: '#/definitions/OmsDimensions'
+      piecesCount:
+        type: integer
+        format: int32
+        default: 1
+  CompleteOrderRequest:
+    description: Order complete request
+    properties:
+      orderId:
+        type: string
+      timestamp:
+        type: string
+        format: date-time
+      homebaseTimestamp:
+        type: string
+        format: date-time
+      lineItems:
+        type: array
+        items:
+          $ref: '#/definitions/LineItemTransactionStatus'
+      customerTransactionStatus:
+        $ref: '#/definitions/TransactionDetail'
+      homebaseTransactionStatus:
+        $ref: '#/definitions/TransactionDetail'
+      isSoftComplete:
+        type: boolean
+        description: Flag to denote if completion of order to be treated as soft or hard
+        default: false
+  ShippingLabelInfo:
+    type: object
+  OrchestrationShipmentMetadata:
+    properties:
+      carrierId:
+        type: string
+      serviceType:
+        type: string
+      orchestrationStatus:
+        $ref: '#/definitions/OrchestrationStatus'
+      shipmentRateDetail:
+        $ref: '#/definitions/ShipmentRateDetail'
+      waybills:
+        type: array
+        items:
+          $ref: '#/definitions/OrchestrationWaybillMetadata'
+  AmountExchangeType:
+    description: Amount exchange enum
+    type: string
+    enum:
+    - COLLECT
+    - PREPAID
+  PartItemVolume:
+    properties:
+      value:
+        type: number
+        format: double
+      unit:
+        type: string
+  MinimalMasterLineItem:
+    properties:
+      id:
+        description: An identifier for the SKU. If provided, details related to line item will be populated using sku master of the client
+        type: string
+      name:
+        description: Name of the item
+        type: string
+      code:
+        description: Line Item Code
+        type: string
+      parts:
+        type: array
+        items:
+          $ref: '#/definitions/MasterLineItemPart'
+  MinimalAutosortRoute:
+    type: object
+  ExtendedStructuredAddress:
+    allOf:
+    - $ref: '#/definitions/StructuredAddress'
+    - type: object
+      properties:
+        type:
+          $ref: '#/definitions/LocationType'
+        customProperties:
+          type: object
+          additionalProperties:
+            type: string
+  Payments:
+    description: Container for all payment related info
+    required:
+    - totalAmount
+    - pendingAmount
+    - fullAmountRequired
+    - paymentRequired
+    properties:
+      totalAmount:
+        $ref: '#/definitions/Amount'
+      pendingAmount:
+        $ref: '#/definitions/Amount'
+      payments:
+        description: All payments associated with this. Can be in any status - successful, failed, pending etc.
+        type: array
+        items:
+          $ref: '#/definitions/Payment'
+      fullAmountRequired:
+        type: boolean
+        default: false
+        description: Boolean to denote that full payment amount is required before completing the task.
+      paymentRequired:
+        type: boolean
+        description: Boolean to denote that payments are supposed to be present here
+  TourDetail:
+    description: Tour details
+    properties:
+      tourId:
+        type: string
+      sequence:
+        type: integer
+        format: int32
+      riderId:
+        type: string
+      riderName:
+        type: string
+      riderNumber:
+        type: string
+      transporterId:
+        type: string
+      transporterName:
+        type: string
+      transporterType:
+        $ref: '#/definitions/TransporterType'
+      vehicleModelId:
+        type: string
+      vehicleModelName:
+        type: string
+      vehicleId:
+        type: string
+      vehicleName:
+        type: string
+      vehicleRegistrationNumber:
+        type: string
+      tourStartTime:
+        type: string
+        format: date-time
+      tourEndTime:
+        type: string
+        format: date-time
+      tourTravelDistance:
+        type: integer
+        format: int32
+      isSortedForTour:
+        type: boolean
+        default: false
+      costMetadata:
+        $ref: '#/definitions/TourCostMetadata'
+      isMultiTrip:
+        type: boolean
+      parentTourId:
+        type: string
+      customProperties:
+        type: object
+        additionalProperties:
+          type: string
+  OrchestrationMetadata:
+    properties:
+      orchestrationId:
+        type: string
+      shipmentMetadata:
+        $ref: '#/definitions/OrchestrationShipmentMetadata'
+      customerGeocodedLocation:
+        $ref: '#/definitions/OrderGeocodedLocation'
+      homebaseGeocodedLocation:
+        $ref: '#/definitions/OrderGeocodedLocation'
+      shippingLabelInfo:
+        $ref: '#/definitions/ShippingLabelInfo'
+  OrderCostEnum:
+    description: Status based on contract calculation. Possible values DISABLED, CONTRACT_MISSING, CALCULATION_FAILURE, AVAILABLE
+    type: string
+    enum:
+    - DISABLED
+    - CONTRACT_MISSING
+    - CALCULATION_FAILURE
+    - AVAILABLE
+  Payment:
+    description: A payment request, through any of the payment instruments.
+    required:
+    - instrument
+    - desiredAmount
+    - status
+    - createdOn
+    - updatedOn
+    properties:
+      amountId:
+        type: string
+      transactionId:
+        type: string
+      instrument:
+        $ref: '#/definitions/PaymentInstrument'
+      paymentId:
+        $ref: '#/definitions/PaymentId'
+      desiredAmount:
+        $ref: '#/definitions/Amount'
+      actualAmount:
+        $ref: '#/definitions/Amount'
+      reconciledAmount:
+        $ref: '#/definitions/Amount'
+      amountEditable:
+        type: boolean
+        description: Boolean that denotes whether or not amount can be edited after the invoice is generated. This can support partial payments.
+      status:
+        $ref: '#/definitions/PaymentStatus'
+      createdOn:
+        description: Timestamp of creation
+        type: string
+        format: date-time
+      updatedOn:
+        description: Timestamp of last update
+        type: string
+        format: date-time
+      latestActor:
+        description: Actor who triggered this payment
+        $ref: '#/definitions/Actor'
+      additionalInfo:
+        description: Additional information that needs to be shared for the payment
+        type: object
+        additionalProperties:
+          type: string
+      reconciledAmountChecklistValues:
+        $ref: '#/definitions/Checklist'
+      reconciledOn:
+        description: Timestamp of last update
+        type: string
+        format: date-time
+  BaseTransactionStatus:
+    required:
+    - triggerTime
+    - transactedQuantity
+    - checklistValues
+    properties:
+      orderedQuantity:
+        description: Quantity of the item that has been ordered
+        type: integer
+        format: int32
+      transactedQuantity:
+        description: Quantity of the item that has been transacted
+        type: integer
+        format: int32
+      checklistValues:
+        $ref: '#/definitions/Checklist'
+      triggerTime:
+        description: Time when the transaction status update was triggered on the client side
+        type: string
+        format: date-time
+      actor:
+        $ref: '#/definitions/Actor'
+      status:
+        $ref: '#/definitions/OrderDetailStatusEnum'
+  HandlingUnitEnum:
+    description: delivery handling units to identify deliverable field
+    type: string
+    enum:
+    - QUANTITY
+    - WEIGHT
+    - VOLUME
+  CreateLineItemDetails:
+    $ref: https://swagger.locus-api.com/oms.yaml#/definitions/CreateLineItemDetails
+  OrderRescheduleRequest:
+    properties:
+      customerRescheduleRequest:
+        $ref: '#/definitions/RescheduleRequest'
+      homebaseRescheduleRequest:
+        $ref: '#/definitions/RescheduleRequest'
+  TourCostMetadata:
+    properties:
+      dispatchedFreightCost:
+        $ref: '#/definitions/TourFreightCostMetadata'
+  PaymentStatus:
+    description: Status of the payment
+    type: string
+    enum:
+    - PENDING
+    - SUCCESS
+    - FAILED
+    - CANCELLED
+  PromiseInformation:
+    allOf:
+    - $ref: '#/definitions/CreatePromiseInformationRequest'
+    - type: object
+      properties:
+        promiseId:
+          type: string
+        slotId:
+          type: string
+        date:
+          type: string
+        dateSlots:
+          type: array
+          items:
+            $ref: '#/definitions/DateSlotInfoElement'
+        timeline:
+          type: array
+          items:
+            $ref: '#/definitions/PromiseTimelineElement'
+  OrderCostMetadata:
+    properties:
+      dispatchedFreightCost:
+        $ref: '#/definitions/OrderFreightCostMetadata'
+      contractCostMetadata:
+        $ref: '#/definitions/ContractCostMetadata'
+  PodVerificationResult:
+    $ref: https://swagger.locus-api.com/task.yaml#/definitions/PodVerificationResult
+  AmountDetailsTimeline:
+    description: Maintains a chronological log of amount updates with details
+    properties:
+      amount:
+        $ref: '#/definitions/AmountDetails'
+      exchangeType:
+        $ref: '#/definitions/AmountExchangeType'
+      actor:
+        $ref: '#/definitions/Actor'
+      amountType:
+        $ref: '#/definitions/AmountType'
+      timestamp:
+        type: string
+        format: date-time
+  ChecklistItems:
+    properties:
+      customerCompleted:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+      customerCancelled:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+      homebaseCompleted:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+      homebaseCancelled:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+  AppFields:
+    $ref: https://swagger.locus-api.com/task.yaml#/definitions/AppFields
+  LineItemSummary:
+    properties:
+      totalWeight:
+        description: Sum of individual weights of all parts
+        $ref: '#/definitions/Weight'
+      totalVolume:
+        description: Sum of individual volumes of all parts
+        $ref: '#/definitions/Volume'
+      totalReweighCount:
+        type: integer
+        format: int32
+        default: 0
+  OrderMetadata:
+    description: Order planning and execution metadata
+    properties:
+      batchId:
+        type: string
+      planId:
+        type: string
+      dispatchWaveId:
+        type: string
+      dispatchWaveName:
+        type: string
+      dispatchWaveBatchId:
+        type: string
+      planIteration:
+        type: integer
+      homebaseId:
+        type: string
+      latLng:
+        $ref: '#/definitions/MinimalLatLng'
+      trackingInfo:
+        $ref: '#/definitions/TrackingInfo'
+      customerSlotStart:
+        type: string
+      customerSlotEnd:
+        type: string
+      taskDate:
+        type: string
+      checklist:
+        $ref: '#/definitions/Checklist'
+      checklistItems:
+        $ref: '#/definitions/ChecklistItems'
+      paymentChecklistItems:
+        $ref: '#/definitions/PaymentChecklistItems'
+      checklistMetadata:
+        $ref: '#/definitions/ChecklistMetadata'
+      tourDetail:
+        $ref: '#/definitions/TourDetail'
+      rejectedTours:
+        type: array
+        items:
+          $ref: '#/definitions/RejectedTourDetail'
+      homebaseEta:
+        type: string
+        format: date-time
+      homebaseEtd:
+        type: string
+        format: date-time
+      homebaseCompleteOtp:
+        type: string
+      customerArrivedOtp:
+        type: string
+      customerCompleteOtp:
+        type: string
+      cancellationOtp:
+        type: string
+      customerReturnOtp:
+        type: string
+      initialEta:
+        type: string
+        format: date-time
+      initialEtd:
+        type: string
+        format: date-time
+      currentEta:
+        type: string
+        format: date-time
+      slaStatus:
+        $ref: '#/definitions/SlaStatusEnum'
+      slaDelayedBy:
+        description: SLA delta in minutes
+        type: integer
+        format: int32
+      slaEarlyBy:
+        description: SLA early delta in minutes
+        type: integer
+        format: int32
+      homebaseCompletedOn:
+        type: string
+      isInventoryVerified:
+        type: boolean
+        default: true
+      lineItems:
+        type: array
+        items:
+          $ref: '#/definitions/LineItemTransactionStatus'
+      payments:
+        $ref: '#/definitions/Payments'
+      orderVisitDetails:
+        $ref: '#/definitions/OrderVisitDetails'
+      actor:
+        $ref: '#/definitions/Actor'
+      triggerTime:
+        type: string
+        format: date-time
+      homebaseProofOfCompletion:
+        $ref: '#/definitions/Checklist'
+      homebaseProofOfCancellation:
+        $ref: '#/definitions/Checklist'
+      customerProofOfCompletion:
+        $ref: '#/definitions/Checklist'
+      customerProofOfCancellation:
+        $ref: '#/definitions/Checklist'
+      proofOfSkipPaymentCollection:
+        $ref: '#/definitions/Checklist'
+      fullPaymentChecklist:
+        $ref: '#/definitions/Checklist'
+      partialPaymentChecklist:
+        $ref: '#/definitions/Checklist'
+      skipPaymentChecklist:
+        $ref: '#/definitions/Checklist'
+      homebaseProofOfCompletionVerification:
+        $ref: '#/definitions/PodChecklistVerificationResult'
+      homebaseProofOfCancellationVerification:
+        $ref: '#/definitions/PodChecklistVerificationResult'
+      customerProofOfCompletionVerification:
+        $ref: '#/definitions/PodChecklistVerificationResult'
+      customerProofOfCancellationVerification:
+        $ref: '#/definitions/PodChecklistVerificationResult'
+      completedAt:
+        type: string
+        format: date-time
+      completedBy:
+        type: string
+      cancelledAt:
+        type: string
+        format: date-time
+      cancelledBy:
+        type: string
+      cancelledByUserType:
+        type: string
+      reasonCode:
+        $ref: '#/definitions/ReasonCode'
+      reasonDescription:
+        type: string
+      drift:
+        type: number
+        format: double
+      timezone:
+        type: string
+      orchestrationMetadata:
+        $ref: '#/definitions/OrchestrationMetadata'
+      homebaseToCustomerDistance:
+        description: Homebase to customer distance.
+        $ref: '#/definitions/Distance'
+      costMetadata:
+        $ref: '#/definitions/OrderCostMetadata'
+      initialReceivedAt:
+        type: string
+        format: date-time
+      receivedAt:
+        type: string
+        format: date-time
+      initialOpenedAt:
+        type: string
+        format: date-time
+      openedAt:
+        type: string
+        format: date-time
+      planningAt:
+        type: string
+        format: date-time
+      plannedAt:
+        type: string
+        format: date-time
+      assignedAt:
+        type: string
+        format: date-time
+      pendingAcceptanceAt:
+        type: string
+        format: date-time
+      acceptedAt:
+        type: string
+        format: date-time
+      pickupEnrouteAt:
+        type: string
+        format: date-time
+      pickupOngoingAt:
+        type: string
+        format: date-time
+      pickupReachedAt:
+        type: string
+        format: date-time
+      pickupDoneAt:
+        type: string
+        format: date-time
+      inTransitAt:
+        type: string
+        format: date-time
+      dropEnrouteAt:
+        type: string
+        format: date-time
+      dropReachedAt:
+        type: string
+        format: date-time
+      dropOngoingAt:
+        type: string
+        format: date-time
+      inboundCompletedAt:
+        type: string
+        format: date-time
+      inboundPendingAt:
+        type: string
+        format: date-time
+      attemptFailedAt:
+        type: string
+        format: date-time
+      partiallyCompletedAt:
+        type: string
+        format: date-time
+      initiallyParkedAt:
+        type: string
+        format: date-time
+      parkedAt:
+        type: string
+        format: date-time
+      openBy:
+        type: string
+      parkBy:
+        type: string
+      verifiedBy:
+        type: string
+      age:
+        description: Field denoting age of order before reaching terminal status
+        type: integer
+        format: int64
+      latestTransactionId:
+        type: integer
+        format: int32
+      currentTransactionId:
+        type: integer
+        format: int32
+      transactionChecklist:
+        $ref: '#/definitions/TransactionChecklistItems'
+  InventoryVerificationRequest:
+    description: Inventory Verification Request
+    required:
+    - isInventoryVerified
+    properties:
+      isInventoryVerified:
+        type: boolean
+      verifyAt:
+        type: string
+        format: date-time
+  DeliveryAttempt:
+    description: Delivery attempt history
+    properties:
+      statusUpdates:
+        type: array
+        items:
+          $ref: '#/definitions/OrderStatusUpdate'
+  RescheduleRequest:
+    properties:
+      rescheduleDate:
+        type: string
+        description: The date for which order is to be rescheduled. It should be ISO Date. eg. 2017-09-14
+      rescheduleSlot:
+        $ref: '#/definitions/TimeSlot'
+      reason:
+        $ref: '#/definitions/Reason'
+      slotId:
+        type: string
+  BaseLineItemTransactionStatus:
+    description: Transaction status of a line item
+    properties:
+      id:
+        type: string
+        description: id of the line item
+      reconcileQuantity:
+        type: integer
+        format: int32
+        default: 0
+      handlingUnit:
+        $ref: '#/definitions/HandlingUnitEnum'
+  GeocodingProvider:
+    $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/GeocodingProvider
+  BoxDetailSummary:
+    properties:
+      totalCases:
+        type: integer
+        format: int32
+      totalPieces:
+        type: integer
+        format: int32
+      quantityUnit:
+        type: string
+      boxUnit:
+        type: string
+  ContractCostMetadata:
+    properties:
+      contractId:
+        $ref: '#/definitions/ContractId'
+      status:
+        $ref: '#/definitions/OrderCostEnum'
+      totalCost:
+        description: Total cost for the given request
+        type: number
+        format: double
+      costBreakup:
+        type: array
+        items:
+          $ref: '#/definitions/BaseCostBreakup'
+  TourFreightCostMetadata:
+    properties:
+      freightCost:
+        $ref: '#/definitions/FreightCost'
+      source:
+        $ref: '#/definitions/FreightCostSource'
+      contractId:
+        type: string
+  PaymentInstrument:
+    description: A method of payment
+    required:
+    - instrumentType
+    - instrumentName
+    properties:
+      instrumentType:
+        $ref: '#/definitions/PaymentInstrumentType'
+      instrumentName:
+        description: A human friendly name for the payment instrument
+        type: string
+      providerInstrumentId:
+        $ref: '#/definitions/ProviderInstrumentId'
+  Reason:
+    properties:
+      reasonDescription:
+        type: string
+  TimeSlot:
+    $ref: https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot
+  GenericResponse:
+    required:
+    - message
+    properties:
+      message:
+        type: string
+        default: success
+  SlaStatusEnum:
+    $ref: https://swagger.locus-api.com/task.yaml#/definitions/SlaStatusEnum
+  CratingInfo:
+    $ref: https://swagger.locus-api.com/task.yaml#/definitions/CratingInfo
+  MinimalLineItem:
+    description: A single item contained in the order
+    required:
+    - name
+    - quantity
+    properties:
+      id:
+        description: An identifier for the SKU. If provided, details related to line item will be populated using sku master of the client
+        type: string
+      lineItemId:
+        description: An identifier for the line item.
+        type: string
+      skuId:
+        description: An identifier for the line item.
+        type: string
+      packId:
+        description: A unique identifier of the line item, this is different from sku id. This would be unique across orders and only one qunatity of line item can exist with this id.
+        type: string
+      name:
+        description: Name of the item
+        type: string
+      description:
+        description: description of the item
+        type: string
+      handlingUnit:
+        $ref: '#/definitions/HandlingUnitEnum'
+        default: QUANTITY
+      quantity:
+        description: Quantity of the item
+        type: integer
+        format: int32
+        default: 0
+      quantityUnit:
+        type: string
+      price:
+        $ref: '#/definitions/Amount'
+      commodityCode:
+        $ref: '#/definitions/TransitCode'
+      parts:
+        type: array
+        items:
+          $ref: '#/definitions/LineItemPart'
+      customProperties:
+        description: Additional properties which clients wants to have along with standard entity properties
+        type: object
+        additionalProperties:
+          type: string
+      summary:
+        description: Summarized data of all line item parts
+        $ref: '#/definitions/LineItemSummary'
+      totalVolume:
+        description: total volume of the line item multiplied by it's quantity
+        $ref: '#/definitions/Volume'
+      totalWeight:
+        description: total weight of the line item multiplied by it's quantity
+        $ref: '#/definitions/Weight'
+      handlingUnits:
+        type: array
+        items:
+          $ref: '#/definitions/HandlingUnitEnum'
+      boxDetailSummary:
+        $ref: '#/definitions/BoxDetailSummary'
+      canRiderEdit:
+        description: flag to denote whether the rider is allowed to edit the line item
+        type: boolean
+        default: true
+  Volume:
+    description: Volume of an item
+    required:
+    - value
+    - unit
+    properties:
+      value:
+        description: Value of the volume in the given unit.
+        type: string
+      unit:
+        $ref: '#/definitions/VolumeUnit'
+  FreightCost:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FreightCost
+  OrderGeocodedLocation:
+    properties:
+      city:
+        type: string
+      state:
+        type: string
+  ChecklistMetadata:
+    description: Order checklist metadata
+    properties:
+      updateCount:
+        type: integer
+        format: int32
+        default: 0
+      updateAllowedStatus:
+        type: string
+        enum:
+        - ALLOWED
+        - NOT_ALLOWED
+        default: ALLOWED
+  OrderType:
+    $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
+  ShipmentLegMetadata:
+    description: Shipment related extra info relevant for an order
+    properties:
+      shipmentId:
+        type: string
+      splitId:
+        type: string
+      nodeId:
+        type: string
+      legId:
+        type: string
+      distributionChannel:
+        $ref: '#/definitions/DistributionChannel'
+  Order:
+    description: Order model
+    allOf:
+    - $ref: '#/definitions/CreateOrderRequest'
+    - type: object
+      properties:
+        homebase:
+          type: object
+        location:
+          type: object
+        parentOrderId:
+          description: Id to identify parent of orders that have split
+          type: string
+        orderStatus:
+          $ref: '#/definitions/OrderStatus'
+        orderSubStatus:
+          $ref: '#/definitions/OrderSubStatus'
+        channel:
+          $ref: '#/definitions/FulfillmentChannel'
+        mode:
+          $ref: '#/definitions/FulfillmentMode'
+        masterLineItems:
+          type: array
+          items:
+            $ref: '#/definitions/MinimalMasterLineItem'
+        orderMetadata:
+          $ref: '#/definitions/OrderMetadata'
+        automationMetadata:
+          $ref: '#/definitions/AutomationMetadata'
+        lastCallbackTimestamp:
+          description: Timestamp of last callback from downstream
+          type: string
+          format: date-time
+        combinedSkills:
+          type: array
+          items:
+            type: string
+        history:
+          type: array
+          items:
+            $ref: '#/definitions/DeliveryAttempt'
+        timeline:
+          type: array
+          items:
+            $ref: '#/definitions/TimelineEntry'
+        transactionDurationInfo:
+          $ref: '#/definitions/TransactionDurationInfo'
+        obfuscated:
+          type: boolean
+          default: false
+        classVersion:
+          type: integer
+          format: int32
+          default: 1
+        geocodingMetadata:
+          $ref: '#/definitions/GeocodingMetadata'
+        autosortDetails:
+          $ref: '#/definitions/AutoSortDetails'
+        effectiveVolume:
+          $ref: '#/definitions/Volume'
+        effectiveWeight:
+          $ref: '#/definitions/Weight'
+        channelSelected:
+          type: boolean
+          default: false
+        amountInformation:
+          $ref: '#/definitions/OrderAmountInformation'
+        lineItemDetails:
+          $ref: '#/definitions/LineItemDetails'
+        promiseInformation:
+          $ref: '#/definitions/PromiseInformation'
+        boxDetailSummary:
+          $ref: '#/definitions/BoxDetailSummary'
+  OrderStatus:
+    description: Order status enum
+    type: string
+    enum:
+    - OPEN
+    - CONFIRMED
+    - PLANNING
+    - PLANNED
+    - ASSIGNED
+    - EXECUTING
+    - COMPLETED
+    - CANCELLED
+    - PARKED
+    - RECEIVED
+  LengthUnit:
+    description: Unit for length
+    type: string
+    enum:
+    - MM
+    - CM
+    - M
+    - IN
+    - FT
+    - YD
+    - KM
+    - MI
+  OrchestrationWaybillMetadata:
+    properties:
+      lineItemId:
+        type: string
+      waybillId:
+        type: string
+      waybillNumber:
+        type: string
+  OrderSubStatus:
+    description: Order sub status enum
+    type: string
+    enum:
+    - PENDING_ACCEPTANCE
+    - ACCEPTED
+    - PICKUP_ENROUTE
+    - SERVICE_ENROUTE
+    - PICKUP_REACHED
+    - SERVICE_REACHED
+    - PICKUP_ONGOING
+    - SERVICE_ONGOING
+    - PICKUP_DONE
+    - DROP_ENROUTE
+    - DROP_REACHED
+    - DROP_ONGOING
+    - DROP_DONE
+    - ATTEMPT_FAILED
+    - INBOUND_PENDING
+    - INBOUND_COMPLETED
+    - TOUR_STARTED
+    - IN_TRANSIT
+    - PARTIALLY_COMPLETED
+    - OUTBOUND_COMPLETED
+  LocationType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LocationType
+  MinimalContactPoint:
+    description: Contact point at a visit location.
+    properties:
+      name:
+        description: Name of contact
+        type: string
+      number:
+        description: Number for contact person
+        type: string
+      alternateNumber:
+        description: Alternate number for contact person
+        type: string
+      email:
+        description: Email of contact person
+        type: string
+      language:
+        description: Preferred communication language
+        type: string
+        default: en-US
+  GeocodingConfidence:
+    $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/GeocodingConfidence
+  DistributionChannel:
+    type: string
+    enum:
+    - TRACK_IQ
+    - SHIPFLEX
+    - TOUR_DISPATCH_MANAGEMENT
+    - OIQ
+  CreateOrderRequest:
+    description: Create order request
+    required:
+    - clientId
+    - id
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        type:
+          $ref: '#/definitions/OrderType'
+        sourceOrderId:
+          description: Order identifier in the client system
+          type: string
+        awbNumbers:
+          description: Air Waybill numbers of the order for tracking
+          type: array
+          items:
+            type: string
+        scanId:
+          description: Scan id of the task
+          type: string
+        teamId:
+          description: Team of carrier client to consider for this order assignment
+          type: string
+        lineItems:
+          type: array
+          items:
+            $ref: '#/definitions/MinimalLineItem'
+        skills:
+          description: List of skills
+          type: array
+          items:
+            type: string
+        homebaseId:
+          description: Master id for the homebase / warehouse
+          type: string
+        homebaseSlot:
+          $ref: '#/definitions/TimeSlot'
+        homebaseTransactionDuration:
+          description: Duration required for transaction at the pickup location, in seconds
+          type: integer
+          format: int32
+        visitName:
+          description: Custom name given to drop location by the client
+          type: string
+        locationId:
+          description: Master location id for the drop location
+          type: string
+        category:
+          description: order category
+          type: string
+        locationAddress:
+          $ref: '#/definitions/ExtendedStructuredAddress'
+        latLng:
+          $ref: '#/definitions/MinimalLatLng'
+        contactPoint:
+          $ref: '#/definitions/MinimalContactPoint'
+        slotId:
+          type: string
+        slot:
+          $ref: '#/definitions/TimeSlot'
+        slots:
+          description: List of available time slots for drop
+          type: array
+          items:
+            $ref: '#/definitions/TimeSlot'
+        transactionDuration:
+          description: Duration required for transaction at the drop location, in seconds
+          type: integer
+          format: int32
+        amountTransaction:
+          $ref: '#/definitions/AmountTransaction'
+        appFields:
+          $ref: '#/definitions/AppFields'
+        volume:
+          $ref: '#/definitions/Volume'
+        weight:
+          $ref: '#/definitions/Weight'
+        quantity:
+          $ref: '#/definitions/Quantity'
+        quantities:
+          type: array
+          items:
+            $ref: '#/definitions/Quantity'
+        priority:
+          description: Priority of the order
+          type: integer
+          format: int32
+        date:
+          type: string
+          description: Date as String in format "YYYY-MM-DD"
+        orderedOn:
+          description: Time of order creation on the client system
+          type: string
+          format: date-time
+        orderDate:
+          type: string
+          description: Date as String in format "YYYY-MM-DD"
+        customerPromisedDate:
+          description: Customer promised delivery date as String in format "YYYY-MM-DD"
+          type: string
+        customerPromisedDateTime:
+          description: Customer promised delivery date and time in ISO-8601 format
+          type: string
+          format: date-time
+        riderId:
+          type: string
+        transporterId:
+          type: string
+        bagDetails:
+          $ref: '#/definitions/BagDetails'
+        shipmentMetadata:
+          $ref: '#/definitions/ShipmentLegMetadata'
+        cratingInfo:
+          $ref: '#/definitions/CratingInfo'
+        preferredTransporterTypes:
+          type: array
+          items:
+            $ref: '#/definitions/TransporterType'
+        transporterType:
+          $ref: '#/definitions/TransporterType'
+        dlcRequestId:
+          type: string
+        sequence:
+          type: integer
+          format: int32
+          default: 1
+        lineItemDetails:
+          $ref: '#/definitions/CreateLineItemDetails'
+        isSealed:
+          type: boolean
+          default: false
+        promiseInformation:
+          $ref: '#/definitions/CreatePromiseInformationRequest'
+  MasterLineItemPart:
+    properties:
+      volume:
+        $ref: '#/definitions/PartItemVolume'
+      weight:
+        type: number
+        format: double
+      dimensions:
+        $ref: '#/definitions/OmsDimensions'
+  Distance:
+    properties:
+      value:
+        description: Calculated distance value.
+        type: number
+        format: double
+      unit:
+        $ref: '#/definitions/LengthUnit'
+  BaseCostBreakup:
+    type: object
+  TimelineEntry:
+    required:
+    - type
+    - updatedOn
+    - updatedBy
+    properties:
+      type:
+        description: Timeline entry type
+        type: string
+        default: STATUS_UPDATE
+        enum:
+        - STATUS_UPDATE
+        - VERIFIED
+        - RESCHEDULE
+        - NOTES_UPDATE
+        - TEAM_UPDATE
+        - DELIVERY_WINDOW_UPDATE
+        - PAYMENT_UPDATE
+        - EXECUTED_AMOUNT_UPDATE
+        - CURRENT_AMOUNT_UPDATE
+      channel:
+        $ref: '#/definitions/FulfillmentChannel'
+      orderStatus:
+        $ref: '#/definitions/OrderStatus'
+      orderSubStatus:
+        $ref: '#/definitions/OrderSubStatus'
+      updatedBy:
+        type: string
+      updatedOn:
+        type: string
+        format: date-time
+      eventTimestamp:
+        type: string
+        format: date-time
+      reasonCode:
+        $ref: '#/definitions/ReasonCode'
+      reasonDescription:
+        type: string
+      source:
+        description: Origin of the request (Dashboard, Application)
+        type: string
+      invalidEntry:
+        description: flag to denote out of order, async and other invalid entry
+        type: boolean
+        default: false
+      attributes:
+        type: object
+        additionalProperties:
+          type: object
+  TransactionChecklistItems:
+    properties:
+      outboundChecklist:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+      inboundChecklist:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+      assetInboundChecklist:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+      cashInboundChecklist:
+        type: array
+        items:
+          $ref: '#/definitions/ChecklistItem'
+  BagDetails:
+    description: object to store bagging related details on order
+    properties:
+      bagId:
+        type: string
+      bagEventId:
+        type: string
+      teams:
+        type: array
+        items:
+          type: string
+  OrderAmountInformation:
+    description: It represents all financial details of an order
+    properties:
+      amount:
+        $ref: '#/definitions/AmountDetails'
+      originalAmount:
+        $ref: '#/definitions/AmountDetails'
+      executedAmount:
+        $ref: '#/definitions/AmountDetails'
+      exchangeType:
+        $ref: '#/definitions/AmountExchangeType'
+      amountCollected:
+        $ref: '#/definitions/Amount'
+      pendingAmount:
+        $ref: '#/definitions/Amount'
+      reconciledAmount:
+        $ref: '#/definitions/Amount'
+      paymentStatus:
+        $ref: '#/definitions/OrderPaymentStatus'
+      paymentHistory:
+        type: array
+        items:
+          $ref: '#/definitions/Payment'
+      timeline:
+        type: array
+        items:
+          $ref: '#/definitions/AmountDetailsTimeline'
+  CancelOrderRequest:
+    properties:
+      reason:
+        $ref: '#/definitions/Reason'
+  StructuredAddress:
+    description: A real world address
+    properties:
+      id:
+        description: An id for the address
+        type: string
+      placeName:
+        description: Name of the place
+        type: string
+      localityName:
+        description: Name of the locality if available
+        type: string
+      formattedAddress:
+        description: Text representation of the address.
+        type: string
+      subLocalityName:
+        description: Name of the sub-locality if available
+        type: string
+      pincode:
+        description: Zipcode for the address
+        type: string
+      city:
+        description: City of the address
+        type: string
+      state:
+        description: State of the address
+        type: string
+      countryCode:
+        description: Country code to uniquely identify the country
+        type: string
+      locationType:
+        description: Possible values currently are STANDALONE_APARTMENT, GATED_COMMUNITY, INDEPENDENT_PREMISES
+        type: string
+      placeHash:
+        description: Hashed value of placeName for internal use
+        type: string
+      locationSource:
+        $ref: '#/definitions/LocationSource'
+      locationName:
+        description: Location name to be populated from location entity
+        type: string
+parameters:
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  OrderIdParam:
+    name: orderId
+    in: path
+    description: Id of the order
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

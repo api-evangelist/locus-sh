@@ -1,0 +1,534 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster OrderServiceability API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: OrderServiceability
+paths:
+  /client/{clientId}/get-slots:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    post:
+      summary: Get available future slots for the given order
+      operationId: getServiceableSlots
+      parameters:
+      - name: body
+        in: body
+        description: Order Details
+        required: true
+        schema:
+          $ref: '#/definitions/GetServiceableSlotsRequest'
+      tags:
+      - OrderServiceability
+      responses:
+        '200':
+          description: Information with all the available future slots
+          schema:
+            $ref: '#/definitions/GetSlotsResponse'
+      security:
+      - locusauth: []
+definitions:
+  TimeSlot:
+    $ref: https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot
+  MinimalLineItem:
+    description: A single item contained in the order
+    required:
+    - name
+    - quantity
+    properties:
+      id:
+        description: An identifier for the SKU. If provided, details related to line item will be populated using sku master of the client
+        type: string
+      lineItemId:
+        description: An identifier for the line item.
+        type: string
+      skuId:
+        description: An identifier for the line item.
+        type: string
+      packId:
+        description: A unique identifier of the line item, this is different from sku id. This would be unique across orders and only one qunatity of line item can exist with this id.
+        type: string
+      name:
+        description: Name of the item
+        type: string
+      description:
+        description: description of the item
+        type: string
+      handlingUnit:
+        $ref: '#/definitions/HandlingUnitEnum'
+        default: QUANTITY
+      quantity:
+        description: Quantity of the item
+        type: integer
+        format: int32
+        default: 0
+      quantityUnit:
+        type: string
+      price:
+        $ref: '#/definitions/Amount'
+      commodityCode:
+        $ref: '#/definitions/TransitCode'
+      parts:
+        type: array
+        items:
+          $ref: '#/definitions/LineItemPart'
+      customProperties:
+        description: Additional properties which clients wants to have along with standard entity properties
+        type: object
+        additionalProperties:
+          type: string
+      summary:
+        description: Summarized data of all line item parts
+        $ref: '#/definitions/LineItemSummary'
+      totalVolume:
+        description: total volume of the line item multiplied by it's quantity
+        $ref: '#/definitions/Volume'
+      totalWeight:
+        description: total weight of the line item multiplied by it's quantity
+        $ref: '#/definitions/Weight'
+      handlingUnits:
+        type: array
+        items:
+          $ref: '#/definitions/HandlingUnitEnum'
+      boxDetailSummary:
+        $ref: '#/definitions/BoxDetailSummary'
+      canRiderEdit:
+        description: flag to denote whether the rider is allowed to edit the line item
+        type: boolean
+        default: true
+  Weight:
+    description: Weight of order
+    required:
+    - value
+    - unit
+    properties:
+      value:
+        description: Value of the weight in the given unit.
+        type: string
+      unit:
+        $ref: '#/definitions/WeightUnit'
+  Volume:
+    description: Volume of an item
+    required:
+    - value
+    - unit
+    properties:
+      value:
+        description: Value of the volume in the given unit.
+        type: string
+      unit:
+        $ref: '#/definitions/VolumeUnit'
+  TransitCode:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+  BaseAmount:
+    description: Amount value of an item
+    properties:
+      amount:
+        type: number
+        format: double
+  HandlingUnitEnum:
+    description: delivery handling units to identify deliverable field
+    type: string
+    enum:
+    - QUANTITY
+    - WEIGHT
+    - VOLUME
+  LocationSource:
+    description: location provider source.
+    type: string
+    enum:
+    - LOCATION_MASTER
+  CapacityMetadata:
+    properties:
+      taskCount:
+        type: integer
+        format: int32
+        default: 0
+      utilisedVolume:
+        type: number
+        format: double
+        default: 0
+      utilisedWeight:
+        type: number
+        format: double
+        default: 0
+  OrderType:
+    $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
+  WeightUnit:
+    description: Unit for weight
+    type: string
+    enum:
+    - MG
+    - G
+    - KG
+    - T
+    - OZ
+    - LB
+  LengthUnit:
+    description: Unit for length
+    type: string
+    enum:
+    - MM
+    - CM
+    - M
+    - IN
+    - FT
+    - YD
+    - KM
+    - MI
+  MinimalLatLng:
+    description: A latitude, longitude pair
+    required:
+    - lat
+    - lng
+    properties:
+      lat:
+        type: number
+        format: double
+      lng:
+        type: number
+        format: double
+  VolumeUnit:
+    description: Unit for volume
+    type: string
+    enum:
+    - CMM
+    - CCM
+    - CC
+    - CM
+    - M3
+    - CIN
+    - CI
+    - CFT
+    - CF
+    - CYD
+    - IC
+    - TC
+    - L
+  AmountTransaction:
+    description: Transaction of an amount.
+    properties:
+      refId:
+        description: id of amount transaction
+        type: string
+      amount:
+        $ref: '#/definitions/Amount'
+      net:
+        $ref: '#/definitions/BaseAmount'
+      gross:
+        $ref: '#/definitions/BaseAmount'
+      exchangeType:
+        description: Type of transaction.
+        type: string
+        enum:
+        - COLLECT
+        - GIVE
+        - NONE
+  MinimalContactPoint:
+    description: Contact point at a visit location.
+    properties:
+      name:
+        description: Name of contact
+        type: string
+      number:
+        description: Number for contact person
+        type: string
+      alternateNumber:
+        description: Alternate number for contact person
+        type: string
+      email:
+        description: Email of contact person
+        type: string
+      language:
+        description: Preferred communication language
+        type: string
+        default: en-US
+  GetSlotsResponse:
+    description: Response with available time slots for the drop
+    required:
+    - slots
+    properties:
+      id:
+        description: Order id if provided
+        type: string
+      slots:
+        description: List of available time slots for the drop
+        type: array
+        items:
+          $ref: '#/definitions/DlcTimeSlot'
+      bestSlot:
+        description: Best available slot based on configured strategy
+        $ref: '#/definitions/DlcTimeSlot'
+  LineItemSummary:
+    properties:
+      totalWeight:
+        description: Sum of individual weights of all parts
+        $ref: '#/definitions/Weight'
+      totalVolume:
+        description: Sum of individual volumes of all parts
+        $ref: '#/definitions/Volume'
+      totalReweighCount:
+        type: integer
+        format: int32
+        default: 0
+  LineItemPart:
+    description: A part of the line item which can be shipped separately
+    required:
+    - volume
+    properties:
+      id:
+        type: string
+      volume:
+        $ref: '#/definitions/Volume'
+      weight:
+        $ref: '#/definitions/Weight'
+      originalWeight:
+        $ref: '#/definitions/Weight'
+      dimensions:
+        $ref: '#/definitions/OmsDimensions'
+      piecesCount:
+        type: integer
+        format: int32
+        default: 1
+  DlcTimeSlot:
+    description: Time slot for a delivery linked checkout (DLC)
+    required:
+    - score
+    properties:
+      slotId:
+        description: Id for the suggest slot for order
+        type: string
+      customerSlotId:
+        description: Id of the customer slot
+        type: string
+      timeSlot:
+        description: Time slot for the task
+        $ref: '#/definitions/TimeSlot'
+      score:
+        description: Score which signifies the difficulty of servicing the task. The higher the number, the more is the difficulty.
+        type: integer
+        format: int32
+        default: 1
+      energyDelta:
+        description: Energy delta which signifies energy change by servicing the task. The higher the number, the more is the difficulty.
+        type: number
+        format: double
+      arrivedEta:
+        type: string
+        format: date-time
+      completedEta:
+        type: string
+        format: date-time
+      averageSpeed:
+        type: number
+        format: double
+        description: Average tour speed for this promise route
+      plannedTreesOffset:
+        description: Denotes the trees required per year to offset planned carbon emissions for tour.
+        type: number
+        format: double
+      capacityMetadata:
+        $ref: '#/definitions/CapacityMetadata'
+  OmsDimensions:
+    description: Dimensions of an item
+    properties:
+      length:
+        description: Length of the item in meters
+        type: number
+        format: double
+      breadth:
+        description: Breadth of the item in meters
+        type: number
+        format: double
+      height:
+        description: Height of the item in meters
+        type: number
+        format: double
+      unit:
+        $ref: '#/definitions/LengthUnit'
+  GetServiceableSlotsRequest:
+    description: Get Serviceable Slot request
+    required:
+    - teamId
+    - type
+    - homebaseId
+    properties:
+      clientId:
+        description: Id of the client to which this entity belongs to
+        type: string
+      id:
+        description: A unique identifier for the order
+        type: string
+      customProperties:
+        description: Additional properties which clients wants to have along with standard entity properties
+        type: object
+        additionalProperties:
+          type: string
+      teamId:
+        description: Team of carrier client to consider for this order assignment
+        type: string
+      skills:
+        description: List of skills
+        type: array
+        items:
+          type: string
+      homebaseId:
+        description: Master id for the homebase / warehouse
+        type: string
+      homebaseTransactionDuration:
+        description: Duration required for transaction at the pickup location, in seconds
+        type: integer
+        format: int32
+      locationId:
+        description: Master location id for the drop location
+        type: string
+      transactionDuration:
+        description: Duration required for transaction at the drop location, in seconds
+        type: integer
+        format: int32
+      contactPoint:
+        $ref: '#/definitions/MinimalContactPoint'
+      priority:
+        description: Priority of the order
+        type: integer
+        format: int32
+      date:
+        type: string
+        description: Date as String in format "YYYY-MM-DD", indicates starting date from which serviceable slots are fetched
+      category:
+        description: order category
+        type: string
+      riderId:
+        type: string
+      type:
+        $ref: '#/definitions/OrderType'
+      lineItems:
+        type: array
+        items:
+          $ref: '#/definitions/MinimalLineItem'
+      locationAddress:
+        $ref: '#/definitions/StructuredAddress'
+      latLng:
+        $ref: '#/definitions/MinimalLatLng'
+      amountTransaction:
+        $ref: '#/definitions/AmountTransaction'
+      volume:
+        $ref: '#/definitions/Volume'
+      weight:
+        $ref: '#/definitions/Weight'
+      daysToQueryFor:
+        description: number of days indicates days in future for serviceable slots to be fetched
+        type: integer
+        format: int32
+      creationTime:
+        description: Timestamp for when the get slots request made, using the standard ISO 8601 format
+        type: string
+        format: date-time
+      slotSelectionStrategy:
+        $ref: '#/definitions/SlotSelectionStrategy'
+      preferredSlotIds:
+        description: List of slots ids chosen by customer
+        type: array
+        items:
+          type: string
+  BoxDetailSummary:
+    properties:
+      totalCases:
+        type: integer
+        format: int32
+      totalPieces:
+        type: integer
+        format: int32
+      quantityUnit:
+        type: string
+      boxUnit:
+        type: string
+  Amount:
+    description: Amount of an item
+    properties:
+      amount:
+        type: number
+        format: double
+      currency:
+        type: string
+        description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
+      symbol:
+        type: string
+        description: A symbol for the currency. If missing, will default to currency string
+  SlotSelectionStrategy:
+    type: string
+    enum:
+    - EARLIEST_START
+    - LEAST_ENERGY_DELTA
+    - LEAST_SCORE
+    - CUSTOMER_CHOSEN
+    - CUSTOMER_CHOSEN_EARLIEST
+    - CUSTOMER_CHOSEN_LEAST_SCORE
+    - CUSTOMER_CHOSEN_LEAST_ENERGY_DELTA
+  StructuredAddress:
+    description: A real world address
+    properties:
+      id:
+        description: An id for the address
+        type: string
+      placeName:
+        description: Name of the place
+        type: string
+      localityName:
+        description: Name of the locality if available
+        type: string
+      formattedAddress:
+        description: Text representation of the address.
+        type: string
+      subLocalityName:
+        description: Name of the sub-locality if available
+        type: string
+      pincode:
+        description: Zipcode for the address
+        type: string
+      city:
+        description: City of the address
+        type: string
+      state:
+        description: State of the address
+        type: string
+      countryCode:
+        description: Country code to uniquely identify the country
+        type: string
+      locationType:
+        description: Possible values currently are STANDALONE_APARTMENT, GATED_COMMUNITY, INDEPENDENT_PREMISES
+        type: string
+      placeHash:
+        description: Hashed value of placeName for internal use
+        type: string
+      locationSource:
+        $ref: '#/definitions/LocationSource'
+      locationName:
+        description: Location name to be populated from location entity
+        type: string
+parameters:
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

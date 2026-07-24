@@ -1,0 +1,107 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster VehicleModel API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: VehicleModel
+paths:
+  /client/{clientId}/vehicle-model/{vehicleModelId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/VehicleModelIdParam'
+    get:
+      summary: Get a vehicle model
+      operationId: getVehicleModel
+      parameters:
+      - name: include
+        in: query
+        description: Extra field that should be returned. Supported value is TRANSPORTERS
+        required: false
+        type: string
+      tags:
+      - VehicleModel
+      responses:
+        '200':
+          description: vehicle model object
+          schema:
+            $ref: '#/definitions/VehicleModel'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a vehicle model
+      operationId: createVehicleModel
+      parameters:
+      - name: vehicleModel
+        in: body
+        description: Create vehicle model request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateVehicleModelRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - VehicleModel
+      responses:
+        '200':
+          description: Created vehicle model
+          schema:
+            $ref: '#/definitions/VehicleModel'
+      security:
+      - locusauth: []
+  /client/{clientId}/vehicle-model/{vehicleModelId}/disable:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/VehicleModelIdParam'
+    post:
+      description: Disable a specific vehicle model
+      operationId: disableVehicleModel
+      tags:
+      - VehicleModel
+      responses:
+        '200':
+          description: Updated vehicle model
+          schema:
+            $ref: '#/definitions/VehicleModel'
+      security:
+      - locusauth: []
+definitions:
+  VehicleModel:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
+  CreateVehicleModelRequest:
+    description: Wrapper for create vehicle model request
+    allOf:
+    - $ref: '#/definitions/VehicleModel'
+    - type: object
+parameters:
+  VehicleModelIdParam:
+    name: vehicleModelId
+    in: path
+    description: Id of a vehicle model
+    required: true
+    type: string
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

@@ -1,0 +1,216 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster Roster API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Roster
+paths:
+  /client/{clientId}/roster/{rosterId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RosterIdParam'
+    get:
+      summary: Get Roster by Id
+      operationId: getRoster
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are RESOURCES.
+        required: false
+        type: string
+      tags:
+      - Roster
+      responses:
+        '200':
+          description: GetRosterResponse Object
+          schema:
+            $ref: '#/definitions/GetRosterResponse'
+      security:
+      - locusauth: []
+  /client/{clientId}/rosters-auto-create:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/OverwriteParam'
+    post:
+      summary: API Bulk create rosters for api integrated clients
+      operationId: createRostersApiRequest
+      parameters:
+      - name: CreateRostersApiRequest
+        in: body
+        description: Request body for api Integrated clients
+        required: true
+        schema:
+          $ref: '#/definitions/CreateRostersApiRequest'
+      tags:
+      - Roster
+      responses:
+        '200':
+          description: API Bulk create rosters response
+          schema:
+            $ref: '#/definitions/CreateRosterResponse'
+      security:
+      - locusauth: []
+  /client/{clientId}/roster/{rosterId}/disable:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RosterIdParam'
+    post:
+      description: Disable a specific roster
+      operationId: disableRoster
+      tags:
+      - Roster
+      responses:
+        '200':
+          description: Updated roster
+          schema:
+            $ref: '#/definitions/Roster'
+      security:
+      - locusauth: []
+definitions:
+  VehicleModelId:
+    type: object
+  CreateRosterShiftApiRequest:
+    description: Shift Roster request for bulk create
+    required:
+    - tagId
+    - start
+    properties:
+      tagId:
+        description: Shift Tag Id for the Roster
+        type: string
+      start:
+        $ref: '#/definitions/RosterShiftLocation'
+      end:
+        $ref: '#/definitions/RosterShiftLocation'
+      breaks:
+        type: array
+        description: List of Breaks for the Roster
+        items:
+          $ref: '#/definitions/CreateBreaksApiRequest'
+  CreateRosterResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CreateRosterResponse
+  RosterShiftLocation:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation
+  RosterEntityType:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterEntityType
+  SkillId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
+  Roster:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/Roster
+  CreateBreaksApiRequest:
+    description: Shift Roster request for bulk create
+    required:
+    - startTime
+    - endTime
+    - duration
+    - breakType
+    properties:
+      startTime:
+        description: Break Start Time
+        type: string
+      endTime:
+        description: Break End Time
+        type: string
+      duration:
+        description: Duration of break
+        type: string
+      breakType:
+        description: Type of break - LUNCH, REFUEL
+        type: string
+        enum:
+        - LUNCH
+        - REFUEL
+        - NIGHT
+        - OTHER
+        default: LUNCH
+  GetRosterResponse:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRosterResponse
+  CreateRostersApiRequest:
+    description: API Roster request for bulk create
+    required:
+    - clientId
+    - startDate
+    - endDate
+    - entityType
+    - teamId
+    - riderIds
+    - vehicleIds
+    - vehicleModelId
+    - daysOff
+    - shift
+    - applyToAll
+    properties:
+      clientId:
+        type: string
+      startDate:
+        description: Roster start date in YYYY-MM-DD format. Eg. 2021-11-18
+        type: string
+      endDate:
+        description: Roster end date in YYYY-MM-DD format. Eg. 2021-11-18
+        type: string
+      entityType:
+        description: Entity type for the roster
+        $ref: '#/definitions/RosterEntityType'
+      teamId:
+        description: Teams id for Roster Creation
+        type: string
+      riderIds:
+        description: List of Riders
+        type: array
+        items:
+          type: string
+      vehicleIds:
+        description: List of Vehicles
+        type: array
+        items:
+          type: string
+      applyToAll:
+        type: boolean
+        default: false
+      vehicleModelId:
+        $ref: '#/definitions/VehicleModelId'
+      daysOff:
+        description: List of Days Off for Roster Creation
+        type: array
+        items:
+          type: string
+      shift:
+        $ref: '#/definitions/CreateRosterShiftApiRequest'
+      skills:
+        type: array
+        items:
+          $ref: '#/definitions/SkillId'
+parameters:
+  RosterIdParam:
+    name: rosterId
+    in: path
+    description: Id of roster
+    required: true
+    type: string
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

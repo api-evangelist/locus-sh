@@ -1,0 +1,104 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster LocationMaster API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: LocationMaster
+paths:
+  /client/{clientId}/location/{locationId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/LocationIdParam'
+    get:
+      summary: Get a location
+      operationId: getLocation
+      tags:
+      - LocationMaster
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are CONTACT.
+        required: false
+        type: string
+      responses:
+        '200':
+          description: location object
+          schema:
+            $ref: '#/definitions/MasterLocation'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a location
+      operationId: createLocation
+      parameters:
+      - name: location
+        in: body
+        description: Create location request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateLocationRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - LocationMaster
+      responses:
+        '200':
+          description: Created location
+          schema:
+            $ref: '#/definitions/MasterLocation'
+      security:
+      - locusauth: []
+  /client/{clientId}/location/{locationId}/disable:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/LocationIdParam'
+    post:
+      description: Disable a specific location
+      operationId: disableLocation
+      tags:
+      - LocationMaster
+      responses:
+        '200':
+          description: Updated location
+          schema:
+            $ref: '#/definitions/MasterLocation'
+      security:
+      - locusauth: []
+definitions:
+  CreateLocationRequest:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CreateLocationRequest
+  MasterLocation:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLocation
+parameters:
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+  LocationIdParam:
+    name: locationId
+    in: path
+    description: Id of the location
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

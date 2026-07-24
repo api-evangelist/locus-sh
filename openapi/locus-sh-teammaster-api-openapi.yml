@@ -1,0 +1,205 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster TeamMaster API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: TeamMaster
+paths:
+  /client/{clientId}/team-master/{teamId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TeamIdParam'
+    get:
+      summary: Get a team
+      operationId: getTeam
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are BUSINESS_UNIT, PREFERENCES.
+        type: string
+      tags:
+      - TeamMaster
+      responses:
+        '200':
+          description: team object
+          schema:
+            $ref: '#/definitions/Team'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a team
+      operationId: createTeam
+      parameters:
+      - name: team
+        in: body
+        description: Create team request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateTeamRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - TeamMaster
+      responses:
+        '200':
+          description: Created team
+          schema:
+            $ref: '#/definitions/Team'
+      security:
+      - locusauth: []
+  /client/{clientId}/team-master/{teamId}/status:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TeamIdParam'
+    post:
+      description: Update status for a specific team
+      operationId: updateTeamStatus
+      parameters:
+      - name: status
+        in: body
+        description: Updated status of team
+        required: true
+        schema:
+          $ref: '#/definitions/EntityStatusUpdateRequest'
+      tags:
+      - TeamMaster
+      responses:
+        '200':
+          description: Updated team
+          schema:
+            $ref: '#/definitions/Team'
+      security:
+      - locusauth: []
+definitions:
+  CityId:
+    description: An id for a city
+    required:
+    - cityId
+    properties:
+      cityId:
+        type: string
+  EntityStatusUpdateRequest:
+    description: Wrapper for entity status update request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/EntityStatus'
+  IndustryType:
+    type: object
+  BusinessUnit:
+    description: Business unit of the client
+    required:
+    - clientId
+    - businessUnitId
+    - name
+    - shortName
+    - status
+    - version
+    properties:
+      clientId:
+        type: string
+      businessUnitId:
+        type: string
+      name:
+        description: Name of business unit
+        type: string
+      shortName:
+        description: Short name of business unit
+        type: string
+      description:
+        description: Description of business unit
+        type: string
+      status:
+        $ref: '#/definitions/BusinessUnitStatusEnum'
+      industryType:
+        $ref: '#/definitions/IndustryType'
+      color:
+        type: string
+      version:
+        type: integer
+        format: int32
+  EntityDefinition:
+    type: object
+  CreateTeamRequest:
+    description: Team entity create request
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        businessUnitId:
+          $ref: '#/definitions/BusinessUnitId'
+        cityId:
+          $ref: '#/definitions/CityId'
+        color:
+          description: Color of the team
+          type: string
+  Team:
+    description: Team entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        businessUnitId:
+          $ref: '#/definitions/BusinessUnitId'
+        businessUnit:
+          $ref: '#/definitions/BusinessUnit'
+        cityId:
+          $ref: '#/definitions/CityId'
+        color:
+          description: Color of the team
+          type: string
+        shortCode:
+          description: unique 4 character identifier for a team
+          type: string
+  EntityStatus:
+    type: object
+  BusinessUnitStatusEnum:
+    description: Operational status of the business unit
+    type: string
+    default: ACTIVE
+    enum:
+    - ACTIVE
+    - INACTIVE
+  BusinessUnitId:
+    required:
+    - clientId
+    - businessUnitId
+    properties:
+      clientId:
+        type: string
+      businessUnitId:
+        type: string
+parameters:
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  TeamIdParam:
+    name: teamId
+    in: path
+    description: Id of the team
+    required: true
+    type: string
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

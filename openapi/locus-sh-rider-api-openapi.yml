@@ -1,0 +1,112 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster Rider API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Rider
+paths:
+  /client/{clientId}/rider/{riderId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RiderIdParam'
+    get:
+      summary: Get a rider
+      operationId: getRider
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are SHIFTS, SALES_CATEGORIES, RIDER_PERSONA
+        required: false
+        type: string
+      tags:
+      - Rider
+      responses:
+        '200':
+          description: rider object
+          schema:
+            $ref: '#/definitions/Rider'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a rider
+      operationId: createRider
+      parameters:
+      - name: rider
+        in: body
+        description: Create rider request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateRiderRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - Rider
+      responses:
+        '200':
+          description: Created rider
+          schema:
+            $ref: '#/definitions/Rider'
+      security:
+      - locusauth: []
+  /client/{clientId}/rider/{riderId}/disable:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RiderIdParam'
+    post:
+      description: Disable a specific rider
+      operationId: disableRider
+      tags:
+      - Rider
+      responses:
+        '200':
+          description: Updated rider
+          schema:
+            $ref: '#/definitions/Rider'
+      security:
+      - locusauth: []
+definitions:
+  Rider:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider
+  CreateRiderRequest:
+    description: Wrapper for rider create request
+    allOf:
+    - $ref: '#/definitions/Rider'
+    - type: object
+      properties:
+        retainAuth:
+          description: Boolean to indicate if Auth should be retained if already generated
+          type: boolean
+          default: true
+parameters:
+  RiderIdParam:
+    name: riderId
+    in: path
+    description: Id of the rider
+    required: true
+    type: string
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

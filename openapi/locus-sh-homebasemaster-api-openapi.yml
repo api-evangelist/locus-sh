@@ -1,0 +1,110 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: HomebaseMaster
+paths:
+  /client/{clientId}/homebase-master/{homebaseId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/HomebaseIdParam'
+    get:
+      summary: Get a homebase
+      operationId: getHomebase
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are CONTACT.
+        type: string
+      tags:
+      - HomebaseMaster
+      responses:
+        '200':
+          description: Homebase object
+          schema:
+            $ref: '#/definitions/Homebase'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a homebase
+      operationId: createHomebase
+      parameters:
+      - name: homebase
+        in: body
+        description: Create homebase request
+        required: true
+        schema:
+          $ref: '#/definitions/Homebase'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - HomebaseMaster
+      responses:
+        '200':
+          description: Created homebase
+          schema:
+            $ref: '#/definitions/Homebase'
+      security:
+      - locusauth: []
+  /client/{clientId}/homebase-master/{homebaseId}/status:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/HomebaseIdParam'
+    post:
+      description: Update status for a specific homebase
+      operationId: updateHomebaseStatus
+      parameters:
+      - name: status
+        in: body
+        description: Updated status of homebase
+        required: true
+        schema:
+          $ref: '#/definitions/EntityStatusUpdateRequest'
+      tags:
+      - HomebaseMaster
+      responses:
+        '200':
+          description: Updated homebases
+          schema:
+            $ref: '#/definitions/Homebase'
+      security:
+      - locusauth: []
+definitions:
+  EntityStatusUpdateRequest:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/EntityStatusUpdateRequest
+  Homebase:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Homebase
+parameters:
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+  HomebaseIdParam:
+    name: homebaseId
+    in: path
+    description: Id of homebase
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

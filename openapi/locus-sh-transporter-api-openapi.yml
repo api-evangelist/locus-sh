@@ -1,0 +1,107 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster Transporter API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Transporter
+paths:
+  /client/{clientId}/transporter/{transporterId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TransporterIdParam'
+    get:
+      summary: Get a transporter
+      operationId: getTransporter
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are CONTACT
+        required: false
+        type: string
+      tags:
+      - Transporter
+      responses:
+        '200':
+          description: transporter object
+          schema:
+            $ref: '#/definitions/Transporter'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a transporter
+      operationId: createTransporter
+      parameters:
+      - name: transporter
+        in: body
+        description: Create transporter request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateTransporterRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - Transporter
+      responses:
+        '200':
+          description: Created transporter
+          schema:
+            $ref: '#/definitions/Transporter'
+      security:
+      - locusauth: []
+  /client/{clientId}/transporter/{transporterId}/disable:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TransporterIdParam'
+    post:
+      description: Disable a specific transporter
+      operationId: disableTransporter
+      tags:
+      - Transporter
+      responses:
+        '200':
+          description: Updated transporter
+          schema:
+            $ref: '#/definitions/Transporter'
+      security:
+      - locusauth: []
+definitions:
+  CreateTransporterRequest:
+    description: Wrapper for transporter create request
+    allOf:
+    - $ref: '#/definitions/Transporter'
+    - type: object
+  Transporter:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
+parameters:
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+  TransporterIdParam:
+    name: transporterId
+    in: path
+    description: Id of the transporter
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

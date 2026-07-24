@@ -1,0 +1,101 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster ShiftTag API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: ShiftTag
+paths:
+  /client/{clientId}/shift-manager/{tagId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TagIdParam'
+    get:
+      summary: fetch shiftTag by id
+      operationId: getShiftTag
+      parameters:
+      - name: include
+        in: query
+        description: Extra fields that should be returned.
+        type: string
+      tags:
+      - ShiftTag
+      responses:
+        '200':
+          description: ShiftTag object
+          schema:
+            $ref: '#/definitions/ShiftTag'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a given shiftTag
+      operationId: createShiftTag
+      parameters:
+      - name: shiftTag
+        in: body
+        description: Create shift tag request
+        required: true
+        schema:
+          $ref: '#/definitions/ShiftTag'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - ShiftTag
+      responses:
+        '200':
+          description: ShiftTag object
+          schema:
+            $ref: '#/definitions/ShiftTag'
+      security:
+      - locusauth: []
+  /client/{clientId}/shift-manager/{tagId}/disable:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TagIdParam'
+    post:
+      description: Disable a specific Shift Tag
+      operationId: disableShiftTag
+      tags:
+      - ShiftTag
+      responses:
+        '200':
+          description: Updated shiftTag object
+          schema:
+            $ref: '#/definitions/ShiftTag'
+      security:
+      - locusauth: []
+definitions:
+  ShiftTag:
+    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTag
+parameters:
+  TagIdParam:
+    name: tagId
+    in: path
+    description: Id of the shiftTag
+    required: true
+    type: string
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

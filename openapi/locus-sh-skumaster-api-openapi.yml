@@ -1,0 +1,104 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster SKUMaster API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: SKUMaster
+paths:
+  /client/{clientId}/lineitem/{lineItemId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/LineItemIdParam'
+    get:
+      summary: Get a line item
+      operationId: getLineItem
+      tags:
+      - SKUMaster
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are LOCATIONS.
+        required: false
+        type: string
+      responses:
+        '200':
+          description: Line item object
+          schema:
+            $ref: '#/definitions/MasterLineItem'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a line item
+      operationId: createLineItem
+      parameters:
+      - name: lineItem
+        in: body
+        description: Create line item request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateLineItemRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - SKUMaster
+      responses:
+        '200':
+          description: Created line item
+          schema:
+            $ref: '#/definitions/MasterLineItem'
+      security:
+      - locusauth: []
+  /client/{clientId}/lineitem/{lineItemId}/disable:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/LineItemIdParam'
+    post:
+      description: Disable a specific line item
+      operationId: disableLineItem
+      tags:
+      - SKUMaster
+      responses:
+        '200':
+          description: Updated line item
+          schema:
+            $ref: '#/definitions/MasterLineItem'
+      security:
+      - locusauth: []
+definitions:
+  CreateLineItemRequest:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CreateLineItemRequest
+  MasterLineItem:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLineItem
+parameters:
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+  LineItemIdParam:
+    name: lineItemId
+    in: path
+    description: Id of the line item
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

@@ -1,0 +1,231 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster Vehicle API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Vehicle
+paths:
+  /client/{clientId}/vehicle/{vehicleId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/VehicleIdParam'
+    get:
+      summary: Get a vehicle by id
+      operationId: getVehicle
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are SHIFTS, TRANSPORTER, RIDER, VEHICLE_MODEL.
+        required: false
+        type: string
+      tags:
+      - Vehicle
+      responses:
+        '200':
+          description: Desired vehicle
+          schema:
+            $ref: '#/definitions/Vehicle'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a new vehicle
+      operationId: createVehicle
+      parameters:
+      - name: vehicle
+        in: body
+        description: Vehicle create request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateVehicleRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - Vehicle
+      responses:
+        '200':
+          description: Created vehicle
+          schema:
+            $ref: '#/definitions/Vehicle'
+      security:
+      - locusauth: []
+  /client/{clientId}/vehicle/{vehicleId}/disable:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/VehicleIdParam'
+    post:
+      description: Disable a specific vehicle
+      operationId: disableVehicle
+      tags:
+      - Vehicle
+      responses:
+        '200':
+          description: Updated vehicle
+          schema:
+            $ref: '#/definitions/Vehicle'
+      security:
+      - locusauth: []
+definitions:
+  Transporter:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
+  VehicleModelId:
+    type: object
+  TransporterId:
+    type: object
+  FleetType:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FleetType
+  VehicleCostModel:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleCostModel
+  VehicleModel:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
+  CreateVehicleRequest:
+    description: Wrapper for vehicle create request
+    allOf:
+    - $ref: '#/definitions/Vehicle'
+    - type: object
+  TeamId:
+    type: object
+  ResourceLimit:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ResourceLimit
+  RiderId:
+    type: object
+  EntityDefinition:
+    type: object
+  SkillId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
+  LDate:
+    type: object
+  Shift:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Shift
+  Rider:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider
+  Vehicle:
+    description: Details of a vehicle entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      required:
+      - id
+      - vehicleModelId
+      properties:
+        vehicleModelId:
+          $ref: '#/definitions/VehicleModelId'
+        vehicleModel:
+          description: Read-only field. Refer to VehicleModel Apis to update
+          $ref: '#/definitions/VehicleModel'
+        transporterId:
+          $ref: '#/definitions/TransporterId'
+        transporter:
+          description: Read-only field. Refer to Transporter Apis to update
+          $ref: '#/definitions/Transporter'
+        riderId:
+          $ref: '#/definitions/RiderId'
+        rider:
+          description: Read-only field. Refer to Rider Apis to update
+          $ref: '#/definitions/Rider'
+        vehicleCostModel:
+          $ref: '#/definitions/VehicleCostModel'
+        teams:
+          description: List of teams who use the vehicle
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        skills:
+          description: List of skill ids vehicle possesses
+          type: array
+          items:
+            $ref: '#/definitions/SkillId'
+        shiftIds:
+          description: List of working shifts
+          type: array
+          items:
+            $ref: '#/definitions/ShiftId'
+        shifts:
+          description: Read-only field. Refer to Shift Apis to update
+          type: array
+          items:
+            $ref: '#/definitions/Shift'
+        resourceLimits:
+          description: Limits on the resources with the vehicle
+          type: array
+          items:
+            $ref: '#/definitions/ResourceLimit'
+        manufacturingDate:
+          description: Date of manufacture of the vehicle
+          $ref: '#/definitions/LDate'
+        isColdChain:
+          type: boolean
+        unladenWeight:
+          description: Weight of Unloaded Vehicle in KGs
+          type: integer
+          format: int32
+        fuelType:
+          type: string
+          enum:
+          - PETROL
+          - DIESEL
+          - CNG
+          - ELECTRIC
+        mileage:
+          description: Odometer mileage for the vehicle
+          type: number
+          format: double
+        userCount:
+          description: Number of FEs available with this vehicle. This determines the no. of deliveries vehicle can do in parallel, at the same location.
+          type: integer
+          format: int32
+          default: 1
+        documents:
+          description: Official documents registered with the transporter
+          type: array
+          items:
+            $ref: '#/definitions/Document'
+        baseLocations:
+          $ref: '#/definitions/BaseLocations'
+        fleetType:
+          $ref: '#/definitions/FleetType'
+        registrationNumber:
+          description: Registered identifier of the vehicle
+          type: string
+        isActive:
+          description: Status Field for transporter
+          type: boolean
+          default: true
+  Document:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Document
+  ShiftId:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftId
+  BaseLocations:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BaseLocations
+parameters:
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+  VehicleIdParam:
+    name: vehicleId
+    in: path
+    description: Id of the vehicle
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

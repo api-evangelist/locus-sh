@@ -1,0 +1,107 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster RiderPersona API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: RiderPersona
+paths:
+  /client/{clientId}/rider-persona/{riderPersonaId}:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RiderPersonaIdParam'
+    get:
+      summary: Get a rider persona by id
+      operationId: getRiderPersona
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are TRANSPORTER.
+        required: false
+        type: string
+      tags:
+      - RiderPersona
+      responses:
+        '200':
+          description: Desired rider persona
+          schema:
+            $ref: '#/definitions/RiderPersona'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a new rider persona
+      operationId: createRiderPersona
+      parameters:
+      - name: riderPersona
+        in: body
+        description: Rider persona create request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateRiderPersonaRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - RiderPersona
+      responses:
+        '200':
+          description: Created rider persona
+          schema:
+            $ref: '#/definitions/RiderPersona'
+      security:
+      - locusauth: []
+  /client/{clientId}/rider-persona/{riderPersonaId}/disable:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/RiderPersonaIdParam'
+    post:
+      description: Disable a specific rider persona
+      operationId: disableRiderPersona
+      tags:
+      - RiderPersona
+      responses:
+        '200':
+          description: Updated rider persona
+          schema:
+            $ref: '#/definitions/RiderPersona'
+      security:
+      - locusauth: []
+definitions:
+  CreateRiderPersonaRequest:
+    description: Wrapper for rider persona create request
+    allOf:
+    - $ref: '#/definitions/RiderPersona'
+    - type: object
+  RiderPersona:
+    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderPersona
+parameters:
+  RiderPersonaIdParam:
+    name: riderPersonaId
+    in: path
+    description: Id of the rider persona
+    required: true
+    type: string
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization

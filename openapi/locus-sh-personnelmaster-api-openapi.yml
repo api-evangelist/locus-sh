@@ -1,0 +1,281 @@
+swagger: '2.0'
+info:
+  title: Locus HomebaseMaster PersonnelMaster API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: PersonnelMaster
+paths:
+  /client/{clientId}/personnel-master/create-compact:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    post:
+      summary: Create personnel with minimal request
+      description: Create personnel in the system, with minimal fields required
+      operationId: createPersonnelCompact
+      parameters:
+      - name: body
+        in: body
+        description: Request object
+        required: true
+        schema:
+          $ref: '#/definitions/CompactCreatePersonnelRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - PersonnelMaster
+      responses:
+        '200':
+          description: Personnel object
+          schema:
+            $ref: '#/definitions/PersonnelResponse'
+      security:
+      - locusauth: []
+  /client/{clientId}/personnel-master/{personnelId}/status:
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/PersonnelIdParam'
+    post:
+      summary: Update personnel status
+      description: Enable or disable the personnel
+      operationId: updatePersonnelStatus
+      parameters:
+      - name: body
+        in: body
+        description: Request object
+        required: true
+        schema:
+          $ref: '#/definitions/EntityStatusUpdateRequest'
+      tags:
+      - PersonnelMaster
+      responses:
+        '200':
+          description: Personnel object
+          schema:
+            $ref: '#/definitions/PersonnelResponse'
+      security:
+      - locusauth: []
+definitions:
+  PersonnelResponse:
+    description: Wrapper for personnel create request
+    allOf:
+    - $ref: '#/definitions/BasePersonnel'
+    - type: object
+      properties:
+        accessType:
+          $ref: '#/definitions/AccessType'
+        authToken:
+          $ref: '#/definitions/AuthToken'
+        role:
+          description: Role assigned to personnel
+          type: string
+        businessUnitIds:
+          description: Id of the business units to which personnel belongs.
+          type: array
+          items:
+            $ref: '#/definitions/BusinessUnitId'
+  AuthToken:
+    required:
+    - token
+    - userId
+    - authProvider
+    properties:
+      token:
+        type: string
+      userId:
+        type: string
+      authProvider:
+        type: string
+        enum:
+        - TAXY_CLIENT
+  EntityStatus:
+    type: object
+  MasterRole:
+    description: Role Master entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      required:
+      - id
+      properties:
+        allowedOperations:
+          type: array
+          items:
+            type: string
+        roleType:
+          $ref: '#/definitions/RoleType'
+  TransporterId:
+    type: object
+  RoleMasterId:
+    type: object
+  PhoneNumber:
+    description: Phone number information
+    required:
+    - phoneNumber
+    properties:
+      phoneNumber:
+        type: string
+      isVerified:
+        description: Flag to denote if rider's phone number is verified
+        type: boolean
+        default: false
+      verifiedAt:
+        description: Timestamp of verification of phone number
+        type: string
+        format: date-time
+  EntityStatusUpdateRequest:
+    description: Wrapper for entity status update request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/EntityStatus'
+  CompactCreatePersonnelRequest:
+    description: Minimal request for creating personnels
+    required:
+    - id
+    - name
+    - email
+    - role
+    - teams
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      email:
+        type: string
+      role:
+        type: string
+      hasAllTeamsAccess:
+        description: Boolean indicating whether the personnel has access to all teams or not
+        type: boolean
+        default: false
+      teams:
+        description: Ids of the teams to which this personnel belongs
+        type: array
+        items:
+          type: string
+      customProperties:
+        description: Additional properties which clients wants to have along with standard entity properties
+        type: object
+        additionalProperties:
+          type: string
+  PersonnelType:
+    type: object
+  AccessType:
+    description: User's access
+    type: string
+    enum:
+    - READ
+    - WRITE
+  TeamId:
+    type: object
+  RoleType:
+    type: string
+    enum:
+    - CLIENT_PERSONNEL
+    - TRANSPORTER_PERSONNEL
+    - RIDER
+    - CLIENT
+    - SYSTEM
+    - API_CREDENTIAL
+  BasePersonnel:
+    description: Base class for personnel related models
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        email:
+          $ref: '#/definitions/EmailAddress'
+        phone:
+          $ref: '#/definitions/PhoneNumber'
+        photoUrl:
+          type: string
+        personnelType:
+          description: Type of personnel
+          $ref: '#/definitions/PersonnelType'
+        roleMasterId:
+          $ref: '#/definitions/RoleMasterId'
+        roleMaster:
+          $ref: '#/definitions/MasterRole'
+        teams:
+          description: Ids of the teams to which this personnel belongs
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        transporters:
+          description: Ids of the transporters which this personnel has access to
+          type: array
+          items:
+            $ref: '#/definitions/TransporterId'
+        hasAllTeamsAccess:
+          description: Boolean indicating whether the personnel has access to all teams or not
+          type: boolean
+          default: false
+        canManageEntities:
+          description: Boolean indicating whether the personnel can manage entities or not. Only personnel with write access can have manage permission
+          type: boolean
+          default: false
+        canVerifyEntities:
+          description: Boolean indicating whether the personnel can verify entities or not. Only personnel with write access can have verify permission
+          type: boolean
+          default: false
+        canManagePersonnel:
+          description: Boolean indicating whether the personnel can manage entities or not. Only personnel with write access can have manage permission
+          type: boolean
+          default: false
+        language:
+          description: Language preference of the personnel
+          type: string
+        customRole:
+          description: Client specified custom role of personnel
+          type: string
+        timezone:
+          description: Time zone of the personnel
+          type: string
+  EntityDefinition:
+    type: object
+  EmailAddress:
+    type: object
+  BusinessUnitId:
+    required:
+    - clientId
+    - businessUnitId
+    properties:
+      clientId:
+        type: string
+      businessUnitId:
+        type: string
+parameters:
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  PersonnelIdParam:
+    name: personnelId
+    in: path
+    description: Id of the personnel
+    required: true
+    type: string
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization
