@@ -30,7 +30,19 @@ tags:
 - E-Commerce
 - Artificial Intelligence
 - India
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/locus-sh.png
 url: https://raw.githubusercontent.com/api-evangelist/locus-sh/refs/heads/main/apis.yml
 created: '2026-05-25'
 modified: '2026-05-25'
@@ -38,69 +50,391 @@ specificationVersion: '0.20'
 position: Provider
 access: 3rd-Party
 apis:
-- aid: locus-sh:locus-order-management-api
-  name: Locus Order Management API
-  description: Manage the delivery order lifecycle on the Locus OMS — create, retrieve,
-    cancel, complete, open, park, reschedule, and verify inventory for client orders,
-    plus look up delivery slots and configure service types. Base URL https://oms.locus-api.com/v1.
-  humanURL: https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+- aid: locus-sh:locus-sh-homebasemaster-api
+  name: Locus HomebaseMaster API
+  description: The HomebaseMaster API from Locus — 2 operation(s) for homebasemaster.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   baseURL: https://oms.locus-api.com/v1
   tags:
-  - Order Management
-  - Orders
-  - Delivery Slots
-  - Service Types
+  - HomebaseMaster
   properties:
-  - type: Documentation
-    url: https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: OpenAPI
-    url: openapi/locus-oms-openapi.yml
+    url: openapi/locus-sh-homebasemaster-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - url: graphql/locus-sh-graphql.md
-    type: GraphQL
-- aid: locus-sh:locus-entity-management-api
-  name: Locus Entity Management API
-  description: 'Manage core delivery-domain entities on the Locus platform: locations,
-    riders, rider personas, rosters (including auto-create), shift managers, transporters,
-    vehicles, vehicle models, homebases, and line items. Each entity supports create/update,
-    fetch, and disable operations against base URL https://locus-api.com/v1.'
-  humanURL: https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
-  baseURL: https://locus-api.com/v1
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-locationmaster-api
+  name: Locus LocationMaster API
+  description: The LocationMaster API from Locus — 2 operation(s) for locationmaster.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
   tags:
-  - Entities
-  - Riders
-  - Vehicles
-  - Locations
-  - Rosters
-  - Transporters
-  - Homebase
-  - Line Items
+  - LocationMaster
   properties:
-  - type: Documentation
-    url: https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
   - type: OpenAPI
-    url: openapi/locus-entities-openapi.yml
+    url: openapi/locus-sh-locationmaster-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-- aid: locus-sh:locus-platform-entities-api
-  name: Locus Platform Entities API
-  description: Manage personnel and team master records on the Locus platform service.
-    Provides a compact personnel-create operation, personnel and team status management,
-    and team master upserts against base URL https://platform.locus-api.com/v1.
-  humanURL: https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
-  baseURL: https://platform.locus-api.com/v1
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-order-api
+  name: Locus Order API
+  description: The Order API from Locus — 8 operation(s) for order.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
   tags:
-  - Platform
-  - Personnel
-  - Teams
+  - Order
   properties:
-  - type: Documentation
-    url: https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
   - type: OpenAPI
-    url: openapi/locus-platform-openapi.yml
+    url: openapi/locus-sh-order-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-orderserviceability-api
+  name: Locus OrderServiceability API
+  description: The OrderServiceability API from Locus — 1 operation(s) for orderserviceability.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - OrderServiceability
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-orderserviceability-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-personnelmaster-api
+  name: Locus PersonnelMaster API
+  description: The PersonnelMaster API from Locus — 2 operation(s) for personnelmaster.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - PersonnelMaster
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-personnelmaster-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-rider-api
+  name: Locus Rider API
+  description: The Rider API from Locus — 2 operation(s) for rider.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - Rider
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-rider-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-riderpersona-api
+  name: Locus RiderPersona API
+  description: The RiderPersona API from Locus — 2 operation(s) for riderpersona.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - RiderPersona
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-riderpersona-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-roster-api
+  name: Locus Roster API
+  description: The Roster API from Locus — 3 operation(s) for roster.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - Roster
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-roster-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-servicetype-api
+  name: Locus ServiceType API
+  description: The ServiceType API from Locus — 1 operation(s) for servicetype.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - ServiceType
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-servicetype-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-servicetypeconfiguration-api
+  name: Locus ServiceTypeConfiguration API
+  description: >-
+    The ServiceTypeConfiguration API from Locus — 1 operation(s) for servicetypeconfiguration.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - ServiceTypeConfiguration
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-servicetypeconfiguration-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-shifttag-api
+  name: Locus ShiftTag API
+  description: The ShiftTag API from Locus — 2 operation(s) for shifttag.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - ShiftTag
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-shifttag-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-skumaster-api
+  name: Locus SKUMaster API
+  description: The SKUMaster API from Locus — 2 operation(s) for skumaster.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - SKUMaster
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-skumaster-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-teammaster-api
+  name: Locus TeamMaster API
+  description: The TeamMaster API from Locus — 2 operation(s) for teammaster.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - TeamMaster
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-teammaster-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-transporter-api
+  name: Locus Transporter API
+  description: The Transporter API from Locus — 2 operation(s) for transporter.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - Transporter
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-transporter-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-vehicle-api
+  name: Locus Vehicle API
+  description: The Vehicle API from Locus — 2 operation(s) for vehicle.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - Vehicle
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-vehicle-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-vehiclemodel-api
+  name: Locus VehicleModel API
+  description: The VehicleModel API from Locus — 2 operation(s) for vehiclemodel.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - VehicleModel
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-vehiclemodel-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
 common:
 - type: AgenticAccess
   url: agentic-access/locus-sh-agentic-access.yml
