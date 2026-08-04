@@ -1,0 +1,1207 @@
+swagger: '2.0'
+info:
+  title: Locus API
+  description: Manage your deliveries with the Locus API
+  version: 1.0.0
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  locusauth:
+    type: basic
+    description: HTTP Basic Authentication
+  apiKeyAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+paths:
+  /client/{clientId}/personnel-master/create-compact:
+    post:
+      summary: Create personnel with minimal request
+      description: Create personnel in the system, with minimal fields required
+      operationId: createPersonnelCompact
+      parameters:
+      - name: body
+        in: body
+        description: Request object
+        required: true
+        schema:
+          $ref: '#/definitions/CompactCreatePersonnelRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - PersonnelMaster
+      responses:
+        '200':
+          description: Personnel object
+          schema:
+            $ref: '#/definitions/PersonnelResponse'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+  /client/{clientId}/personnel-master/{personnelId}/status:
+    post:
+      summary: Update personnel status
+      description: Enable or disable the personnel
+      operationId: updatePersonnelStatus
+      parameters:
+      - name: body
+        in: body
+        description: Request object
+        required: true
+        schema:
+          $ref: '#/definitions/EntityStatusUpdateRequest'
+      tags:
+      - PersonnelMaster
+      responses:
+        '200':
+          description: Personnel object
+          schema:
+            $ref: '#/definitions/PersonnelResponse'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/PersonnelIdParam'
+  /client/{clientId}/team-master/{teamId}:
+    get:
+      summary: Get a team
+      operationId: getTeam
+      parameters:
+      - name: include
+        in: query
+        description: Comma separated list of extra fields that should be returned. Supported values are BUSINESS_UNIT, PREFERENCES.
+        type: string
+      tags:
+      - TeamMaster
+      responses:
+        '200':
+          description: team object
+          schema:
+            $ref: '#/definitions/Team'
+      security:
+      - locusauth: []
+    put:
+      summary: Create a team
+      operationId: createTeam
+      parameters:
+      - name: team
+        in: body
+        description: Create team request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateTeamRequest'
+      - $ref: '#/parameters/OverwriteParam'
+      tags:
+      - TeamMaster
+      responses:
+        '200':
+          description: Created team
+          schema:
+            $ref: '#/definitions/Team'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TeamIdParam'
+  /client/{clientId}/team-master/{teamId}/status:
+    post:
+      description: Update status for a specific team
+      operationId: updateTeamStatus
+      parameters:
+      - name: status
+        in: body
+        description: Updated status of team
+        required: true
+        schema:
+          $ref: '#/definitions/EntityStatusUpdateRequest'
+      tags:
+      - TeamMaster
+      responses:
+        '200':
+          description: Updated team
+          schema:
+            $ref: '#/definitions/Team'
+      security:
+      - locusauth: []
+    parameters:
+    - $ref: '#/parameters/ClientIdParam'
+    - $ref: '#/parameters/TeamIdParam'
+parameters:
+  ClientIdParam:
+    name: clientId
+    in: path
+    description: Id of the client
+    required: true
+    type: string
+  BusinessUnitIdParam:
+    name: businessUnitId
+    in: path
+    description: Id of the business unit
+    required: true
+    type: string
+  LanguageParam:
+    name: language
+    in: path
+    description: Language identifier
+    required: true
+    type: string
+  TeamIdParam:
+    name: teamId
+    in: path
+    description: Id of the team
+    required: true
+    type: string
+  UserIdParam:
+    name: userId
+    in: path
+    description: Id of the user
+    required: true
+    type: string
+  UseConsistentReadParam:
+    name: useConsistentRead
+    in: query
+    description: If true, strongly consistent response is returned to the user.
+    required: false
+    default: false
+    type: boolean
+  OverwriteParam:
+    name: overwrite
+    in: query
+    description: Boolean flag if true, will overwrite the existing entity
+    required: false
+    type: boolean
+  PersonnelIdParam:
+    name: personnelId
+    in: path
+    description: Id of the personnel
+    required: true
+    type: string
+  MultipartFileParam:
+    name: file
+    in: formData
+    description: Multipart file
+    required: true
+    type: file
+  ShouldReturnTokenParam:
+    name: shouldReturnToken
+    in: query
+    description: Boolean flag if true, send mail and then return token in response
+    required: false
+    type: boolean
+    default: false
+  RoleIdParam:
+    name: roleId
+    in: path
+    description: Id of the role
+    required: true
+    type: string
+definitions:
+  UpdateAuthorizationDataRequest:
+    required:
+    - data
+    properties:
+      data:
+        $ref: '#/definitions/AuthorizationData'
+  GetAuthorizationDataResponse:
+    required:
+    - data
+    properties:
+      data:
+        $ref: '#/definitions/AuthorizationData'
+  BaseAuthorizationData:
+    required:
+    - userId
+    - type
+    - roles
+    - resourceAccess
+    - status
+    properties:
+      userId:
+        type: string
+      type:
+        $ref: '#/definitions/UserType'
+      roles:
+        description: The role ids associated with the primary client of the user
+        type: array
+        items:
+          $ref: '#/definitions/RoleMasterId'
+      resourceAccess:
+        $ref: '#/definitions/ResourceAccessWrapper'
+      status:
+        $ref: '#/definitions/AuthorizationStatus'
+  AuthorizationData:
+    description: The permanent authorisation data of the user
+    allOf:
+    - $ref: '#/definitions/BaseAuthorizationData'
+    - type: object
+      required:
+      - clientAccess
+      properties:
+        clientAccess:
+          $ref: '#/definitions/ClientAccessWrapper'
+  ClientAccessWrapper:
+    required:
+    - clients
+    - hasAllClientsAccess
+    properties:
+      clients:
+        type: array
+        items:
+          $ref: '#/definitions/ClientAccess'
+      hasAllClientsAccess:
+        description: Whether the user has access to all clients. The clients that are not explictly mentioned here will have
+          same access as the primary client role. For protected clients, this will be limited to a read only version of the
+          primary client role.
+        type: boolean
+  ClientAccess:
+    description: A mapping of client and the respective role assigned to the user for that client.
+    required:
+    - clientId
+    - roles
+    - hasWriteAccess
+    properties:
+      clientId:
+        description: The client id being referenced
+        $ref: '#/definitions/ClientId'
+      roles:
+        type: array
+        description: The role for the user associated with this client
+        items:
+          $ref: '#/definitions/RoleMasterId'
+  ResourceAccessWrapper:
+    required:
+    - actor
+    - resources
+    properties:
+      resources:
+        type: array
+        items:
+          $ref: '#/definitions/ResourceAccess'
+  ResourceAccess:
+    required:
+    - type
+    - values
+    - hasAllResourceAccess
+    properties:
+      type:
+        $ref: '#/definitions/ResourceType'
+      values:
+        description: The list of resources of this type which the user has access to
+        type: array
+        items:
+          type: string
+      hasAllResourcesAccess:
+        description: Whether the user has access to all resource
+        type: boolean
+  AuthorizationStatus:
+    type: string
+    description: Status of the user's authorization data
+    enum:
+    - ACTIVE
+    - INACTIVE
+    - NOT_APPLICABLE
+  UserType:
+    type: string
+    description: Type of the user
+    enum:
+    - CLIENT
+    - RIDER
+    - PERSONNEL
+    - SYSTEM_PERSONNEL
+    - TRANSPORTER_PERSONNEL
+    - LOCUS
+    - SYSTEM
+    - SYSTEM_SERVICE
+    - AUTH_READER
+    - API_CREDENTIAL
+  PasswordAuthDetails:
+    description: Details of password-based login for a personnel
+    required:
+    - provider
+    - connectionId
+    - connectionName
+    - identifier
+    - minimumPasswordLength
+    - passwordPolicy
+    properties:
+      provider:
+        $ref: '#/definitions/PasswordAuthProvider'
+      connectionId:
+        type: string
+      connectionName:
+        type: string
+      identifier:
+        description: Internal identifier used for authentication
+        type: string
+      minimumPasswordLength:
+        type: integer
+        format: int32
+      passwordPolicy:
+        $ref: '#/definitions/PasswordPolicyEnum'
+  PasswordAuthProvider:
+    description: Password-based login options
+    type: string
+    enum:
+    - IAM
+    - AUTH0
+  PasswordPolicyEnum:
+    description: Password policy name; should map to an Auth0 policy name in lowercase
+    type: string
+    enum:
+    - NONE
+    - LOW
+    - FAIR
+    - GOOD
+    - EXCELLENT
+  SsoDetails:
+    description: Details of SSO login for a personnel
+    required:
+    - ssoLoginOptions
+    - connectionId
+    - connectionName
+    properties:
+      ssoLoginOptions:
+        type: string
+        enum:
+        - DISABLED
+        - OPTIONAL
+        - ENFORCED
+      connectionId:
+        type: string
+      connectionName:
+        type: string
+      identifier:
+        description: Internal identifier used for authentication
+        type: string
+  CreateRoleMasterRequest:
+    description: Role Master create request
+    allOf:
+    - $ref: '#/definitions/MasterRole'
+  MasterRole:
+    description: Role Master entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      required:
+      - id
+      properties:
+        allowedOperations:
+          type: array
+          items:
+            type: string
+        roleType:
+          $ref: '#/definitions/RoleType'
+  RoleType:
+    type: string
+    enum:
+    - CLIENT_PERSONNEL
+    - TRANSPORTER_PERSONNEL
+    - RIDER
+    - CLIENT
+    - SYSTEM
+    - API_CREDENTIAL
+  PatchRequest:
+    type: object
+  IndustryType:
+    type: object
+  EmailAddress:
+    type: object
+  PaginationInfo:
+    type: object
+  PaginationRequest:
+    type: object
+  PatchDocument:
+    type: object
+  PatchOperation:
+    type: object
+  BulkGetRequest:
+    type: object
+  ComplexFilter:
+    type: object
+  VersionedEntityId:
+    type: object
+  Filter:
+    type: object
+  FilterOperation:
+    type: object
+  LogicalOperation:
+    type: object
+  SortingInfo:
+    type: object
+  CustomField:
+    type: object
+  CustomFieldMetaData:
+    type: object
+  DataType:
+    type: object
+  FormatEnum:
+    type: object
+  AggregationType:
+    type: object
+  ResourceType:
+    type: object
+  Actor:
+    type: object
+  AuditMetadata:
+    type: object
+  EntityDefinition:
+    type: object
+  EntityStatus:
+    type: object
+  AccessType:
+    description: User's access
+    type: string
+    enum:
+    - READ
+    - WRITE
+  ClientId:
+    required:
+    - clientId
+    properties:
+      clientId:
+        type: string
+  Team:
+    description: Team entity
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        businessUnitId:
+          $ref: '#/definitions/BusinessUnitId'
+        businessUnit:
+          $ref: '#/definitions/BusinessUnit'
+        cityId:
+          $ref: '#/definitions/CityId'
+        color:
+          description: Color of the team
+          type: string
+        shortCode:
+          description: unique 4 character identifier for a team
+          type: string
+  CompactTeam:
+    description: Compact Team entity
+    required:
+    - clientId
+    - id
+    - name
+    - code
+    - status
+    - shortCode
+    properties:
+      clientId:
+        description: Id of the client to which this entity belongs to
+        type: string
+      id:
+        description: A unique identifier for the entity
+        type: string
+      name:
+        description: Name of the entity
+        type: string
+      code:
+        description: entity code given by client
+        type: string
+      status:
+        $ref: '#/definitions/EntityStatus'
+      shortCode:
+        description: unique 4 character identifier for a team
+        type: string
+  Personnel:
+    description: A person using one of our systems (can be an admin using dashboard)
+    allOf:
+    - $ref: '#/definitions/BasePersonnel'
+    - type: object
+      properties:
+        canManageSystem:
+          description: Boolean indicating whether the personnel can manage system or not. Only personnel with write access
+            can have manage permission
+          type: boolean
+          default: false
+        canRequestWriteAccess:
+          description: Boolean indicating whether the personnel can request write or not
+          type: boolean
+          default: true
+        hasAllClientsAccess:
+          description: Boolean indicating whether the personnel has access to all teams of the client or not
+          type: boolean
+          default: false
+        operations:
+          description: Operations allowed for this personnel
+          type: array
+          items:
+            $ref: '#/definitions/Operation'
+        externalIdentifier:
+          description: External identifier of the personnel
+          type: string
+        clientsReadAccess:
+          description: Ids of the clients for which the personnel has read access
+          type: array
+          items:
+            $ref: '#/definitions/ClientId'
+        internalIdentifier:
+          description: Internal identifier of the personnel, used for Auth0 proxy emails
+          type: string
+  BasePersonnel:
+    description: Base class for personnel related models
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        email:
+          $ref: '#/definitions/EmailAddress'
+        phone:
+          $ref: '#/definitions/PhoneNumber'
+        photoUrl:
+          type: string
+        personnelType:
+          description: Type of personnel
+          $ref: '#/definitions/PersonnelType'
+        roleMasterId:
+          $ref: '#/definitions/RoleMasterId'
+        roleMaster:
+          $ref: '#/definitions/MasterRole'
+        teams:
+          description: Ids of the teams to which this personnel belongs
+          type: array
+          items:
+            $ref: '#/definitions/TeamId'
+        transporters:
+          description: Ids of the transporters which this personnel has access to
+          type: array
+          items:
+            $ref: '#/definitions/TransporterId'
+        hasAllTeamsAccess:
+          description: Boolean indicating whether the personnel has access to all teams or not
+          type: boolean
+          default: false
+        canManageEntities:
+          description: Boolean indicating whether the personnel can manage entities or not. Only personnel with write access
+            can have manage permission
+          type: boolean
+          default: false
+        canVerifyEntities:
+          description: Boolean indicating whether the personnel can verify entities or not. Only personnel with write access
+            can have verify permission
+          type: boolean
+          default: false
+        canManagePersonnel:
+          description: Boolean indicating whether the personnel can manage entities or not. Only personnel with write access
+            can have manage permission
+          type: boolean
+          default: false
+        language:
+          description: Language preference of the personnel
+          type: string
+        customRole:
+          description: Client specified custom role of personnel
+          type: string
+        timezone:
+          description: Time zone of the personnel
+          type: string
+  Operation:
+    description: An API action.
+    required:
+    - name
+    properties:
+      name:
+        type: string
+        description: Name of the operation. Each of these corresponds to an API.
+        enum:
+        - GET_CLIENT
+        - CREATE_HOMEBASE
+        - GET_HOMEBASE
+        - GET_HOMEBASES
+        - ADD_HOMEBASE_TO_TEAM
+        - REMOVE_HOMEBASE_FROM_TEAM
+        - GET_TASKS
+        - GET_TASK
+        - CREATE_TASK
+        - UPDATE_TASK
+        - GET_ASSIGNED_USERS
+        - ASSIGN_TASK
+        - REMOVE_TASK_ASSIGNMENT
+        - UPDATE_TASK_STATUS
+        - UPDATE_VISIT_STATUS
+        - UPDATE_TASK_CHECKLIST
+        - UPDATE_TASK_TEAM
+        - GET_USERS
+        - GET_USER
+        - GET_USER_HISTORY
+        - GET_USER_LOCATION_HISTORY
+        - UPDATE_NOTIFICATION_CHANNEL_FOR_USER
+        - ADD_USER_CALL_LOG
+        - GET_USER_CALL_LOG
+        - CREATE_USER
+        - UPDATE_USER_DEVICE_INFO
+        - UPDATE_USER_STATUS
+        - UPDATE_USER_LOCATION
+        - ADD_USER_TO_TEAM
+        - REMOVE_USER_FROM_TEAM
+        - UPLOAD_USER_PHOTO
+        - GET_USER_TASKS
+        - GET_USER_FULL_TASK
+        - GET_UNACKED_MESSAGES
+        - SEND_ACK_MESSAGE
+        - GET_TRIP
+        - GET_TRIP_LOCATIONS
+        - ADD_TRIP_LOCATION
+        - CREATE_TEAM
+        - GET_TEAM
+        - GET_TEAMS
+        - SUBMIT_BATCH_PLAN
+        - POLL_BATCH_PLAN
+        - ASSIGN_BATCH_PLAN
+        - UPLOAD_FILE_FOR_TASK
+        - GET_FILE_URL_FOR_TASK
+        - GET_EVENTS
+        - UPDATE_EVENT_STATUS
+  CreatePersonnelRequest:
+    description: Wrapper for personnel create request
+    allOf:
+    - $ref: '#/definitions/BasePersonnel'
+    - type: object
+      properties:
+        accessType:
+          $ref: '#/definitions/AccessType'
+        retainAuth:
+          description: Boolean to indicate that if there is any authentication credentials associated currently with the given
+            personnelId, retain it and do not generate a new credential pair
+          type: boolean
+          default: true
+  CreateGlobalPersonnelRequest:
+    description: Wrapper for system personnel creation request
+    required:
+    - email
+    - name
+    properties:
+      email:
+        $ref: '#/definitions/EmailAddress'
+      name:
+        type: string
+      organisationInfo:
+        $ref: '#/definitions/OrganisationInfo'
+  OrganisationInfo:
+    properties:
+      title:
+        type: string
+      division:
+        type: string
+      department:
+        type: string
+  CompactCreatePersonnelRequest:
+    description: Minimal request for creating personnels
+    required:
+    - id
+    - name
+    - email
+    - role
+    - teams
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      email:
+        type: string
+      role:
+        type: string
+      hasAllTeamsAccess:
+        description: Boolean indicating whether the personnel has access to all teams or not
+        type: boolean
+        default: false
+      teams:
+        description: Ids of the teams to which this personnel belongs
+        type: array
+        items:
+          type: string
+      customProperties:
+        description: Additional properties which clients wants to have along with standard entity properties
+        type: object
+        additionalProperties:
+          type: string
+  PersonnelResponse:
+    description: Wrapper for personnel create request
+    allOf:
+    - $ref: '#/definitions/BasePersonnel'
+    - type: object
+      properties:
+        accessType:
+          $ref: '#/definitions/AccessType'
+        authToken:
+          $ref: '#/definitions/AuthToken'
+        role:
+          description: Role assigned to personnel
+          type: string
+        businessUnitIds:
+          description: Id of the business units to which personnel belongs.
+          type: array
+          items:
+            $ref: '#/definitions/BusinessUnitId'
+  GetPersonnelsResponse:
+    required:
+    - personnels
+    - paginationInfo
+    properties:
+      personnels:
+        type: array
+        items:
+          $ref: '#/definitions/PersonnelResponse'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateBusinessUnitRequest:
+    description: Create business unit request object
+    required:
+    - name
+    - shortName
+    properties:
+      name:
+        description: Name of business unit
+        type: string
+      shortName:
+        description: Short name of business unit
+        type: string
+      description:
+        description: Description of business unit
+        type: string
+      color:
+        type: string
+      industryType:
+        $ref: '#/definitions/IndustryType'
+      serializedPreferences:
+        type: string
+  GetBusinessUnitsResponse:
+    description: Get business units response
+    required:
+    - businessUnits
+    properties:
+      businessUnits:
+        type: array
+        items:
+          $ref: '#/definitions/GetBusinessUnitResponse'
+  GetBusinessUnitResponse:
+    description: Get business unit response
+    allOf:
+    - $ref: '#/definitions/BusinessUnit'
+    - type: object
+      properties:
+        serializedPreferences:
+          type: string
+  MasterRoleResponse:
+    allOf:
+    - $ref: '#/definitions/MasterRole'
+    - type: object
+      properties:
+        personnelCount:
+          type: integer
+          format: int32
+  GetRoleMastersResponse:
+    required:
+    - roles
+    - paginationInfo
+    properties:
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/MasterRoleResponse'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  Jwt:
+    description: Javascript web tokens
+    required:
+    - accessToken
+    properties:
+      accessToken:
+        type: string
+  GenerateJwtRequest:
+    required:
+    - type
+    - secret
+    properties:
+      credentialType:
+        type: string
+        default: PERSONNEL
+        enum:
+        - PERSONNEL
+        - CLIENT
+      secret:
+        type: string
+        description: Client or personnel secret
+  CreateTeamRequest:
+    description: Team entity create request
+    allOf:
+    - $ref: '#/definitions/EntityDefinition'
+    - type: object
+      properties:
+        businessUnitId:
+          $ref: '#/definitions/BusinessUnitId'
+        cityId:
+          $ref: '#/definitions/CityId'
+        color:
+          description: Color of the team
+          type: string
+  CreateTeamsResponse:
+    description: Response for create teams request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/CreateEntityResponseStatus'
+  GetTeamsResponse:
+    description: Response of getTeams API
+    required:
+    - teams
+    - paginationInfo
+    properties:
+      teams:
+        type: array
+        items:
+          $ref: '#/definitions/Team'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  GetCompactTeamsResponse:
+    description: Response of getCompactTeams API
+    required:
+    - teams
+    - paginationInfo
+    properties:
+      teams:
+        type: array
+        items:
+          $ref: '#/definitions/CompactTeam'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CreateEntityResponseStatus:
+    description: SUCCESS if all the entities are created. FAILURE if atleast one entity has failed.
+    type: string
+    enum:
+    - SUCCESS
+    - FAILURE
+  ForgottenPassword:
+    description: ForgottenPassword details
+    required:
+    - password
+    - encodingSalt
+    - expiresAt
+    properties:
+      password:
+        type: string
+      encodingSalt:
+        type: string
+      expiresAt:
+        type: string
+        format: date-time
+        description: instant as of when, this request stands invalid
+  PersonnelStatus:
+    description: Personnel's status
+    type: string
+    enum:
+    - ENABLED
+    - DISABLED
+  AddClientAccessRequest:
+    required:
+    - clientIds
+    properties:
+      clientIds:
+        type: array
+        items:
+          type: string
+  AddTimedClientAccessRequest:
+    required:
+    - clientIds
+    - durationMins
+    properties:
+      clientIds:
+        type: array
+        items:
+          type: string
+      durationMins:
+        type: integer
+        format: int32
+  AuthorizationMetadata:
+    required:
+    - generalSection
+    - entitySection
+    properties:
+      generalSection:
+        type: array
+        items:
+          $ref: '#/definitions/GeneralSectionMetadata'
+      entitySection:
+        $ref: '#/definitions/EntitySectionMetadata'
+  GeneralSectionMetadata:
+    required:
+    - id
+    - subsections
+    properties:
+      id:
+        type: string
+      subsections:
+        type: array
+        items:
+          $ref: '#/definitions/GeneralSubSectionMetadata'
+  EntitySectionMetadata:
+    required:
+    - id
+    - subsections
+    properties:
+      id:
+        type: string
+      subsections:
+        type: array
+        items:
+          $ref: '#/definitions/EntitySubSectionMetadata'
+  EntitySubSectionMetadata:
+    required:
+    - id
+    - readOperation
+    - writeOperation
+    - exportOperation
+    properties:
+      id:
+        type: string
+      readOperation:
+        $ref: '#/definitions/OperationMetadata'
+      writeOperation:
+        $ref: '#/definitions/OperationMetadata'
+      exportOperation:
+        $ref: '#/definitions/OperationMetadata'
+  GeneralSubSectionMetadata:
+    required:
+    - id
+    - operations
+    properties:
+      id:
+        type: string
+      operations:
+        type: array
+        items:
+          $ref: '#/definitions/OperationMetadata'
+  OperationMetadata:
+    required:
+    - id
+    - associatedProduct
+    - dependencies
+    properties:
+      id:
+        type: string
+      associatedProduct:
+        type: string
+      dependencies:
+        type: array
+        items:
+          type: string
+  BusinessUnitStatusEnum:
+    description: Operational status of the business unit
+    type: string
+    default: ACTIVE
+    enum:
+    - ACTIVE
+    - INACTIVE
+  BusinessUnit:
+    description: Business unit of the client
+    required:
+    - clientId
+    - businessUnitId
+    - name
+    - shortName
+    - status
+    - version
+    properties:
+      clientId:
+        type: string
+      businessUnitId:
+        type: string
+      name:
+        description: Name of business unit
+        type: string
+      shortName:
+        description: Short name of business unit
+        type: string
+      description:
+        description: Description of business unit
+        type: string
+      status:
+        $ref: '#/definitions/BusinessUnitStatusEnum'
+      industryType:
+        $ref: '#/definitions/IndustryType'
+      color:
+        type: string
+      version:
+        type: integer
+        format: int32
+  BusinessUnitId:
+    required:
+    - clientId
+    - businessUnitId
+    properties:
+      clientId:
+        type: string
+      businessUnitId:
+        type: string
+  CompactPersonnelResponse:
+    properties:
+      personnels:
+        type: array
+        items:
+          $ref: '#/definitions/CompactPersonnel'
+      paginationInfo:
+        $ref: '#/definitions/PaginationInfo'
+  CompactPersonnel:
+    properties:
+      clientId:
+        type: string
+      personnelId:
+        type: string
+      name:
+        type: string
+      photoUrl:
+        type: string
+      teamIds:
+        type: array
+        items:
+          type: string
+      hasAllTeamsAccess:
+        type: boolean
+        default: false
+  CityId:
+    description: An id for a city
+    required:
+    - cityId
+    properties:
+      cityId:
+        type: string
+  PhoneNumber:
+    description: Phone number information
+    required:
+    - phoneNumber
+    properties:
+      phoneNumber:
+        type: string
+      isVerified:
+        description: Flag to denote if rider's phone number is verified
+        type: boolean
+        default: false
+      verifiedAt:
+        description: Timestamp of verification of phone number
+        type: string
+        format: date-time
+  AuthToken:
+    required:
+    - token
+    - userId
+    - authProvider
+    properties:
+      token:
+        type: string
+      userId:
+        type: string
+      authProvider:
+        type: string
+        enum:
+        - TAXY_CLIENT
+  UpdatePasswordRequest:
+    required:
+    - existingPassword
+    - newPassword
+    properties:
+      existingPassword:
+        description: Existing password of the personnel
+        type: string
+      newPassword:
+        description: New password of the personnel
+        type: string
+  EntityStatusUpdateRequest:
+    description: Wrapper for entity status update request
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/EntityStatus'
+  OperationStatusResponse:
+    description: Response indicating the status of the requested operation
+    required:
+    - status
+    properties:
+      status:
+        $ref: '#/definitions/OperationStatus'
+  OperationStatus:
+    description: Enum indicating the status of the requested operation
+    type: string
+    enum:
+    - SUCCESS
+    - FAILURE
+  GetMinimalPersonnelResponse:
+    description: Response for get minimal Personnel
+    required:
+    - clientId
+    - personnelId
+    - name
+    - photoUrl
+    - ssoDetails
+    properties:
+      clientId:
+        type: string
+      personnelId:
+        type: string
+      name:
+        type: string
+      photoUrl:
+        type: string
+      ssoDetails:
+        $ref: '#/definitions/SsoDetails'
+      passwordAuthDetails:
+        $ref: '#/definitions/PasswordAuthDetails'
+  BaseMinimalUser:
+    description: Response for get minimal user
+    required:
+    - clientId
+    - name
+    - photoUrl
+    - ssoDetails
+    properties:
+      clientId:
+        type: string
+      name:
+        type: string
+      photoUrl:
+        type: string
+      ssoDetails:
+        $ref: '#/definitions/SsoDetails'
+      passwordAuthDetails:
+        $ref: '#/definitions/PasswordAuthDetails'
+  UpdateLanguageRequest:
+    required:
+    - language
+    properties:
+      language:
+        description: Language preference of the personnel
+        type: string
+        default: en-US
+  GetPersonnelByEmailRequest:
+    required:
+    - emailAddress
+    properties:
+      emailAddress:
+        type: string
+  GetPersonnelByEmailResponse:
+    required:
+    - personnelId
+    - role
+    properties:
+      personnelId:
+        type: string
+      role:
+        type: string
+  PersonnelId:
+    type: object
+  PersonnelType:
+    type: object
+  RoleMasterId:
+    type: object
+  TeamId:
+    type: object
+  TransporterId:
+    type: object
