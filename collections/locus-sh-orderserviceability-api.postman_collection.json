@@ -1,0 +1,160 @@
+{
+  "item": [
+    {
+      "id": "7459a120-40e6-415d-baca-79d8c47f020c",
+      "name": "OrderServiceability",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e1355ddc-b7e9-4637-b97c-fc584137008b",
+          "name": "Get available future slots for the given order",
+          "request": {
+            "name": "Get available future slots for the given order",
+            "description": {},
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "get-slots"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) Id of the client"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"teamId\": \"<string>\",\n  \"type\": {\n    \"value\": \"reference https://swagger.locus-api.com/oms.yaml#/definitions/OrderType not found in the OpenAPI spec\"\n  },\n  \"homebaseId\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"id\": \"<string>\",\n  \"customProperties\": {\n    \"key_0\": \"<string>\"\n  },\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"homebaseTransactionDuration\": \"<integer>\",\n  \"locationId\": \"<string>\",\n  \"transactionDuration\": \"<integer>\",\n  \"contactPoint\": {\n    \"name\": \"<string>\",\n    \"number\": \"<string>\",\n    \"alternateNumber\": \"<string>\",\n    \"email\": \"<string>\",\n    \"language\": \"en-US\"\n  },\n  \"priority\": \"<integer>\",\n  \"date\": \"<string>\",\n  \"category\": \"<string>\",\n  \"riderId\": \"<string>\",\n  \"lineItems\": [\n    {\n      \"name\": \"<string>\",\n      \"quantity\": 0,\n      \"id\": \"<string>\",\n      \"lineItemId\": \"<string>\",\n      \"skuId\": \"<string>\",\n      \"packId\": \"<string>\",\n      \"description\": \"<string>\",\n      \"handlingUnit\": \"<string>\",\n      \"quantityUnit\": \"<string>\",\n      \"price\": {\n        \"amount\": \"<double>\",\n        \"currency\": \"<string>\",\n        \"symbol\": \"<string>\"\n      },\n      \"commodityCode\": {\n        \"code\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"parts\": [\n        {\n          \"volume\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": \"<string>\",\n          \"weight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"originalWeight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"dimensions\": {\n            \"length\": \"<double>\",\n            \"breadth\": \"<double>\",\n            \"height\": \"<double>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"piecesCount\": 1\n        },\n        {\n          \"volume\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": \"<string>\",\n          \"weight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"originalWeight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"dimensions\": {\n            \"length\": \"<double>\",\n            \"breadth\": \"<double>\",\n            \"height\": \"<double>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"piecesCount\": 1\n        }\n      ],\n      \"customProperties\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"summary\": {\n        \"totalWeight\": {\n          \"value\": \"<string>\",\n          \"unit\": \"<string>\"\n        },\n        \"totalVolume\": {\n          \"value\": \"<string>\",\n          \"unit\": \"<string>\"\n        },\n        \"totalReweighCount\": 0\n      },\n      \"totalVolume\": {\n        \"value\": \"<string>\",\n        \"unit\": \"<string>\"\n      },\n      \"totalWeight\": {\n        \"value\": \"<string>\",\n        \"unit\": \"<string>\"\n      },\n      \"handlingUnits\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"boxDetailSummary\": {\n        \"totalCases\": \"<integer>\",\n        \"totalPieces\": \"<integer>\",\n        \"quantityUnit\": \"<string>\",\n        \"boxUnit\": \"<string>\"\n      },\n      \"canRiderEdit\": true\n    },\n    {\n      \"name\": \"<string>\",\n      \"quantity\": 0,\n      \"id\": \"<string>\",\n      \"lineItemId\": \"<string>\",\n      \"skuId\": \"<string>\",\n      \"packId\": \"<string>\",\n      \"description\": \"<string>\",\n      \"handlingUnit\": \"<string>\",\n      \"quantityUnit\": \"<string>\",\n      \"price\": {\n        \"amount\": \"<double>\",\n        \"currency\": \"<string>\",\n        \"symbol\": \"<string>\"\n      },\n      \"commodityCode\": {\n        \"code\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"parts\": [\n        {\n          \"volume\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": \"<string>\",\n          \"weight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"originalWeight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"dimensions\": {\n            \"length\": \"<double>\",\n            \"breadth\": \"<double>\",\n            \"height\": \"<double>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"piecesCount\": 1\n        },\n        {\n          \"volume\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": \"<string>\",\n          \"weight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"originalWeight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"dimensions\": {\n            \"length\": \"<double>\",\n            \"breadth\": \"<double>\",\n            \"height\": \"<double>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"piecesCount\": 1\n        }\n      ],\n      \"customProperties\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\"\n      },\n      \"summary\": {\n        \"totalWeight\": {\n          \"value\": \"<string>\",\n          \"unit\": \"<string>\"\n        },\n        \"totalVolume\": {\n          \"value\": \"<string>\",\n          \"unit\": \"<string>\"\n        },\n        \"totalReweighCount\": 0\n      },\n      \"totalVolume\": {\n        \"value\": \"<string>\",\n        \"unit\": \"<string>\"\n      },\n      \"totalWeight\": {\n        \"value\": \"<string>\",\n        \"unit\": \"<string>\"\n      },\n      \"handlingUnits\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"boxDetailSummary\": {\n        \"totalCases\": \"<integer>\",\n        \"totalPieces\": \"<integer>\",\n        \"quantityUnit\": \"<string>\",\n        \"boxUnit\": \"<string>\"\n      },\n      \"canRiderEdit\": true\n    }\n  ],\n  \"locationAddress\": {\n    \"id\": \"<string>\",\n    \"placeName\": \"<string>\",\n    \"localityName\": \"<string>\",\n    \"formattedAddress\": \"<string>\",\n    \"subLocalityName\": \"<string>\",\n    \"pincode\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"locationType\": \"<string>\",\n    \"placeHash\": \"<string>\",\n    \"locationSource\": \"<string>\",\n    \"locationName\": \"<string>\"\n  },\n  \"latLng\": {\n    \"lat\": \"<double>\",\n    \"lng\": \"<double>\"\n  },\n  \"amountTransaction\": {\n    \"refId\": \"<string>\",\n    \"amount\": {\n      \"amount\": \"<double>\",\n      \"currency\": \"<string>\",\n      \"symbol\": \"<string>\"\n    },\n    \"net\": {\n      \"amount\": \"<double>\"\n    },\n    \"gross\": {\n      \"amount\": \"<double>\"\n    },\n    \"exchangeType\": \"<string>\"\n  },\n  \"volume\": {\n    \"value\": \"<string>\",\n    \"unit\": \"<string>\"\n  },\n  \"weight\": {\n    \"value\": \"<string>\",\n    \"unit\": \"<string>\"\n  },\n  \"daysToQueryFor\": \"<integer>\",\n  \"creationTime\": \"<dateTime>\",\n  \"slotSelectionStrategy\": \"<string>\",\n  \"preferredSlotIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9c3d5830-e19b-41e9-9036-aef26104285e",
+              "name": "Information with all the available future slots",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "get-slots"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) Id of the client"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"teamId\": \"<string>\",\n  \"type\": {\n    \"value\": \"reference https://swagger.locus-api.com/oms.yaml#/definitions/OrderType not found in the OpenAPI spec\"\n  },\n  \"homebaseId\": \"<string>\",\n  \"clientId\": \"<string>\",\n  \"id\": \"<string>\",\n  \"customProperties\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"homebaseTransactionDuration\": \"<integer>\",\n  \"locationId\": \"<string>\",\n  \"transactionDuration\": \"<integer>\",\n  \"contactPoint\": {\n    \"name\": \"<string>\",\n    \"number\": \"<string>\",\n    \"alternateNumber\": \"<string>\",\n    \"email\": \"<string>\",\n    \"language\": \"en-US\"\n  },\n  \"priority\": \"<integer>\",\n  \"date\": \"<string>\",\n  \"category\": \"<string>\",\n  \"riderId\": \"<string>\",\n  \"lineItems\": [\n    {\n      \"name\": \"<string>\",\n      \"quantity\": 0,\n      \"id\": \"<string>\",\n      \"lineItemId\": \"<string>\",\n      \"skuId\": \"<string>\",\n      \"packId\": \"<string>\",\n      \"description\": \"<string>\",\n      \"handlingUnit\": \"<string>\",\n      \"quantityUnit\": \"<string>\",\n      \"price\": {\n        \"amount\": \"<double>\",\n        \"currency\": \"<string>\",\n        \"symbol\": \"<string>\"\n      },\n      \"commodityCode\": {\n        \"code\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"parts\": [\n        {\n          \"volume\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": \"<string>\",\n          \"weight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"originalWeight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"dimensions\": {\n            \"length\": \"<double>\",\n            \"breadth\": \"<double>\",\n            \"height\": \"<double>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"piecesCount\": 1\n        },\n        {\n          \"volume\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": \"<string>\",\n          \"weight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"originalWeight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"dimensions\": {\n            \"length\": \"<double>\",\n            \"breadth\": \"<double>\",\n            \"height\": \"<double>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"piecesCount\": 1\n        }\n      ],\n      \"customProperties\": {\n        \"key_0\": \"<string>\"\n      },\n      \"summary\": {\n        \"totalWeight\": {\n          \"value\": \"<string>\",\n          \"unit\": \"<string>\"\n        },\n        \"totalVolume\": {\n          \"value\": \"<string>\",\n          \"unit\": \"<string>\"\n        },\n        \"totalReweighCount\": 0\n      },\n      \"totalVolume\": {\n        \"value\": \"<string>\",\n        \"unit\": \"<string>\"\n      },\n      \"totalWeight\": {\n        \"value\": \"<string>\",\n        \"unit\": \"<string>\"\n      },\n      \"handlingUnits\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"boxDetailSummary\": {\n        \"totalCases\": \"<integer>\",\n        \"totalPieces\": \"<integer>\",\n        \"quantityUnit\": \"<string>\",\n        \"boxUnit\": \"<string>\"\n      },\n      \"canRiderEdit\": true\n    },\n    {\n      \"name\": \"<string>\",\n      \"quantity\": 0,\n      \"id\": \"<string>\",\n      \"lineItemId\": \"<string>\",\n      \"skuId\": \"<string>\",\n      \"packId\": \"<string>\",\n      \"description\": \"<string>\",\n      \"handlingUnit\": \"<string>\",\n      \"quantityUnit\": \"<string>\",\n      \"price\": {\n        \"amount\": \"<double>\",\n        \"currency\": \"<string>\",\n        \"symbol\": \"<string>\"\n      },\n      \"commodityCode\": {\n        \"code\": \"<string>\",\n        \"description\": \"<string>\"\n      },\n      \"parts\": [\n        {\n          \"volume\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": \"<string>\",\n          \"weight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"originalWeight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"dimensions\": {\n            \"length\": \"<double>\",\n            \"breadth\": \"<double>\",\n            \"height\": \"<double>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"piecesCount\": 1\n        },\n        {\n          \"volume\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": \"<string>\",\n          \"weight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"originalWeight\": {\n            \"value\": \"<string>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"dimensions\": {\n            \"length\": \"<double>\",\n            \"breadth\": \"<double>\",\n            \"height\": \"<double>\",\n            \"unit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"piecesCount\": 1\n        }\n      ],\n      \"customProperties\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\"\n      },\n      \"summary\": {\n        \"totalWeight\": {\n          \"value\": \"<string>\",\n          \"unit\": \"<string>\"\n        },\n        \"totalVolume\": {\n          \"value\": \"<string>\",\n          \"unit\": \"<string>\"\n        },\n        \"totalReweighCount\": 0\n      },\n      \"totalVolume\": {\n        \"value\": \"<string>\",\n        \"unit\": \"<string>\"\n      },\n      \"totalWeight\": {\n        \"value\": \"<string>\",\n        \"unit\": \"<string>\"\n      },\n      \"handlingUnits\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"boxDetailSummary\": {\n        \"totalCases\": \"<integer>\",\n        \"totalPieces\": \"<integer>\",\n        \"quantityUnit\": \"<string>\",\n        \"boxUnit\": \"<string>\"\n      },\n      \"canRiderEdit\": true\n    }\n  ],\n  \"locationAddress\": {\n    \"id\": \"<string>\",\n    \"placeName\": \"<string>\",\n    \"localityName\": \"<string>\",\n    \"formattedAddress\": \"<string>\",\n    \"subLocalityName\": \"<string>\",\n    \"pincode\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"locationType\": \"<string>\",\n    \"placeHash\": \"<string>\",\n    \"locationSource\": \"<string>\",\n    \"locationName\": \"<string>\"\n  },\n  \"latLng\": {\n    \"lat\": \"<double>\",\n    \"lng\": \"<double>\"\n  },\n  \"amountTransaction\": {\n    \"refId\": \"<string>\",\n    \"amount\": {\n      \"amount\": \"<double>\",\n      \"currency\": \"<string>\",\n      \"symbol\": \"<string>\"\n    },\n    \"net\": {\n      \"amount\": \"<double>\"\n    },\n    \"gross\": {\n      \"amount\": \"<double>\"\n    },\n    \"exchangeType\": \"<string>\"\n  },\n  \"volume\": {\n    \"value\": \"<string>\",\n    \"unit\": \"<string>\"\n  },\n  \"weight\": {\n    \"value\": \"<string>\",\n    \"unit\": \"<string>\"\n  },\n  \"daysToQueryFor\": \"<integer>\",\n  \"creationTime\": \"<dateTime>\",\n  \"slotSelectionStrategy\": \"<string>\",\n  \"preferredSlotIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"slots\": [\n    {\n      \"score\": 1,\n      \"slotId\": \"string\",\n      \"customerSlotId\": \"string\",\n      \"timeSlot\": {\n        \"value\": \"reference https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot not found in the OpenAPI spec\"\n      },\n      \"energyDelta\": 1528.6200889802049,\n      \"arrivedEta\": \"1973-03-17T12:20:31.106Z\",\n      \"completedEta\": \"1951-02-25T00:34:59.386Z\",\n      \"averageSpeed\": 1716.729108398557,\n      \"plannedTreesOffset\": 5137.546352900664,\n      \"capacityMetadata\": {\n        \"taskCount\": 0,\n        \"utilisedVolume\": 0,\n        \"utilisedWeight\": 0\n      }\n    },\n    {\n      \"score\": 1,\n      \"slotId\": \"string\",\n      \"customerSlotId\": \"string\",\n      \"timeSlot\": {\n        \"value\": \"reference https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot not found in the OpenAPI spec\"\n      },\n      \"energyDelta\": 1847.7001536528448,\n      \"arrivedEta\": \"1948-02-14T22:01:20.347Z\",\n      \"completedEta\": \"2016-05-17T19:03:23.087Z\",\n      \"averageSpeed\": 4281.884976804319,\n      \"plannedTreesOffset\": 9043.81702316543,\n      \"capacityMetadata\": {\n        \"taskCount\": 0,\n        \"utilisedVolume\": 0,\n        \"utilisedWeight\": 0\n      }\n    }\n  ],\n  \"id\": \"string\",\n  \"bestSlot\": {\n    \"score\": 1,\n    \"slotId\": \"string\",\n    \"customerSlotId\": \"string\",\n    \"timeSlot\": {\n      \"value\": \"reference https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot not found in the OpenAPI spec\"\n    },\n    \"energyDelta\": 5045.938795137807,\n    \"arrivedEta\": \"1975-02-21T05:39:35.798Z\",\n    \"completedEta\": \"2025-06-15T21:25:26.004Z\",\n    \"averageSpeed\": 2598.424893606279,\n    \"plannedTreesOffset\": 6466.984888244395,\n    \"capacityMetadata\": {\n      \"taskCount\": 0,\n      \"utilisedVolume\": 0,\n      \"utilisedWeight\": 0\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f1700b72-3da9-4133-93c4-0559d9d1a65d",
+    "name": "Locus HomebaseMaster OrderServiceability API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Manage your deliveries with the Locus API",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster ServiceType API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ServiceType",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get service type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/service-type/:serviceTypeId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "serviceTypeId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the service type"
+              }
+            ]
+          },
+          "docs": "Get service type"
+        },
+        {
+          "info": {
+            "name": "Create service type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/service-type/:serviceTypeId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "serviceTypeId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the service type"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create service type"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

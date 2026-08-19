@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster Rider API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Rider",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a rider",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/rider/:riderId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are SHIFTS, SALES_CATEGORIES, RIDER_PERSONA"
+              }
+            ]
+          },
+          "docs": "Get a rider"
+        },
+        {
+          "info": {
+            "name": "Create a rider",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/rider/:riderId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a rider"
+        },
+        {
+          "info": {
+            "name": "disableRider",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/rider/:riderId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider"
+              }
+            ]
+          },
+          "docs": "Disable a specific rider"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

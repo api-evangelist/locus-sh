@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster LocationMaster API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "LocationMaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a location",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/location/:locationId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the location"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are CONTACT."
+              }
+            ]
+          },
+          "docs": "Get a location"
+        },
+        {
+          "info": {
+            "name": "Create a location",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/location/:locationId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the location"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a location"
+        },
+        {
+          "info": {
+            "name": "disableLocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/location/:locationId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the location"
+              }
+            ]
+          },
+          "docs": "Disable a specific location"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

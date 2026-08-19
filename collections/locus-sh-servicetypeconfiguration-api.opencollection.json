@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster ServiceTypeConfiguration API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ServiceTypeConfiguration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "disableServiceType",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/service-type/:serviceTypeId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "serviceTypeId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the service type"
+              }
+            ]
+          },
+          "docs": "Disable a specific service type"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

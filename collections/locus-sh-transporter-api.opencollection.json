@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster Transporter API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transporter",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a transporter",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/transporter/:transporterId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "transporterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the transporter"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are CONTACT"
+              }
+            ]
+          },
+          "docs": "Get a transporter"
+        },
+        {
+          "info": {
+            "name": "Create a transporter",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/transporter/:transporterId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "transporterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the transporter"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a transporter"
+        },
+        {
+          "info": {
+            "name": "disableTransporter",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/transporter/:transporterId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "transporterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the transporter"
+              }
+            ]
+          },
+          "docs": "Disable a specific transporter"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

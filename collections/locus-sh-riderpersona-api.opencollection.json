@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster RiderPersona API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "RiderPersona",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a rider persona by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/rider-persona/:riderPersonaId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderPersonaId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider persona"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are TRANSPORTER."
+              }
+            ]
+          },
+          "docs": "Get a rider persona by id"
+        },
+        {
+          "info": {
+            "name": "Create a new rider persona",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/rider-persona/:riderPersonaId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderPersonaId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider persona"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a new rider persona"
+        },
+        {
+          "info": {
+            "name": "disableRiderPersona",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/rider-persona/:riderPersonaId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "riderPersonaId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the rider persona"
+              }
+            ]
+          },
+          "docs": "Disable a specific rider persona"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

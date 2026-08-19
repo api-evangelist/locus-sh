@@ -1,0 +1,451 @@
+{
+  "item": [
+    {
+      "id": "5e1600f9-866b-4b6e-88f6-c207fe5eac53",
+      "name": "Vehicle",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "256676d2-cc50-4c6f-a4c8-7d238ec7ded0",
+          "name": "Get a vehicle by id",
+          "request": {
+            "name": "Get a vehicle by id",
+            "description": {},
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "vehicle",
+                ":vehicleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "Comma separated list of extra fields that should be returned. Supported values are SHIFTS, TRANSPORTER, RIDER, VEHICLE_MODEL."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) Id of the client"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "vehicleId",
+                  "description": "(Required) Id of the vehicle"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2ae01fca-be56-47b8-8a05-82cc16b85e0d",
+              "name": "Desired vehicle",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "vehicle",
+                    ":vehicleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) Id of the client"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vehicleId",
+                      "description": "(Required) Id of the vehicle"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"vehicleModelId\": {},\n  \"vehicleModel\": {\n    \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel not found in the OpenAPI spec\"\n  },\n  \"transporterId\": {},\n  \"transporter\": {\n    \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter not found in the OpenAPI spec\"\n  },\n  \"riderId\": {},\n  \"rider\": {\n    \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider not found in the OpenAPI spec\"\n  },\n  \"vehicleCostModel\": {\n    \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleCostModel not found in the OpenAPI spec\"\n  },\n  \"skills\": [\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId not found in the OpenAPI spec\"\n    }\n  ],\n  \"shiftIds\": [\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftId not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftId not found in the OpenAPI spec\"\n    }\n  ],\n  \"shifts\": [\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/Shift not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/Shift not found in the OpenAPI spec\"\n    }\n  ],\n  \"resourceLimits\": [\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/ResourceLimit not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/ResourceLimit not found in the OpenAPI spec\"\n    }\n  ],\n  \"manufacturingDate\": {},\n  \"isColdChain\": false,\n  \"unladenWeight\": 7703,\n  \"fuelType\": \"ELECTRIC\",\n  \"mileage\": 9589.30400681542,\n  \"userCount\": 1,\n  \"documents\": [\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/Document not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/Document not found in the OpenAPI spec\"\n    }\n  ],\n  \"baseLocations\": {\n    \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/BaseLocations not found in the OpenAPI spec\"\n  },\n  \"fleetType\": {\n    \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/FleetType not found in the OpenAPI spec\"\n  },\n  \"registrationNumber\": \"string\",\n  \"isActive\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe88d201-f165-4ee3-9e33-5f80cf3864bc",
+          "name": "Create a new vehicle",
+          "request": {
+            "name": "Create a new vehicle",
+            "description": {},
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "vehicle",
+                ":vehicleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "overwrite",
+                  "value": "<boolean>",
+                  "description": "Boolean flag if true, will overwrite the existing entity"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) Id of the client"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "vehicleId",
+                  "description": "(Required) Id of the vehicle"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "55f801e8-3614-4a0a-9b53-68b77a503ecf",
+              "name": "Created vehicle",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "vehicle",
+                    ":vehicleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "overwrite",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) Id of the client"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vehicleId",
+                      "description": "(Required) Id of the vehicle"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"<object>\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3a8f216c-a9eb-44fe-b2be-3fdf75446456",
+          "name": "disable Vehicle",
+          "request": {
+            "name": "disable Vehicle",
+            "description": {
+              "content": "Disable a specific vehicle",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "vehicle",
+                ":vehicleId",
+                "disable"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) Id of the client"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "vehicleId",
+                  "description": "(Required) Id of the vehicle"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a89fec94-1974-4c85-a9c0-7ed3c2c8082f",
+              "name": "Updated vehicle",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "vehicle",
+                    ":vehicleId",
+                    "disable"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) Id of the client"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vehicleId",
+                      "description": "(Required) Id of the vehicle"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"<object>\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "85413747-b0ee-446a-95b2-8be0cdd790f6",
+    "name": "Locus HomebaseMaster Vehicle API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Manage your deliveries with the Locus API",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster Vehicle API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Vehicle",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a vehicle by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/vehicle/:vehicleId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "vehicleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the vehicle"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are SHIFTS, TRANSPORTER, RIDER, VEHICLE_MODEL."
+              }
+            ]
+          },
+          "docs": "Get a vehicle by id"
+        },
+        {
+          "info": {
+            "name": "Create a new vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/vehicle/:vehicleId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "vehicleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the vehicle"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a new vehicle"
+        },
+        {
+          "info": {
+            "name": "disableVehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/vehicle/:vehicleId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "vehicleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the vehicle"
+              }
+            ]
+          },
+          "docs": "Disable a specific vehicle"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

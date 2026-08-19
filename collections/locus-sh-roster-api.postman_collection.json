@@ -1,0 +1,435 @@
+{
+  "item": [
+    {
+      "id": "64eac6e1-17af-4887-b9f2-335429bf67fb",
+      "name": "Roster",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8d7dc200-b3f3-47a4-a379-70440b987b83",
+          "name": "Get Roster by Id",
+          "request": {
+            "name": "Get Roster by Id",
+            "description": {},
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "roster",
+                ":rosterId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "Comma separated list of extra fields that should be returned. Supported values are RESOURCES."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) Id of the client"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "rosterId",
+                  "description": "(Required) Id of roster"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "782d03e6-5aa4-41d6-9685-b0d6cb5eaa63",
+              "name": "GetRosterResponse Object",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "roster",
+                    ":rosterId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) Id of the client"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "rosterId",
+                      "description": "(Required) Id of roster"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "11e17ad4-256b-4cab-aba8-2df55535b489",
+          "name": "API Bulk create rosters for api integrated clients",
+          "request": {
+            "name": "API Bulk create rosters for api integrated clients",
+            "description": {},
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "rosters-auto-create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "overwrite",
+                  "value": "<boolean>",
+                  "description": "Boolean flag if true, will overwrite the existing entity"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) Id of the client"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"<string>\",\n  \"startDate\": \"<string>\",\n  \"endDate\": \"<string>\",\n  \"entityType\": {\n    \"value\": \"reference https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterEntityType not found in the OpenAPI spec\"\n  },\n  \"teamId\": \"<string>\",\n  \"riderIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"vehicleIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"vehicleModelId\": \"<object>\",\n  \"daysOff\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"shift\": {\n    \"tagId\": \"<string>\",\n    \"start\": {\n      \"value\": \"reference https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation not found in the OpenAPI spec\"\n    },\n    \"end\": {\n      \"value\": \"reference https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation not found in the OpenAPI spec\"\n    },\n    \"breaks\": [\n      {\n        \"startTime\": \"<string>\",\n        \"endTime\": \"<string>\",\n        \"duration\": \"<string>\",\n        \"breakType\": \"LUNCH\"\n      },\n      {\n        \"startTime\": \"<string>\",\n        \"endTime\": \"<string>\",\n        \"duration\": \"<string>\",\n        \"breakType\": \"LUNCH\"\n      }\n    ]\n  },\n  \"applyToAll\": false,\n  \"skills\": [\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId not found in the OpenAPI spec\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "92180402-29d7-4e7b-a57b-76eb03298eea",
+              "name": "API Bulk create rosters response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "rosters-auto-create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "overwrite",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) Id of the client"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientId\": \"<string>\",\n  \"startDate\": \"<string>\",\n  \"endDate\": \"<string>\",\n  \"entityType\": {\n    \"value\": \"reference https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterEntityType not found in the OpenAPI spec\"\n  },\n  \"teamId\": \"<string>\",\n  \"riderIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"vehicleIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"vehicleModelId\": \"<object>\",\n  \"daysOff\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"shift\": {\n    \"tagId\": \"<string>\",\n    \"start\": {\n      \"value\": \"reference https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation not found in the OpenAPI spec\"\n    },\n    \"end\": {\n      \"value\": \"reference https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation not found in the OpenAPI spec\"\n    },\n    \"breaks\": [\n      {\n        \"startTime\": \"<string>\",\n        \"endTime\": \"<string>\",\n        \"duration\": \"<string>\",\n        \"breakType\": \"LUNCH\"\n      },\n      {\n        \"startTime\": \"<string>\",\n        \"endTime\": \"<string>\",\n        \"duration\": \"<string>\",\n        \"breakType\": \"LUNCH\"\n      }\n    ]\n  },\n  \"applyToAll\": false,\n  \"skills\": [\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId not found in the OpenAPI spec\"\n    },\n    {\n      \"value\": \"reference https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId not found in the OpenAPI spec\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "994db8be-d331-41f9-8e7b-cc573d7ea383",
+          "name": "disable Roster",
+          "request": {
+            "name": "disable Roster",
+            "description": {
+              "content": "Disable a specific roster",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "roster",
+                ":rosterId",
+                "disable"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) Id of the client"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "rosterId",
+                  "description": "(Required) Id of roster"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "52574767-cafa-4fdb-bbe2-ade2660d424d",
+              "name": "Updated roster",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "roster",
+                    ":rosterId",
+                    "disable"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) Id of the client"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "rosterId",
+                      "description": "(Required) Id of roster"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5faf77ab-038b-4e44-b740-6e39d0b1d875",
+    "name": "Locus HomebaseMaster Roster API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Manage your deliveries with the Locus API",
+      "type": "text/plain"
+    }
+  }
+}

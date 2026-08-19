@@ -1,0 +1,326 @@
+{
+  "item": [
+    {
+      "id": "9ce393e0-9712-42b6-97f8-dd2f075a77f6",
+      "name": "PersonnelMaster",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "57d186f3-8b2b-4969-9d23-85c6892a696e",
+          "name": "Create personnel with minimal request",
+          "request": {
+            "name": "Create personnel with minimal request",
+            "description": {
+              "content": "Create personnel in the system, with minimal fields required",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "personnel-master",
+                "create-compact"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "overwrite",
+                  "value": "<boolean>",
+                  "description": "Boolean flag if true, will overwrite the existing entity"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) Id of the client"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"role\": \"<string>\",\n  \"teams\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hasAllTeamsAccess\": false,\n  \"customProperties\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3f329540-ed52-48a7-bd29-4aa5bd034580",
+              "name": "Personnel object",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "personnel-master",
+                    "create-compact"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "overwrite",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) Id of the client"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"role\": \"<string>\",\n  \"teams\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hasAllTeamsAccess\": false,\n  \"customProperties\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"email\": {},\n  \"phone\": {\n    \"phoneNumber\": \"string\",\n    \"isVerified\": false,\n    \"verifiedAt\": \"2014-03-24T19:28:30.768Z\"\n  },\n  \"photoUrl\": \"string\",\n  \"personnelType\": {},\n  \"roleMasterId\": {},\n  \"roleMaster\": {\n    \"allowedOperations\": [\n      \"string\",\n      \"string\"\n    ],\n    \"roleType\": \"CLIENT\"\n  },\n  \"hasAllTeamsAccess\": false,\n  \"canManageEntities\": false,\n  \"canVerifyEntities\": false,\n  \"canManagePersonnel\": false,\n  \"language\": \"string\",\n  \"customRole\": \"string\",\n  \"timezone\": \"string\",\n  \"accessType\": \"READ\",\n  \"authToken\": {\n    \"token\": \"string\",\n    \"userId\": \"string\",\n    \"authProvider\": \"TAXY_CLIENT\"\n  },\n  \"role\": \"string\",\n  \"businessUnitIds\": [\n    {\n      \"clientId\": \"string\",\n      \"businessUnitId\": \"string\"\n    },\n    {\n      \"clientId\": \"string\",\n      \"businessUnitId\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "91896052-66d9-4371-8ca2-e989228b2732",
+          "name": "Update personnel status",
+          "request": {
+            "name": "Update personnel status",
+            "description": {
+              "content": "Enable or disable the personnel",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "personnel-master",
+                ":personnelId",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) Id of the client"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "personnelId",
+                  "description": "(Required) Id of the personnel"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "58753231-9155-40e1-b0b3-b9b236d37e6f",
+              "name": "Personnel object",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "personnel-master",
+                    ":personnelId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) Id of the client"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "personnelId",
+                      "description": "(Required) Id of the personnel"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"email\": {},\n  \"phone\": {\n    \"phoneNumber\": \"string\",\n    \"isVerified\": false,\n    \"verifiedAt\": \"2001-09-24T23:11:14.078Z\"\n  },\n  \"photoUrl\": \"string\",\n  \"personnelType\": {},\n  \"roleMasterId\": {},\n  \"roleMaster\": {\n    \"allowedOperations\": [\n      \"string\",\n      \"string\"\n    ],\n    \"roleType\": \"CLIENT_PERSONNEL\"\n  },\n  \"hasAllTeamsAccess\": false,\n  \"canManageEntities\": false,\n  \"canVerifyEntities\": false,\n  \"canManagePersonnel\": false,\n  \"language\": \"string\",\n  \"customRole\": \"string\",\n  \"timezone\": \"string\",\n  \"accessType\": \"WRITE\",\n  \"authToken\": {\n    \"token\": \"string\",\n    \"userId\": \"string\",\n    \"authProvider\": \"TAXY_CLIENT\"\n  },\n  \"role\": \"string\",\n  \"businessUnitIds\": [\n    {\n      \"clientId\": \"string\",\n      \"businessUnitId\": \"string\"\n    },\n    {\n      \"clientId\": \"string\",\n      \"businessUnitId\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8d39d01d-c317-4f81-b182-0423df8b73ff",
+    "name": "Locus HomebaseMaster PersonnelMaster API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Manage your deliveries with the Locus API",
+      "type": "text/plain"
+    }
+  }
+}

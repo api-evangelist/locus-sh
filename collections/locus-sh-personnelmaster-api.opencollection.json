@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster PersonnelMaster API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PersonnelMaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create personnel with minimal request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/personnel-master/create-compact",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create personnel in the system, with minimal fields required"
+        },
+        {
+          "info": {
+            "name": "Update personnel status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/personnel-master/:personnelId/status",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "personnelId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the personnel"
+              }
+            ]
+          },
+          "docs": "Enable or disable the personnel"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

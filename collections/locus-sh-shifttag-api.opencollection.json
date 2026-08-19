@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster ShiftTag API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ShiftTag",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "fetch shiftTag by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/shift-manager/:tagId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "tagId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shiftTag"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Extra fields that should be returned."
+              }
+            ]
+          },
+          "docs": "fetch shiftTag by id"
+        },
+        {
+          "info": {
+            "name": "Create a given shiftTag",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/shift-manager/:tagId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "tagId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shiftTag"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a given shiftTag"
+        },
+        {
+          "info": {
+            "name": "disableShiftTag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/shift-manager/:tagId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "tagId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shiftTag"
+              }
+            ]
+          },
+          "docs": "Disable a specific Shift Tag"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

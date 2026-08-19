@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster SKUMaster API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SKUMaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a line item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/lineitem/:lineItemId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "lineItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the line item"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are LOCATIONS."
+              }
+            ]
+          },
+          "docs": "Get a line item"
+        },
+        {
+          "info": {
+            "name": "Create a line item",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/lineitem/:lineItemId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "lineItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the line item"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a line item"
+        },
+        {
+          "info": {
+            "name": "disableLineItem",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/lineitem/:lineItemId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "lineItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the line item"
+              }
+            ]
+          },
+          "docs": "Disable a specific line item"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

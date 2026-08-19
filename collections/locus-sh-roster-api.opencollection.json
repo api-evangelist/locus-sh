@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster Roster API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Roster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Roster by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/roster/:rosterId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "rosterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of roster"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are RESOURCES."
+              }
+            ]
+          },
+          "docs": "Get Roster by Id"
+        },
+        {
+          "info": {
+            "name": "API Bulk create rosters for api integrated clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/rosters-auto-create",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "API Bulk create rosters for api integrated clients"
+        },
+        {
+          "info": {
+            "name": "disableRoster",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/roster/:rosterId/disable",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "rosterId",
+                "value": "",
+                "type": "path",
+                "description": "Id of roster"
+              }
+            ]
+          },
+          "docs": "Disable a specific roster"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Locus HomebaseMaster API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "HomebaseMaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a homebase",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/client/:clientId/homebase-master/:homebaseId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "homebaseId",
+                "value": "",
+                "type": "path",
+                "description": "Id of homebase"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of extra fields that should be returned. Supported values are CONTACT."
+              }
+            ]
+          },
+          "docs": "Get a homebase"
+        },
+        {
+          "info": {
+            "name": "Create a homebase",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/client/:clientId/homebase-master/:homebaseId",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "homebaseId",
+                "value": "",
+                "type": "path",
+                "description": "Id of homebase"
+              },
+              {
+                "name": "overwrite",
+                "value": "",
+                "type": "query",
+                "description": "Boolean flag if true, will overwrite the existing entity"
+              }
+            ]
+          },
+          "docs": "Create a homebase"
+        },
+        {
+          "info": {
+            "name": "updateHomebaseStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/client/:clientId/homebase-master/:homebaseId/status",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the client"
+              },
+              {
+                "name": "homebaseId",
+                "value": "",
+                "type": "path",
+                "description": "Id of homebase"
+              }
+            ]
+          },
+          "docs": "Update status for a specific homebase"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
