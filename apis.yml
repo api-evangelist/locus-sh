@@ -450,6 +450,9 @@ apis:
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
 common:
+- type: CapabilityMap
+  url: capabilities/locus-sh-capability-edges.yml
+  name: Locus Business Capability Map
 - type: AgenticAccess
   url: agentic-access/locus-sh-agentic-access.yml
 - type: TrustCenter

@@ -1,0 +1,48 @@
+slug: locus-sh
+provider: Locus
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Transportation & Logistics
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Vehicle
+  spec_file: locus-sh-vehicle-api-openapi.yml
+  capability_id: BC-2430
+  capability_id_l1: BC-2430
+  capability_name: Fleet & Mobile Asset Management
+  confidence: 0.75
+  evidence: '"Create a new vehicle" / "Get a vehicle by id"; schemas Vehicle, FleetType, VehicleModel,
+    VehicleCostModel, ResourceLimit, BaseLocations, Rider'
+  reason: Maintains the fleet register of vehicles with fleet type, capacity limits, cost model and base
+    locations — fleet and mobile asset provisioning. No single L2 (not maintenance, not telematics, not
+    disposal) is clearly named.
+- tag: Roster
+  spec_file: locus-sh-roster-api-openapi.yml
+  capability_id: BC-2440.20
+  capability_id_l1: BC-2440
+  capability_name: Rostering and Scheduling Management
+  confidence: 0.72
+  evidence: getRoster "Get Roster by Id"; schemas Roster, RosterShiftLocation, CreateRosterShiftApiRequest,
+    CreateBreaksApiRequest, SkillId
+  reason: Locus roster objects bind shifts, breaks, skills and vehicle models for delivery personnel —
+    i.e. duty rosters for drivers/riders, matching Rostering and Scheduling Management. Confidence held
+    moderate because the surface is master-data CRUD rather than explicit hours/duty compliance.
+- tag: Order
+  spec_file: locus-sh-order-api-openapi.yml
+  capability_id: BC-520.40
+  capability_id_l1: BC-520
+  capability_name: Order Fulfilment Management
+  confidence: 0.7
+  evidence: createOrder; parkOrder; cancelOrder; completeOrder; rescheduleOrder; verify-inventory  Inventory
+    Verification
+  reason: Full lifecycle of delivery orders (create, park, cancel, reschedule, complete) with line items,
+    freight cost and payment on a last-mile delivery platform — order fulfilment orchestration. Some overlap
+    with transport operations execution, so not maximal confidence.
