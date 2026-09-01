@@ -93,7 +93,7 @@ apis:
     https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   baseURL: https://oms.locus-api.com/v1
   tags:
-  - LocationMaster
+  - Location Master
   tags_raw:
   - LocationMaster
   properties:
