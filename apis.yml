@@ -44,22 +44,23 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: unknown
-  onboarding: self-serve
+  onboarding: unknown
   trial: false
   try_now: false
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Unknown
+  confidence: low
   source:
   - authentication
-  generated: '2026-07-22'
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/locus-sh.png
 url: https://raw.githubusercontent.com/api-evangelist/locus-sh/refs/heads/main/apis.yml
 created: '2026-05-25'
 modified: '2026-05-25'
 specificationVersion: '0.23'
-position: Provider
+position: Producing
 access: 3rd-Party
 apis:
 - aid: locus-sh:locus-sh-homebasemaster-api
