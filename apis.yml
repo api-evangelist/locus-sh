@@ -87,32 +87,6 @@ apis:
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
-- aid: locus-sh:locus-sh-locationmaster-api
-  name: Locus LocationMaster API
-  description: The LocationMaster API from Locus — 2 operation(s) for locationmaster.
-  humanURL: >-
-    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
-  baseURL: https://oms.locus-api.com/v1
-  tags:
-  - Location Master
-  tags_raw:
-  - LocationMaster
-  properties:
-  - type: OpenAPI
-    url: openapi/locus-sh-locationmaster-api-openapi.yml
-  - type: Documentation
-    url: >-
-      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
-  - type: Signup
-    url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
-  - type: Documentation
-    url: >-
-      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
-  - type: Documentation
-    url: >-
-      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
 - aid: locus-sh:locus-sh-order-api
   name: Locus Order API
   description: The Order API from Locus — 8 operation(s) for order.
@@ -330,32 +304,6 @@ apis:
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
-- aid: locus-sh:locus-sh-skumaster-api
-  name: Locus SKUMaster API
-  description: The SKUMaster API from Locus — 2 operation(s) for skumaster.
-  humanURL: >-
-    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
-  baseURL: https://oms.locus-api.com/v1
-  tags:
-  - SKU Master
-  tags_raw:
-  - SKUMaster
-  properties:
-  - type: OpenAPI
-    url: openapi/locus-sh-skumaster-api-openapi.yml
-  - type: Documentation
-    url: >-
-      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
-  - type: Signup
-    url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
-  - type: Documentation
-    url: >-
-      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
-  - type: Documentation
-    url: >-
-      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
 - aid: locus-sh:locus-sh-teammaster-api
   name: Locus TeamMaster API
   description: The TeamMaster API from Locus — 2 operation(s) for teammaster.
@@ -439,6 +387,54 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/locus-sh-vehiclemodel-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-location-master-api
+  name: Locus Location Master API
+  description: The Location Master API from Locus — 2 operation(s) for location master.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - Location Master
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-location-master-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  - type: Signup
+    url: https://locus.sh/schedule-demo/
+  - type: GraphQL
+    url: graphql/locus-sh-graphql.md
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
+  - type: Documentation
+    url: >-
+      https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1
+- aid: locus-sh:locus-sh-sku-master-api
+  name: Locus SKU Master API
+  description: The SKU Master API from Locus — 2 operation(s) for sku master.
+  humanURL: >-
+    https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
+  baseURL: https://oms.locus-api.com/v1
+  tags:
+  - SKU Master
+  properties:
+  - type: OpenAPI
+    url: openapi/locus-sh-sku-master-api-openapi.yml
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
