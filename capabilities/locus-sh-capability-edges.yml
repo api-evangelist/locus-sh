@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 3
+edge_count: 4
 edges:
 - tag: Vehicle
   spec_file: locus-sh-vehicle-api-openapi.yml
@@ -24,6 +24,18 @@ edges:
   reason: Maintains the fleet register of vehicles with fleet type, capacity limits, cost model and base
     locations — fleet and mobile asset provisioning. No single L2 (not maintenance, not telematics, not
     disposal) is clearly named.
+- tag: OrderServiceability
+  spec_file: locus-sh-orderserviceability-api-openapi.yml
+  capability_id: BC-520.40
+  capability_id_l1: BC-520
+  capability_name: Order Fulfilment Management
+  confidence: 0.72
+  evidence: POST /client/{clientId}/get-slots — "Get available future slots for the given order", schemas
+    GetSlotsResponse, TimeSlot, SlotSelectionStrategy, OrderType
+  reason: Determines whether and when an order can be served (delivery slot availability), i.e. order
+    promising within delivery fulfilment orchestration — Order Fulfilment Management. Not a mobility-specific
+    capability; Locus is a last-mile logistics platform.
+  recovered_from: vertical-automotive-mobility-edges.json
 - tag: Roster
   spec_file: locus-sh-roster-api-openapi.yml
   capability_id: BC-2440.20
