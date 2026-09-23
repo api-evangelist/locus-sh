@@ -1,21 +1,15 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  title: Locus HomebaseMaster ServiceType API
-  description: Manage your deliveries with the Locus API
+  title: Locus Order Service Type API
+  description: Manage your orders with the Locus OMS API
   version: 1.0.0
-schemes:
-- https
-consumes:
-- application/json
-produces:
-- application/json
 tags:
 - name: ServiceType
 paths:
   /client/{clientId}/service-type/{serviceTypeId}:
     parameters:
-    - $ref: '#/parameters/ClientIdParam'
-    - $ref: '#/parameters/ServiceTypeIdParam'
+    - $ref: '#/components/parameters/ClientIdParam'
+    - $ref: '#/components/parameters/ServiceTypeIdParam'
     get:
       summary: Get service type
       operationId: getServiceType
@@ -24,119 +18,129 @@ paths:
       responses:
         '200':
           description: Service type object
-          schema:
-            $ref: '#/definitions/ServiceTypeConfiguration'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTypeConfiguration'
       security:
       - locusauth: []
     put:
       summary: Create service type
       operationId: createServiceType
       parameters:
-      - name: serviceType
-        in: body
-        description: Create service type request
-        required: true
-        schema:
-          $ref: '#/definitions/CreateServiceTypeRequest'
-      - $ref: '#/parameters/OverwriteParam'
+      - $ref: '#/components/parameters/OverwriteParam'
       tags:
       - ServiceType
       responses:
         '200':
           description: Created Service Type Object
-          schema:
-            $ref: '#/definitions/ServiceTypeConfiguration'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTypeConfiguration'
       security:
       - locusauth: []
-definitions:
-  ServiceTypeConfiguration:
-    description: Service type model a specific delivery service
-    allOf:
-    - $ref: '#/definitions/CreateServiceTypeRequest'
-    - type: object
-  CreateServiceTypeRequest:
-    description: Create service type
-    allOf:
-    - $ref: '#/definitions/EntityDefinition'
-    - type: object
-      required:
-      - serviceTypeId
-      - serviceTypeName
-      - orderTypes
-      - maxDeliveryDays
-      - maxDeliveryTime
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServiceTypeRequest'
+        description: Create service type request
+        required: true
+components:
+  schemas:
+    EntityDefinition:
+      type: object
+    Amount:
+      description: Amount of an item
       properties:
-        orderType:
-          $ref: '#/definitions/OrderType'
-        teams:
-          description: List of teams of carrier client to consider for this task assignment
-          type: array
-          items:
-            type: string
-        serviceabilityMapIds:
-          description: List of zone ids that the service is serviceable to
-          type: array
-          items:
-            type: string
-        maxDeliveryDays:
-          type: integer
-          minimum: 0
-          description: Maximum number of days allowed to fulfill the delivery.
-        maxDeliveryTime:
+        amount:
+          type: number
+          format: double
+        currency:
           type: string
-          pattern: ^([01]\d|2[0-3]):([0-5]\d)$
-          description: Latest time by which the delivery should be completed, in 24-hour HH:MM format.
-          example: '23:00'
-        costOfService:
-          $ref: '#/definitions/Amount'
-        serviceSubType:
-          $ref: '#/definitions/ServiceSubType'
-  ServiceSubType:
-    type: string
-    enum:
-    - NO_OF_DAYS_PLUS_TIME
-    - NO_OF_DAYS
-    - NO_OF_DAYS_PLUS_SLOT
-  Amount:
-    description: Amount of an item
-    properties:
-      amount:
-        type: number
-        format: double
-      currency:
+          description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
+        symbol:
+          type: string
+          description: A symbol for the currency. If missing, will default to currency string
+    ServiceSubType:
+      type: string
+      enum:
+      - NO_OF_DAYS_PLUS_TIME
+      - NO_OF_DAYS
+      - NO_OF_DAYS_PLUS_SLOT
+    OrderType:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
+    ServiceTypeConfiguration:
+      description: Service type model a specific delivery service
+      allOf:
+      - $ref: '#/components/schemas/CreateServiceTypeRequest'
+      - type: object
+    CreateServiceTypeRequest:
+      description: Create service type
+      allOf:
+      - $ref: '#/components/schemas/EntityDefinition'
+      - type: object
+        required:
+        - serviceTypeId
+        - serviceTypeName
+        - orderTypes
+        - maxDeliveryDays
+        - maxDeliveryTime
+        properties:
+          orderType:
+            $ref: '#/components/schemas/OrderType'
+          teams:
+            description: List of teams of carrier client to consider for this task assignment
+            type: array
+            items:
+              type: string
+          serviceabilityMapIds:
+            description: List of zone ids that the service is serviceable to
+            type: array
+            items:
+              type: string
+          maxDeliveryDays:
+            type: integer
+            minimum: 0
+            description: Maximum number of days allowed to fulfill the delivery.
+          maxDeliveryTime:
+            type: string
+            pattern: ^([01]\d|2[0-3]):([0-5]\d)$
+            description: Latest time by which the delivery should be completed, in 24-hour HH:MM format.
+            example: '23:00'
+          costOfService:
+            $ref: '#/components/schemas/Amount'
+          serviceSubType:
+            $ref: '#/components/schemas/ServiceSubType'
+  parameters:
+    ServiceTypeIdParam:
+      name: serviceTypeId
+      in: path
+      description: Id of the service type
+      required: true
+      schema:
         type: string
-        description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
-      symbol:
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
         type: string
-        description: A symbol for the currency. If missing, will default to currency string
-  EntityDefinition:
-    type: object
-  OrderType:
-    $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
-parameters:
-  OverwriteParam:
-    name: overwrite
-    in: query
-    description: Boolean flag if true, will overwrite the existing entity
-    required: false
-    type: boolean
-  ClientIdParam:
-    name: clientId
-    in: path
-    description: Id of the client
-    required: true
-    type: string
-  ServiceTypeIdParam:
-    name: serviceTypeId
-    in: path
-    description: Id of the service type
-    required: true
-    type: string
-securityDefinitions:
-  locusauth:
-    type: basic
-    description: HTTP Basic Authentication
-  apiKeyAuth:
-    type: apiKey
-    in: header
-    name: Authorization
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
+  securitySchemes:
+    locusauth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization

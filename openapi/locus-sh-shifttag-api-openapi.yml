@@ -1,21 +1,15 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  title: Locus HomebaseMaster ShiftTag API
+  title: Locus Shift Tag API
   description: Manage your deliveries with the Locus API
   version: 1.0.0
-schemes:
-- https
-consumes:
-- application/json
-produces:
-- application/json
 tags:
 - name: ShiftTag
 paths:
   /client/{clientId}/shift-manager/{tagId}:
     parameters:
-    - $ref: '#/parameters/ClientIdParam'
-    - $ref: '#/parameters/TagIdParam'
+    - $ref: '#/components/parameters/ClientIdParam'
+    - $ref: '#/components/parameters/TagIdParam'
     get:
       summary: fetch shiftTag by id
       operationId: getShiftTag
@@ -23,40 +17,46 @@ paths:
       - name: include
         in: query
         description: Extra fields that should be returned.
-        type: string
+        schema:
+          type: string
       tags:
       - ShiftTag
       responses:
         '200':
           description: ShiftTag object
-          schema:
-            $ref: '#/definitions/ShiftTag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftTag'
       security:
       - locusauth: []
     put:
       summary: Create a given shiftTag
       operationId: createShiftTag
       parameters:
-      - name: shiftTag
-        in: body
-        description: Create shift tag request
-        required: true
-        schema:
-          $ref: '#/definitions/ShiftTag'
-      - $ref: '#/parameters/OverwriteParam'
+      - $ref: '#/components/parameters/OverwriteParam'
       tags:
       - ShiftTag
       responses:
         '200':
           description: ShiftTag object
-          schema:
-            $ref: '#/definitions/ShiftTag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftTag'
       security:
       - locusauth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShiftTag'
+        description: Create shift tag request
+        required: true
   /client/{clientId}/shift-manager/{tagId}/disable:
     parameters:
-    - $ref: '#/parameters/ClientIdParam'
-    - $ref: '#/parameters/TagIdParam'
+    - $ref: '#/components/parameters/ClientIdParam'
+    - $ref: '#/components/parameters/TagIdParam'
     post:
       description: Disable a specific Shift Tag
       operationId: disableShiftTag
@@ -65,37 +65,46 @@ paths:
       responses:
         '200':
           description: Updated shiftTag object
-          schema:
-            $ref: '#/definitions/ShiftTag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftTag'
       security:
       - locusauth: []
-definitions:
-  ShiftTag:
-    $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTag
-parameters:
-  TagIdParam:
-    name: tagId
-    in: path
-    description: Id of the shiftTag
-    required: true
-    type: string
-  OverwriteParam:
-    name: overwrite
-    in: query
-    description: Boolean flag if true, will overwrite the existing entity
-    required: false
-    type: boolean
-  ClientIdParam:
-    name: clientId
-    in: path
-    description: Id of the client
-    required: true
-    type: string
-securityDefinitions:
-  locusauth:
-    type: basic
-    description: HTTP Basic Authentication
-  apiKeyAuth:
-    type: apiKey
-    in: header
-    name: Authorization
+      summary: Disable shift tag
+      x-summary-source: derived
+components:
+  schemas:
+    ShiftTag:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTag
+  parameters:
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
+    TagIdParam:
+      name: tagId
+      in: path
+      description: Id of the shiftTag
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    locusauth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization

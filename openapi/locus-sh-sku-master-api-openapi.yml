@@ -1,85 +1,90 @@
 openapi: 3.2.0
 info:
-  title: Locus Rider Persona API
+  title: Locus SKU Master API
   description: Manage your deliveries with the Locus API
   version: 1.0.0
 tags:
-- name: RiderPersona
+- name: SKU Master
 paths:
-  /client/{clientId}/rider-persona/{riderPersonaId}:
+  /client/{clientId}/lineitem/{lineItemId}:
     parameters:
     - $ref: '#/components/parameters/ClientIdParam'
-    - $ref: '#/components/parameters/RiderPersonaIdParam'
+    - $ref: '#/components/parameters/LineItemIdParam'
     get:
-      summary: Get a rider persona by id
-      operationId: getRiderPersona
+      summary: Get a line item
+      operationId: getLineItem
+      tags:
+      - SKU Master
       parameters:
       - name: include
         in: query
-        description: Comma separated list of extra fields that should be returned. Supported values are TRANSPORTER.
+        description: Comma separated list of extra fields that should be returned. Supported values are LOCATIONS.
         required: false
         schema:
           type: string
-      tags:
-      - RiderPersona
       responses:
         '200':
-          description: Desired rider persona
+          description: Line item object
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RiderPersona'
+                $ref: '#/components/schemas/MasterLineItem'
       security:
       - locusauth: []
     put:
-      summary: Create a new rider persona
-      operationId: createRiderPersona
+      summary: Create a line item
+      operationId: createLineItem
       parameters:
       - $ref: '#/components/parameters/OverwriteParam'
       tags:
-      - RiderPersona
+      - SKU Master
       responses:
         '200':
-          description: Created rider persona
+          description: Created line item
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RiderPersona'
+                $ref: '#/components/schemas/MasterLineItem'
       security:
       - locusauth: []
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateRiderPersonaRequest'
-        description: Rider persona create request
+              $ref: '#/components/schemas/CreateLineItemRequest'
+        description: Create line item request
         required: true
-  /client/{clientId}/rider-persona/{riderPersonaId}/disable:
+  /client/{clientId}/lineitem/{lineItemId}/disable:
     parameters:
     - $ref: '#/components/parameters/ClientIdParam'
-    - $ref: '#/components/parameters/RiderPersonaIdParam'
+    - $ref: '#/components/parameters/LineItemIdParam'
     post:
-      description: Disable a specific rider persona
-      operationId: disableRiderPersona
+      description: Disable a specific line item
+      operationId: disableLineItem
       tags:
-      - RiderPersona
+      - SKU Master
       responses:
         '200':
-          description: Updated rider persona
+          description: Updated line item
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RiderPersona'
+                $ref: '#/components/schemas/MasterLineItem'
       security:
       - locusauth: []
-      summary: Disable rider persona
+      summary: Disable line item
       x-summary-source: derived
 components:
+  schemas:
+    CreateLineItemRequest:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CreateLineItemRequest
+    MasterLineItem:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLineItem
   parameters:
-    RiderPersonaIdParam:
-      name: riderPersonaId
+    LineItemIdParam:
+      name: lineItemId
       in: path
-      description: Id of the rider persona
+      description: Id of the line item
       required: true
       schema:
         type: string
@@ -97,14 +102,6 @@ components:
       required: false
       schema:
         type: boolean
-  schemas:
-    RiderPersona:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderPersona
-    CreateRiderPersonaRequest:
-      description: Wrapper for rider persona create request
-      allOf:
-      - $ref: '#/components/schemas/RiderPersona'
-      - type: object
   securitySchemes:
     locusauth:
       type: http

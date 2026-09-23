@@ -1,21 +1,15 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  title: Locus HomebaseMaster VehicleModel API
+  title: Locus Vehicle Model API
   description: Manage your deliveries with the Locus API
   version: 1.0.0
-schemes:
-- https
-consumes:
-- application/json
-produces:
-- application/json
 tags:
 - name: VehicleModel
 paths:
   /client/{clientId}/vehicle-model/{vehicleModelId}:
     parameters:
-    - $ref: '#/parameters/ClientIdParam'
-    - $ref: '#/parameters/VehicleModelIdParam'
+    - $ref: '#/components/parameters/ClientIdParam'
+    - $ref: '#/components/parameters/VehicleModelIdParam'
     get:
       summary: Get a vehicle model
       operationId: getVehicleModel
@@ -24,40 +18,46 @@ paths:
         in: query
         description: Extra field that should be returned. Supported value is TRANSPORTERS
         required: false
-        type: string
+        schema:
+          type: string
       tags:
       - VehicleModel
       responses:
         '200':
           description: vehicle model object
-          schema:
-            $ref: '#/definitions/VehicleModel'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleModel'
       security:
       - locusauth: []
     put:
       summary: Create a vehicle model
       operationId: createVehicleModel
       parameters:
-      - name: vehicleModel
-        in: body
-        description: Create vehicle model request
-        required: true
-        schema:
-          $ref: '#/definitions/CreateVehicleModelRequest'
-      - $ref: '#/parameters/OverwriteParam'
+      - $ref: '#/components/parameters/OverwriteParam'
       tags:
       - VehicleModel
       responses:
         '200':
           description: Created vehicle model
-          schema:
-            $ref: '#/definitions/VehicleModel'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleModel'
       security:
       - locusauth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVehicleModelRequest'
+        description: Create vehicle model request
+        required: true
   /client/{clientId}/vehicle-model/{vehicleModelId}/disable:
     parameters:
-    - $ref: '#/parameters/ClientIdParam'
-    - $ref: '#/parameters/VehicleModelIdParam'
+    - $ref: '#/components/parameters/ClientIdParam'
+    - $ref: '#/components/parameters/VehicleModelIdParam'
     post:
       description: Disable a specific vehicle model
       operationId: disableVehicleModel
@@ -66,42 +66,51 @@ paths:
       responses:
         '200':
           description: Updated vehicle model
-          schema:
-            $ref: '#/definitions/VehicleModel'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleModel'
       security:
       - locusauth: []
-definitions:
-  VehicleModel:
-    $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
-  CreateVehicleModelRequest:
-    description: Wrapper for create vehicle model request
-    allOf:
-    - $ref: '#/definitions/VehicleModel'
-    - type: object
-parameters:
-  VehicleModelIdParam:
-    name: vehicleModelId
-    in: path
-    description: Id of a vehicle model
-    required: true
-    type: string
-  OverwriteParam:
-    name: overwrite
-    in: query
-    description: Boolean flag if true, will overwrite the existing entity
-    required: false
-    type: boolean
-  ClientIdParam:
-    name: clientId
-    in: path
-    description: Id of the client
-    required: true
-    type: string
-securityDefinitions:
-  locusauth:
-    type: basic
-    description: HTTP Basic Authentication
-  apiKeyAuth:
-    type: apiKey
-    in: header
-    name: Authorization
+      summary: Disable vehicle model
+      x-summary-source: derived
+components:
+  schemas:
+    CreateVehicleModelRequest:
+      description: Wrapper for create vehicle model request
+      allOf:
+      - $ref: '#/components/schemas/VehicleModel'
+      - type: object
+    VehicleModel:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
+  parameters:
+    VehicleModelIdParam:
+      name: vehicleModelId
+      in: path
+      description: Id of a vehicle model
+      required: true
+      schema:
+        type: string
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    locusauth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
