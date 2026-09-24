@@ -79,8 +79,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -103,8 +101,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -127,8 +123,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -151,8 +145,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -175,8 +167,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -199,8 +189,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -223,8 +211,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -247,8 +233,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -272,8 +256,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -296,8 +278,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -320,8 +300,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -344,8 +322,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -370,8 +346,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -394,8 +368,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -418,8 +390,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
@@ -442,8 +412,6 @@ apis:
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1
   - type: Signup
     url: https://locus.sh/schedule-demo/
-  - type: GraphQL
-    url: graphql/locus-sh-graphql.md
   - type: Documentation
     url: >-
       https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1
