@@ -80,6 +80,60 @@ components:
   schemas:
     Roster:
       $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/Roster
+    CreateBreaksApiRequest:
+      description: Shift Roster request for bulk create
+      required:
+      - startTime
+      - endTime
+      - duration
+      - breakType
+      properties:
+        startTime:
+          description: Break Start Time
+          type: string
+        endTime:
+          description: Break End Time
+          type: string
+        duration:
+          description: Duration of break
+          type: string
+        breakType:
+          description: Type of break - LUNCH, REFUEL
+          type: string
+          enum:
+          - LUNCH
+          - REFUEL
+          - NIGHT
+          - OTHER
+          default: LUNCH
+    RosterShiftLocation:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation
+    VehicleModelId:
+      type: object
+    GetRosterResponse:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRosterResponse
+    CreateRosterResponse:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CreateRosterResponse
+    CreateRosterShiftApiRequest:
+      description: Shift Roster request for bulk create
+      required:
+      - tagId
+      - start
+      properties:
+        tagId:
+          description: Shift Tag Id for the Roster
+          type: string
+        start:
+          $ref: '#/components/schemas/RosterShiftLocation'
+        end:
+          $ref: '#/components/schemas/RosterShiftLocation'
+        breaks:
+          type: array
+          description: List of Breaks for the Roster
+          items:
+            $ref: '#/components/schemas/CreateBreaksApiRequest'
+    SkillId:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
     CreateRostersApiRequest:
       description: API Roster request for bulk create
       required:
@@ -135,74 +189,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SkillId'
-    CreateRosterShiftApiRequest:
-      description: Shift Roster request for bulk create
-      required:
-      - tagId
-      - start
-      properties:
-        tagId:
-          description: Shift Tag Id for the Roster
-          type: string
-        start:
-          $ref: '#/components/schemas/RosterShiftLocation'
-        end:
-          $ref: '#/components/schemas/RosterShiftLocation'
-        breaks:
-          type: array
-          description: List of Breaks for the Roster
-          items:
-            $ref: '#/components/schemas/CreateBreaksApiRequest'
-    CreateRosterResponse:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CreateRosterResponse
-    CreateBreaksApiRequest:
-      description: Shift Roster request for bulk create
-      required:
-      - startTime
-      - endTime
-      - duration
-      - breakType
-      properties:
-        startTime:
-          description: Break Start Time
-          type: string
-        endTime:
-          description: Break End Time
-          type: string
-        duration:
-          description: Duration of break
-          type: string
-        breakType:
-          description: Type of break - LUNCH, REFUEL
-          type: string
-          enum:
-          - LUNCH
-          - REFUEL
-          - NIGHT
-          - OTHER
-          default: LUNCH
-    VehicleModelId:
-      type: object
-    RosterShiftLocation:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation
     RosterEntityType:
       $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterEntityType
-    SkillId:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
-    GetRosterResponse:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRosterResponse
   parameters:
-    RosterIdParam:
-      name: rosterId
-      in: path
-      description: Id of roster
-      required: true
-      schema:
-        type: string
     ClientIdParam:
       name: clientId
       in: path
       description: Id of the client
+      required: true
+      schema:
+        type: string
+    RosterIdParam:
+      name: rosterId
+      in: path
+      description: Id of roster
       required: true
       schema:
         type: string

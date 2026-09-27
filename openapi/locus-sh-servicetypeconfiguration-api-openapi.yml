@@ -27,7 +27,28 @@ paths:
       summary: Disable service type
       x-summary-source: derived
 components:
+  parameters:
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
+    ServiceTypeIdParam:
+      name: serviceTypeId
+      in: path
+      description: Id of the service type
+      required: true
+      schema:
+        type: string
   schemas:
+    ServiceSubType:
+      type: string
+      enum:
+      - NO_OF_DAYS_PLUS_TIME
+      - NO_OF_DAYS
+      - NO_OF_DAYS_PLUS_SLOT
     EntityDefinition:
       type: object
     Amount:
@@ -42,19 +63,11 @@ components:
         symbol:
           type: string
           description: A symbol for the currency. If missing, will default to currency string
-    ServiceSubType:
-      type: string
-      enum:
-      - NO_OF_DAYS_PLUS_TIME
-      - NO_OF_DAYS
-      - NO_OF_DAYS_PLUS_SLOT
     ServiceTypeConfiguration:
       description: Service type model a specific delivery service
       allOf:
       - $ref: '#/components/schemas/CreateServiceTypeRequest'
       - type: object
-    OrderType:
-      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
     CreateServiceTypeRequest:
       description: Create service type
       allOf:
@@ -92,21 +105,8 @@ components:
             $ref: '#/components/schemas/Amount'
           serviceSubType:
             $ref: '#/components/schemas/ServiceSubType'
-  parameters:
-    ServiceTypeIdParam:
-      name: serviceTypeId
-      in: path
-      description: Id of the service type
-      required: true
-      schema:
-        type: string
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
+    OrderType:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
   securitySchemes:
     locusauth:
       type: http

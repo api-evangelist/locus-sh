@@ -82,8 +82,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    EntityDefinition:
-      type: object
     EntityStatusUpdateRequest:
       description: Wrapper for entity status update request
       required:
@@ -91,15 +89,19 @@ components:
       properties:
         status:
           $ref: '#/components/schemas/EntityStatus'
-    IndustryType:
-      type: object
-    CityId:
-      description: An id for a city
-      required:
-      - cityId
-      properties:
-        cityId:
-          type: string
+    CreateTeamRequest:
+      description: Team entity create request
+      allOf:
+      - $ref: '#/components/schemas/EntityDefinition'
+      - type: object
+        properties:
+          businessUnitId:
+            $ref: '#/components/schemas/BusinessUnitId'
+          cityId:
+            $ref: '#/components/schemas/CityId'
+          color:
+            description: Color of the team
+            type: string
     BusinessUnit:
       description: Business unit of the client
       required:
@@ -132,6 +134,8 @@ components:
         version:
           type: integer
           format: int32
+    EntityStatus:
+      type: object
     Team:
       description: Team entity
       allOf:
@@ -159,21 +163,15 @@ components:
           type: string
         businessUnitId:
           type: string
-    EntityStatus:
+    IndustryType:
       type: object
-    CreateTeamRequest:
-      description: Team entity create request
-      allOf:
-      - $ref: '#/components/schemas/EntityDefinition'
-      - type: object
-        properties:
-          businessUnitId:
-            $ref: '#/components/schemas/BusinessUnitId'
-          cityId:
-            $ref: '#/components/schemas/CityId'
-          color:
-            description: Color of the team
-            type: string
+    CityId:
+      description: An id for a city
+      required:
+      - cityId
+      properties:
+        cityId:
+          type: string
     BusinessUnitStatusEnum:
       description: Operational status of the business unit
       type: string
@@ -181,14 +179,9 @@ components:
       enum:
       - ACTIVE
       - INACTIVE
+    EntityDefinition:
+      type: object
   parameters:
-    TeamIdParam:
-      name: teamId
-      in: path
-      description: Id of the team
-      required: true
-      schema:
-        type: string
     ClientIdParam:
       name: clientId
       in: path
@@ -203,6 +196,13 @@ components:
       required: false
       schema:
         type: boolean
+    TeamIdParam:
+      name: teamId
+      in: path
+      description: Id of the team
+      required: true
+      schema:
+        type: string
   securitySchemes:
     locusauth:
       type: http

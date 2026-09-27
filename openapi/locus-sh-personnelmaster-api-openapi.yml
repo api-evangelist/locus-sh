@@ -60,7 +60,69 @@ paths:
         description: Request object
         required: true
 components:
+  parameters:
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
+    PersonnelIdParam:
+      name: personnelId
+      in: path
+      description: Id of the personnel
+      required: true
+      schema:
+        type: string
   schemas:
+    CompactCreatePersonnelRequest:
+      description: Minimal request for creating personnels
+      required:
+      - id
+      - name
+      - email
+      - role
+      - teams
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        hasAllTeamsAccess:
+          description: Boolean indicating whether the personnel has access to all teams or not
+          type: boolean
+          default: false
+        teams:
+          description: Ids of the teams to which this personnel belongs
+          type: array
+          items:
+            type: string
+        customProperties:
+          description: Additional properties which clients wants to have along with standard entity properties
+          type: object
+          additionalProperties:
+            type: string
+    BusinessUnitId:
+      required:
+      - clientId
+      - businessUnitId
+      properties:
+        clientId:
+          type: string
+        businessUnitId:
+          type: string
     RoleType:
       type: string
       enum:
@@ -70,6 +132,22 @@ components:
       - CLIENT
       - SYSTEM
       - API_CREDENTIAL
+    TeamId:
+      type: object
+    MasterRole:
+      description: Role Master entity
+      allOf:
+      - $ref: '#/components/schemas/EntityDefinition'
+      - type: object
+        required:
+        - id
+        properties:
+          allowedOperations:
+            type: array
+            items:
+              type: string
+          roleType:
+            $ref: '#/components/schemas/RoleType'
     BasePersonnel:
       description: Base class for personnel related models
       allOf:
@@ -124,57 +202,9 @@ components:
           timezone:
             description: Time zone of the personnel
             type: string
-    MasterRole:
-      description: Role Master entity
-      allOf:
-      - $ref: '#/components/schemas/EntityDefinition'
-      - type: object
-        required:
-        - id
-        properties:
-          allowedOperations:
-            type: array
-            items:
-              type: string
-          roleType:
-            $ref: '#/components/schemas/RoleType'
-    EntityStatus:
-      type: object
-    BusinessUnitId:
-      required:
-      - clientId
-      - businessUnitId
-      properties:
-        clientId:
-          type: string
-        businessUnitId:
-          type: string
-    AuthToken:
-      required:
-      - token
-      - userId
-      - authProvider
-      properties:
-        token:
-          type: string
-        userId:
-          type: string
-        authProvider:
-          type: string
-          enum:
-          - TAXY_CLIENT
-    TransporterId:
-      type: object
-    EntityStatusUpdateRequest:
-      description: Wrapper for entity status update request
-      required:
-      - status
-      properties:
-        status:
-          $ref: '#/components/schemas/EntityStatus'
     RoleMasterId:
       type: object
-    TeamId:
+    EntityDefinition:
       type: object
     PhoneNumber:
       description: Phone number information
@@ -191,6 +221,33 @@ components:
           description: Timestamp of verification of phone number
           type: string
           format: date-time
+    AuthToken:
+      required:
+      - token
+      - userId
+      - authProvider
+      properties:
+        token:
+          type: string
+        userId:
+          type: string
+        authProvider:
+          type: string
+          enum:
+          - TAXY_CLIENT
+    EntityStatusUpdateRequest:
+      description: Wrapper for entity status update request
+      required:
+      - status
+      properties:
+        status:
+          $ref: '#/components/schemas/EntityStatus'
+    TransporterId:
+      type: object
+    EntityStatus:
+      type: object
+    EmailAddress:
+      type: object
     PersonnelType:
       type: object
     PersonnelResponse:
@@ -211,69 +268,12 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/BusinessUnitId'
-    CompactCreatePersonnelRequest:
-      description: Minimal request for creating personnels
-      required:
-      - id
-      - name
-      - email
-      - role
-      - teams
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        email:
-          type: string
-        role:
-          type: string
-        hasAllTeamsAccess:
-          description: Boolean indicating whether the personnel has access to all teams or not
-          type: boolean
-          default: false
-        teams:
-          description: Ids of the teams to which this personnel belongs
-          type: array
-          items:
-            type: string
-        customProperties:
-          description: Additional properties which clients wants to have along with standard entity properties
-          type: object
-          additionalProperties:
-            type: string
     AccessType:
       description: User's access
       type: string
       enum:
       - READ
       - WRITE
-    EntityDefinition:
-      type: object
-    EmailAddress:
-      type: object
-  parameters:
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
-    PersonnelIdParam:
-      name: personnelId
-      in: path
-      description: Id of the personnel
-      required: true
-      schema:
-        type: string
   securitySchemes:
     locusauth:
       type: http

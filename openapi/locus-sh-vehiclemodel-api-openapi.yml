@@ -75,19 +75,11 @@ paths:
       summary: Disable vehicle model
       x-summary-source: derived
 components:
-  schemas:
-    CreateVehicleModelRequest:
-      description: Wrapper for create vehicle model request
-      allOf:
-      - $ref: '#/components/schemas/VehicleModel'
-      - type: object
-    VehicleModel:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
   parameters:
-    VehicleModelIdParam:
-      name: vehicleModelId
+    ClientIdParam:
+      name: clientId
       in: path
-      description: Id of a vehicle model
+      description: Id of the client
       required: true
       schema:
         type: string
@@ -98,13 +90,21 @@ components:
       required: false
       schema:
         type: boolean
-    ClientIdParam:
-      name: clientId
+    VehicleModelIdParam:
+      name: vehicleModelId
       in: path
-      description: Id of the client
+      description: Id of a vehicle model
       required: true
       schema:
         type: string
+  schemas:
+    CreateVehicleModelRequest:
+      description: Wrapper for create vehicle model request
+      allOf:
+      - $ref: '#/components/schemas/VehicleModel'
+      - type: object
+    VehicleModel:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
   securitySchemes:
     locusauth:
       type: http

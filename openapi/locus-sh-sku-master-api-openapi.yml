@@ -81,17 +81,17 @@ components:
     MasterLineItem:
       $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLineItem
   parameters:
-    LineItemIdParam:
-      name: lineItemId
-      in: path
-      description: Id of the line item
-      required: true
-      schema:
-        type: string
     ClientIdParam:
       name: clientId
       in: path
       description: Id of the client
+      required: true
+      schema:
+        type: string
+    LineItemIdParam:
+      name: lineItemId
+      in: path
+      description: Id of the line item
       required: true
       schema:
         type: string

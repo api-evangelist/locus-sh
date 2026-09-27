@@ -74,17 +74,7 @@ paths:
       summary: Disable shift tag
       x-summary-source: derived
 components:
-  schemas:
-    ShiftTag:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTag
   parameters:
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -99,6 +89,16 @@ components:
       required: true
       schema:
         type: string
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
+  schemas:
+    ShiftTag:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTag
   securitySchemes:
     locusauth:
       type: http

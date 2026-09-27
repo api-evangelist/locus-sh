@@ -75,22 +75,7 @@ paths:
       summary: Disable transporter
       x-summary-source: derived
 components:
-  schemas:
-    CreateTransporterRequest:
-      description: Wrapper for transporter create request
-      allOf:
-      - $ref: '#/components/schemas/Transporter'
-      - type: object
-    Transporter:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
   parameters:
-    TransporterIdParam:
-      name: transporterId
-      in: path
-      description: Id of the transporter
-      required: true
-      schema:
-        type: string
     ClientIdParam:
       name: clientId
       in: path
@@ -105,6 +90,21 @@ components:
       required: false
       schema:
         type: boolean
+    TransporterIdParam:
+      name: transporterId
+      in: path
+      description: Id of the transporter
+      required: true
+      schema:
+        type: string
+  schemas:
+    CreateTransporterRequest:
+      description: Wrapper for transporter create request
+      allOf:
+      - $ref: '#/components/schemas/Transporter'
+      - type: object
+    Transporter:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
   securitySchemes:
     locusauth:
       type: http
