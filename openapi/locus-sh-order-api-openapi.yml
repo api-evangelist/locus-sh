@@ -231,511 +231,24 @@ paths:
               $ref: '#/components/schemas/InventoryVerificationRequest'
         required: true
 components:
-  parameters:
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
-    OrderIdParam:
-      name: orderId
-      in: path
-      description: Id of the order
-      required: true
-      schema:
-        type: string
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
   schemas:
-    BaseLineItemTransactionStatus:
-      description: Transaction status of a line item
+    OmsDimensions:
+      description: Dimensions of an item
       properties:
-        id:
-          type: string
-          description: id of the line item
-        reconcileQuantity:
-          type: integer
-          format: int32
-          default: 0
-        handlingUnit:
-          $ref: '#/components/schemas/HandlingUnitEnum'
-    CancelOrderRequest:
-      properties:
-        reason:
-          $ref: '#/components/schemas/Reason'
-    BagDetails:
-      description: object to store bagging related details on order
-      properties:
-        bagId:
-          type: string
-        bagEventId:
-          type: string
-        teams:
-          type: array
-          items:
-            type: string
-    OrchestrationMetadata:
-      properties:
-        orchestrationId:
-          type: string
-        shipmentMetadata:
-          $ref: '#/components/schemas/OrchestrationShipmentMetadata'
-        customerGeocodedLocation:
-          $ref: '#/components/schemas/OrderGeocodedLocation'
-        homebaseGeocodedLocation:
-          $ref: '#/components/schemas/OrderGeocodedLocation'
-        shippingLabelInfo:
-          $ref: '#/components/schemas/ShippingLabelInfo'
-    Volume:
-      description: Volume of an item
-      required:
-      - value
-      - unit
-      properties:
-        value:
-          description: Value of the volume in the given unit.
-          type: string
-        unit:
-          $ref: '#/components/schemas/VolumeUnit'
-    PartItemVolume:
-      properties:
-        value:
+        length:
+          description: Length of the item in meters
+          type: number
+          format: double
+        breadth:
+          description: Breadth of the item in meters
+          type: number
+          format: double
+        height:
+          description: Height of the item in meters
           type: number
           format: double
         unit:
-          type: string
-    InventoryVerificationRequest:
-      description: Inventory Verification Request
-      required:
-      - isInventoryVerified
-      properties:
-        isInventoryVerified:
-          type: boolean
-        verifyAt:
-          type: string
-          format: date-time
-    PromiseTimelineElement:
-      properties:
-        serviceTypeId:
-          type: string
-        dateSlots:
-          type: array
-          items:
-            $ref: '#/components/schemas/DateSlotInfoElement'
-        timestamp:
-          type: string
-          format: date-time
-        actor:
-          $ref: '#/components/schemas/Actor'
-        reason:
-          $ref: '#/components/schemas/Reason'
-    TourCostMetadata:
-      properties:
-        dispatchedFreightCost:
-          $ref: '#/components/schemas/TourFreightCostMetadata'
-    OrderStatus:
-      description: Order status enum
-      type: string
-      enum:
-      - OPEN
-      - CONFIRMED
-      - PLANNING
-      - PLANNED
-      - ASSIGNED
-      - EXECUTING
-      - COMPLETED
-      - CANCELLED
-      - PARKED
-      - RECEIVED
-    PaymentChecklistItems:
-      properties:
-        skipPaymentChecklist:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChecklistItem'
-        partialPaymentChecklist:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChecklistItem'
-        fullPaymentChecklist:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChecklistItem'
-    SlaStatusEnum:
-      $ref: https://swagger.locus-api.com/task.yaml#/definitions/SlaStatusEnum
-    DeliveryAttempt:
-      description: Delivery attempt history
-      properties:
-        statusUpdates:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderStatusUpdate'
-    ShipmentLegMetadata:
-      description: Shipment related extra info relevant for an order
-      properties:
-        shipmentId:
-          type: string
-        splitId:
-          type: string
-        nodeId:
-          type: string
-        legId:
-          type: string
-        distributionChannel:
-          $ref: '#/components/schemas/DistributionChannel'
-    ContractId:
-      type: object
-    ChecklistMetadata:
-      description: Order checklist metadata
-      properties:
-        updateCount:
-          type: integer
-          format: int32
-          default: 0
-        updateAllowedStatus:
-          type: string
-          enum:
-          - ALLOWED
-          - NOT_ALLOWED
-          default: ALLOWED
-    CreatePromiseInformationRequest:
-      properties:
-        serviceTypeId:
-          type: string
-    WeightUnit:
-      description: Unit for weight
-      type: string
-      enum:
-      - MG
-      - G
-      - KG
-      - T
-      - OZ
-      - LB
-    AmountType:
-      description: Payment status of an order.
-      type: string
-      enum:
-      - CURRENT
-      - EXECUTED
-    AutoSortDetails:
-      description: details containing the route
-      properties:
-        route:
-          description: Route for given order
-          $ref: '#/components/schemas/MinimalAutosortRoute'
-        versionedMapIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/VersionedMapId'
-        autosortId:
-          description: Id of the auto sort request
-          type: string
-    GenericResponse:
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          default: success
-    CompleteOrderRequest:
-      description: Order complete request
-      properties:
-        orderId:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-        homebaseTimestamp:
-          type: string
-          format: date-time
-        lineItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/LineItemTransactionStatus'
-        customerTransactionStatus:
-          $ref: '#/components/schemas/TransactionDetail'
-        homebaseTransactionStatus:
-          $ref: '#/components/schemas/TransactionDetail'
-        isSoftComplete:
-          type: boolean
-          description: Flag to denote if completion of order to be treated as soft or hard
-          default: false
-    MinimalMasterLineItem:
-      properties:
-        id:
-          description: An identifier for the SKU. If provided, details related to line item will be populated using sku master of the client
-          type: string
-        name:
-          description: Name of the item
-          type: string
-        code:
-          description: Line Item Code
-          type: string
-        parts:
-          type: array
-          items:
-            $ref: '#/components/schemas/MasterLineItemPart'
-    OrderSubStatus:
-      description: Order sub status enum
-      type: string
-      enum:
-      - PENDING_ACCEPTANCE
-      - ACCEPTED
-      - PICKUP_ENROUTE
-      - SERVICE_ENROUTE
-      - PICKUP_REACHED
-      - SERVICE_REACHED
-      - PICKUP_ONGOING
-      - SERVICE_ONGOING
-      - PICKUP_DONE
-      - DROP_ENROUTE
-      - DROP_REACHED
-      - DROP_ONGOING
-      - DROP_DONE
-      - ATTEMPT_FAILED
-      - INBOUND_PENDING
-      - INBOUND_COMPLETED
-      - TOUR_STARTED
-      - IN_TRANSIT
-      - PARTIALLY_COMPLETED
-      - OUTBOUND_COMPLETED
-    AmountDetailsTimeline:
-      description: Maintains a chronological log of amount updates with details
-      properties:
-        amount:
-          $ref: '#/components/schemas/AmountDetails'
-        exchangeType:
-          $ref: '#/components/schemas/AmountExchangeType'
-        actor:
-          $ref: '#/components/schemas/Actor'
-        amountType:
-          $ref: '#/components/schemas/AmountType'
-        timestamp:
-          type: string
-          format: date-time
-    TransitCode:
-      properties:
-        code:
-          type: string
-        description:
-          type: string
-    OrderCostEnum:
-      description: Status based on contract calculation. Possible values DISABLED, CONTRACT_MISSING, CALCULATION_FAILURE, AVAILABLE
-      type: string
-      enum:
-      - DISABLED
-      - CONTRACT_MISSING
-      - CALCULATION_FAILURE
-      - AVAILABLE
-    GeocodingProvider:
-      $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/GeocodingProvider
-    MinimalAutosortRoute:
-      type: object
-    AutomationMetadata:
-      description: Order automation metadata
-      properties:
-        reattemptCount:
-          type: integer
-          format: int32
-          default: 0
-        rescheduleCount:
-          type: integer
-          format: int32
-          default: 0
-        reasonCode:
-          $ref: '#/components/schemas/ReasonCode'
-        reasonDescription:
-          type: string
-        attemptCount:
-          type: integer
-          format: int32
-          default: 0
-        firstAttemptDate:
-          type: string
-        deliveryWindowEndDate:
-          type: string
-        shipFlexTransferCount:
-          type: integer
-          format: int32
-          default: 0
-    RescheduleRequest:
-      properties:
-        rescheduleDate:
-          type: string
-          description: The date for which order is to be rescheduled. It should be ISO Date. eg. 2017-09-14
-        rescheduleSlot:
-          $ref: '#/components/schemas/TimeSlot'
-        reason:
-          $ref: '#/components/schemas/Reason'
-        slotId:
-          type: string
-    PaymentInstrumentType:
-      description: Denotes the type of payment instrument
-      type: string
-      enum:
-      - CASH
-      - COUPON
-      - ECOD
-      - ONLINE
-    PromiseInformation:
-      allOf:
-      - $ref: '#/components/schemas/CreatePromiseInformationRequest'
-      - type: object
-        properties:
-          promiseId:
-            type: string
-          slotId:
-            type: string
-          date:
-            type: string
-          dateSlots:
-            type: array
-            items:
-              $ref: '#/components/schemas/DateSlotInfoElement'
-          timeline:
-            type: array
-            items:
-              $ref: '#/components/schemas/PromiseTimelineElement'
-    LocationSource:
-      description: location provider source.
-      type: string
-      enum:
-      - LOCATION_MASTER
-    OrderDetailStatusEnum:
-      type: string
-      enum:
-      - DELIVERED
-      - NOT_DELIVERED
-      - PARTIALLY_DELIVERED
-    ExtendedStructuredAddress:
-      allOf:
-      - $ref: '#/components/schemas/StructuredAddress'
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/LocationType'
-          customProperties:
-            type: object
-            additionalProperties:
-              type: string
-    GeocodingMetadata:
-      description: Metadata for geocoding of the address
-      properties:
-        provider:
-          $ref: '#/components/schemas/GeocodingProvider'
-        latLng:
-          description: Optional location coordinates
-          $ref: '#/components/schemas/MinimalLatLng'
-        accuracy:
-          type: integer
-          format: int32
-          default: 0
-        confidence:
-          $ref: '#/components/schemas/GeocodingConfidence'
-        verified:
-          description: Boolean to denote whether the geocoding is verified or not
-          type: boolean
-          default: false
-        requestId:
-          description: Id for the stored geocode request
-          type: string
-        isCentroidResponse:
-          description: Denotes if the response is centroid response of any kind
-          type: boolean
-          default: false
-        responseSource:
-          $ref: '#/components/schemas/ResponseSource'
-    BaseTransactionStatus:
-      required:
-      - triggerTime
-      - transactedQuantity
-      - checklistValues
-      properties:
-        orderedQuantity:
-          description: Quantity of the item that has been ordered
-          type: integer
-          format: int32
-        transactedQuantity:
-          description: Quantity of the item that has been transacted
-          type: integer
-          format: int32
-        checklistValues:
-          $ref: '#/components/schemas/Checklist'
-        triggerTime:
-          description: Time when the transaction status update was triggered on the client side
-          type: string
-          format: date-time
-        actor:
-          $ref: '#/components/schemas/Actor'
-        status:
-          $ref: '#/components/schemas/OrderDetailStatusEnum'
-    PodChecklistVerificationResult:
-      properties:
-        podVerificationStatus:
-          description: Status of the POD verification result
-          $ref: '#/components/schemas/PodVerificationStatusEnum'
-        podVerificationResult:
-          description: A map of POD verification results with checklist item id and result
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/PodVerificationResult'
-    AmountExchangeType:
-      description: Amount exchange enum
-      type: string
-      enum:
-      - COLLECT
-      - PREPAID
-    OrderGeocodedLocation:
-      properties:
-        city:
-          type: string
-        state:
-          type: string
-    PaymentInstrument:
-      description: A method of payment
-      required:
-      - instrumentType
-      - instrumentName
-      properties:
-        instrumentType:
-          $ref: '#/components/schemas/PaymentInstrumentType'
-        instrumentName:
-          description: A human friendly name for the payment instrument
-          type: string
-        providerInstrumentId:
-          $ref: '#/components/schemas/ProviderInstrumentId'
-    TimeSlot:
-      $ref: https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot
-    OrderCostMetadata:
-      properties:
-        dispatchedFreightCost:
-          $ref: '#/components/schemas/OrderFreightCostMetadata'
-        contractCostMetadata:
-          $ref: '#/components/schemas/ContractCostMetadata'
-    TransactionDetail:
-      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/TransactionDetail
-    Quantity:
-      description: Quantity of items
-      required:
-      - value
-      - unit
-      properties:
-        value:
-          description: Quantity of the item in the given unit.
-          type: integer
-          format: int32
-        unit:
-          type: string
-    StringObjectMap:
-      type: object
+          $ref: '#/components/schemas/LengthUnit'
     TransactionChecklistItems:
       properties:
         outboundChecklist:
@@ -754,209 +267,325 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ChecklistItem'
-    OrderVisitDetails:
-      description: visit related details by statuses
+    MinimalMasterLineItem:
       properties:
-        homebaseStartedBy:
+        id:
+          description: An identifier for the SKU. If provided, details related to line item will be populated using sku master of the client
           type: string
-        homebaseStartedAt:
+        name:
+          description: Name of the item
           type: string
-          format: date-time
-        homebaseReachedBy:
+        code:
+          description: Line Item Code
           type: string
-        homebaseReachedAt:
-          type: string
-          format: date-time
-        homebaseTransactingBy:
-          type: string
-        homebaseTransactingAt:
-          type: string
-          format: date-time
-        homebaseCompletedBy:
-          type: string
-        homebaseCompletedOn:
-          type: string
-          format: date-time
-        homebaseCancelledBy:
-          type: string
-        homebaseCancelledAt:
-          type: string
-          format: date-time
-        customerVisitStartedBy:
-          type: string
-        customerVisitStartedAt:
-          type: string
-        customerVisitReachedBy:
-          type: string
-        customerVisitReachedAt:
-          type: string
-        customerVisitTransactingBy:
-          type: string
-        customerVisitTransactingAt:
-          type: string
-          format: date-time
-        customerVisitCompletedBy:
-          type: string
-        customerVisitCompletedAt:
-          type: string
-        customerVisitCancelledBy:
-          type: string
-        customerVisitCancelledAt:
-          type: string
-    TransporterType:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/TransporterType
-    TransactionStatus:
-      allOf:
-      - $ref: '#/components/schemas/BaseTransactionStatus'
-      - type: object
-        properties:
-          orderedWeight:
-            description: Weight of the item that has been ordered
-            $ref: '#/components/schemas/Weight'
-          transactedWeight:
-            description: Weight of the item that has been transacted
-            $ref: '#/components/schemas/Weight'
-          orderedVolume:
-            description: Volume of the item that has been ordered
-            $ref: '#/components/schemas/Volume'
-          transactedVolume:
-            description: Volume of the item that has been transacted
-            $ref: '#/components/schemas/Volume'
-    VolumeUnit:
-      description: Unit for volume
-      type: string
-      enum:
-      - CMM
-      - CCM
-      - CC
-      - CM
-      - M3
-      - CIN
-      - CI
-      - CFT
-      - CF
-      - CYD
-      - IC
-      - TC
-      - L
-    AmountTransaction:
-      description: Transaction of an amount.
-      properties:
-        refId:
-          description: id of amount transaction
-          type: string
-        amount:
-          $ref: '#/components/schemas/Amount'
-        net:
-          $ref: '#/components/schemas/BaseAmount'
-        gross:
-          $ref: '#/components/schemas/BaseAmount'
-        exchangeType:
-          description: Type of transaction.
-          type: string
-          enum:
-          - COLLECT
-          - GIVE
-          - NONE
-    ChecklistItem:
-      $ref: https://swagger.locus-api.com/task.yaml#/definitions/ChecklistItem
-    ShipmentRateDetail:
-      type: object
-    OrderPaymentStatus:
-      description: Payment status of an order.
-      type: string
-      enum:
-      - PAID
-      - PARTIALLY_PAID
-      - UNPAID
-      - PENDING
-    Amount:
-      description: Amount of an item
-      properties:
-        amount:
-          type: number
-          format: double
-        currency:
-          type: string
-          description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
-        symbol:
-          type: string
-          description: A symbol for the currency. If missing, will default to currency string
-    AppFields:
-      $ref: https://swagger.locus-api.com/task.yaml#/definitions/AppFields
-    TimelineEntry:
-      required:
-      - type
-      - updatedOn
-      - updatedBy
-      properties:
-        type:
-          description: Timeline entry type
-          type: string
-          default: STATUS_UPDATE
-          enum:
-          - STATUS_UPDATE
-          - VERIFIED
-          - RESCHEDULE
-          - NOTES_UPDATE
-          - TEAM_UPDATE
-          - DELIVERY_WINDOW_UPDATE
-          - PAYMENT_UPDATE
-          - EXECUTED_AMOUNT_UPDATE
-          - CURRENT_AMOUNT_UPDATE
-        channel:
-          $ref: '#/components/schemas/FulfillmentChannel'
-        orderStatus:
-          $ref: '#/components/schemas/OrderStatus'
-        orderSubStatus:
-          $ref: '#/components/schemas/OrderSubStatus'
-        updatedBy:
-          type: string
-        updatedOn:
-          type: string
-          format: date-time
-        eventTimestamp:
-          type: string
-          format: date-time
-        reasonCode:
-          $ref: '#/components/schemas/ReasonCode'
-        reasonDescription:
-          type: string
-        source:
-          description: Origin of the request (Dashboard, Application)
-          type: string
-        invalidEntry:
-          description: flag to denote out of order, async and other invalid entry
-          type: boolean
-          default: false
-        attributes:
-          type: object
-          additionalProperties:
-            type: object
-    FulfillmentMode:
-      description: Channel through which the Order is fulfilled
-      type: string
-      enum:
-      - DISPATCH_IQ
-      - TRACK_IQ
-      - ORCHESTRATION_IQ
-      - TOUR_DISPATCH_MANAGEMENT
-    OrderType:
-      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
-    ContractCostMetadata:
-      properties:
-        contractId:
-          $ref: '#/components/schemas/ContractId'
-        status:
-          $ref: '#/components/schemas/OrderCostEnum'
-        totalCost:
-          description: Total cost for the given request
-          type: number
-          format: double
-        costBreakup:
+        parts:
           type: array
           items:
-            $ref: '#/components/schemas/BaseCostBreakup'
+            $ref: '#/components/schemas/MasterLineItemPart'
+    DeliveryAttempt:
+      description: Delivery attempt history
+      properties:
+        statusUpdates:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderStatusUpdate'
+    Volume:
+      description: Volume of an item
+      required:
+      - value
+      - unit
+      properties:
+        value:
+          description: Value of the volume in the given unit.
+          type: string
+        unit:
+          $ref: '#/components/schemas/VolumeUnit'
+    Weight:
+      description: Weight of order
+      required:
+      - value
+      - unit
+      properties:
+        value:
+          description: Value of the weight in the given unit.
+          type: string
+        unit:
+          $ref: '#/components/schemas/WeightUnit'
+    BaseAmount:
+      description: Amount value of an item
+      properties:
+        amount:
+          type: number
+          format: double
+    ShipmentLegMetadata:
+      description: Shipment related extra info relevant for an order
+      properties:
+        shipmentId:
+          type: string
+        splitId:
+          type: string
+        nodeId:
+          type: string
+        legId:
+          type: string
+        distributionChannel:
+          $ref: '#/components/schemas/DistributionChannel'
+    OrderCostEnum:
+      description: Status based on contract calculation. Possible values DISABLED, CONTRACT_MISSING, CALCULATION_FAILURE, AVAILABLE
+      type: string
+      enum:
+      - DISABLED
+      - CONTRACT_MISSING
+      - CALCULATION_FAILURE
+      - AVAILABLE
+    StructuredAddress:
+      description: A real world address
+      properties:
+        id:
+          description: An id for the address
+          type: string
+        placeName:
+          description: Name of the place
+          type: string
+        localityName:
+          description: Name of the locality if available
+          type: string
+        formattedAddress:
+          description: Text representation of the address.
+          type: string
+        subLocalityName:
+          description: Name of the sub-locality if available
+          type: string
+        pincode:
+          description: Zipcode for the address
+          type: string
+        city:
+          description: City of the address
+          type: string
+        state:
+          description: State of the address
+          type: string
+        countryCode:
+          description: Country code to uniquely identify the country
+          type: string
+        locationType:
+          description: Possible values currently are STANDALONE_APARTMENT, GATED_COMMUNITY, INDEPENDENT_PREMISES
+          type: string
+        placeHash:
+          description: Hashed value of placeName for internal use
+          type: string
+        locationSource:
+          $ref: '#/components/schemas/LocationSource'
+        locationName:
+          description: Location name to be populated from location entity
+          type: string
+    WeightUnit:
+      description: Unit for weight
+      type: string
+      enum:
+      - MG
+      - G
+      - KG
+      - T
+      - OZ
+      - LB
+    EntityDefinition:
+      type: object
+    ShipmentRateDetail:
+      type: object
+    OrchestrationMetadata:
+      properties:
+        orchestrationId:
+          type: string
+        shipmentMetadata:
+          $ref: '#/components/schemas/OrchestrationShipmentMetadata'
+        customerGeocodedLocation:
+          $ref: '#/components/schemas/OrderGeocodedLocation'
+        homebaseGeocodedLocation:
+          $ref: '#/components/schemas/OrderGeocodedLocation'
+        shippingLabelInfo:
+          $ref: '#/components/schemas/ShippingLabelInfo'
+    BoxDetailSummary:
+      properties:
+        totalCases:
+          type: integer
+          format: int32
+        totalPieces:
+          type: integer
+          format: int32
+        quantityUnit:
+          type: string
+        boxUnit:
+          type: string
+    HandlingUnitEnum:
+      description: delivery handling units to identify deliverable field
+      type: string
+      enum:
+      - QUANTITY
+      - WEIGHT
+      - VOLUME
+    TimeSlot:
+      $ref: https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot
+    CreateOrderRequest:
+      description: Create order request
+      required:
+      - clientId
+      - id
+      allOf:
+      - $ref: '#/components/schemas/EntityDefinition'
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/OrderType'
+          sourceOrderId:
+            description: Order identifier in the client system
+            type: string
+          awbNumbers:
+            description: Air Waybill numbers of the order for tracking
+            type: array
+            items:
+              type: string
+          scanId:
+            description: Scan id of the task
+            type: string
+          teamId:
+            description: Team of carrier client to consider for this order assignment
+            type: string
+          lineItems:
+            type: array
+            items:
+              $ref: '#/components/schemas/MinimalLineItem'
+          skills:
+            description: List of skills
+            type: array
+            items:
+              type: string
+          homebaseId:
+            description: Master id for the homebase / warehouse
+            type: string
+          homebaseSlot:
+            $ref: '#/components/schemas/TimeSlot'
+          homebaseTransactionDuration:
+            description: Duration required for transaction at the pickup location, in seconds
+            type: integer
+            format: int32
+          visitName:
+            description: Custom name given to drop location by the client
+            type: string
+          locationId:
+            description: Master location id for the drop location
+            type: string
+          category:
+            description: order category
+            type: string
+          locationAddress:
+            $ref: '#/components/schemas/ExtendedStructuredAddress'
+          latLng:
+            $ref: '#/components/schemas/MinimalLatLng'
+          contactPoint:
+            $ref: '#/components/schemas/MinimalContactPoint'
+          slotId:
+            type: string
+          slot:
+            $ref: '#/components/schemas/TimeSlot'
+          slots:
+            description: List of available time slots for drop
+            type: array
+            items:
+              $ref: '#/components/schemas/TimeSlot'
+          transactionDuration:
+            description: Duration required for transaction at the drop location, in seconds
+            type: integer
+            format: int32
+          amountTransaction:
+            $ref: '#/components/schemas/AmountTransaction'
+          appFields:
+            $ref: '#/components/schemas/AppFields'
+          volume:
+            $ref: '#/components/schemas/Volume'
+          weight:
+            $ref: '#/components/schemas/Weight'
+          quantity:
+            $ref: '#/components/schemas/Quantity'
+          quantities:
+            type: array
+            items:
+              $ref: '#/components/schemas/Quantity'
+          priority:
+            description: Priority of the order
+            type: integer
+            format: int32
+          date:
+            type: string
+            description: Date as String in format "YYYY-MM-DD"
+          orderedOn:
+            description: Time of order creation on the client system
+            type: string
+            format: date-time
+          orderDate:
+            type: string
+            description: Date as String in format "YYYY-MM-DD"
+          customerPromisedDate:
+            description: Customer promised delivery date as String in format "YYYY-MM-DD"
+            type: string
+          customerPromisedDateTime:
+            description: Customer promised delivery date and time in ISO-8601 format
+            type: string
+            format: date-time
+          riderId:
+            type: string
+          transporterId:
+            type: string
+          bagDetails:
+            $ref: '#/components/schemas/BagDetails'
+          shipmentMetadata:
+            $ref: '#/components/schemas/ShipmentLegMetadata'
+          cratingInfo:
+            $ref: '#/components/schemas/CratingInfo'
+          preferredTransporterTypes:
+            type: array
+            items:
+              $ref: '#/components/schemas/TransporterType'
+          transporterType:
+            $ref: '#/components/schemas/TransporterType'
+          dlcRequestId:
+            type: string
+          sequence:
+            type: integer
+            format: int32
+            default: 1
+          lineItemDetails:
+            $ref: '#/components/schemas/CreateLineItemDetails'
+          isSealed:
+            type: boolean
+            default: false
+          promiseInformation:
+            $ref: '#/components/schemas/CreatePromiseInformationRequest'
+    ReasonCode:
+      description: Reason Code Enum
+      type: string
+      enum:
+      - UNALLOCATED_IN_PLAN
+      - RESCHEDULED
+      - CANCELLATION_REASON
+      - DATA_ISSUE
+      - NO_WORKFLOW_MATCHED
+      - NO_DISPATCH_WAVE_MATCHED
+      - ATTEMPTS_EXHAUSTED
+      - REATTEMPTS_EXHAUSTED
+      - PARK_ATTEMPTS_EXHAUSTED
+      - RESCHEDULES_EXHAUSTED
+      - DELIVERY_WINDOW_EXHAUSTED
+      - QUOTE_NOT_FOUND
+      - CARRIER_REJECTED
+      - QUOTE_REJECTED
+      - QUOTE_AUTO_ACCEPTED
+      - QUOTE_ACCEPTED_BY_USER
+      - NO_SLOTS_AVAILABLE
+      - GEOCODING_ERROR
+      - PARKED
+      - AUTOSORT_ERROR
+      - CAPACITY_EXCEEDED
     OrderMetadata:
       description: Order planning and execution metadata
       properties:
@@ -1190,212 +819,21 @@ components:
           format: int32
         transactionChecklist:
           $ref: '#/components/schemas/TransactionChecklistItems'
-    PodVerificationResult:
-      $ref: https://swagger.locus-api.com/task.yaml#/definitions/PodVerificationResult
-    OrchestrationShipmentMetadata:
+    RejectedTourDetail:
+      description: Tour details
       properties:
-        carrierId:
+        tourId:
           type: string
-        serviceType:
+        riderId:
           type: string
-        orchestrationStatus:
-          $ref: '#/components/schemas/OrchestrationStatus'
-        shipmentRateDetail:
-          $ref: '#/components/schemas/ShipmentRateDetail'
-        waybills:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrchestrationWaybillMetadata'
-    LineItemSummary:
-      properties:
-        totalWeight:
-          description: Sum of individual weights of all parts
-          $ref: '#/components/schemas/Weight'
-        totalVolume:
-          description: Sum of individual volumes of all parts
-          $ref: '#/components/schemas/Volume'
-        totalReweighCount:
-          type: integer
-          format: int32
-          default: 0
-    ReasonCode:
-      description: Reason Code Enum
+        vehicleId:
+          type: string
+    AmountExchangeType:
+      description: Amount exchange enum
       type: string
       enum:
-      - UNALLOCATED_IN_PLAN
-      - RESCHEDULED
-      - CANCELLATION_REASON
-      - DATA_ISSUE
-      - NO_WORKFLOW_MATCHED
-      - NO_DISPATCH_WAVE_MATCHED
-      - ATTEMPTS_EXHAUSTED
-      - REATTEMPTS_EXHAUSTED
-      - PARK_ATTEMPTS_EXHAUSTED
-      - RESCHEDULES_EXHAUSTED
-      - DELIVERY_WINDOW_EXHAUSTED
-      - QUOTE_NOT_FOUND
-      - CARRIER_REJECTED
-      - QUOTE_REJECTED
-      - QUOTE_AUTO_ACCEPTED
-      - QUOTE_ACCEPTED_BY_USER
-      - NO_SLOTS_AVAILABLE
-      - GEOCODING_ERROR
-      - PARKED
-      - AUTOSORT_ERROR
-      - CAPACITY_EXCEEDED
-    OrderAmountInformation:
-      description: It represents all financial details of an order
-      properties:
-        amount:
-          $ref: '#/components/schemas/AmountDetails'
-        originalAmount:
-          $ref: '#/components/schemas/AmountDetails'
-        executedAmount:
-          $ref: '#/components/schemas/AmountDetails'
-        exchangeType:
-          $ref: '#/components/schemas/AmountExchangeType'
-        amountCollected:
-          $ref: '#/components/schemas/Amount'
-        pendingAmount:
-          $ref: '#/components/schemas/Amount'
-        reconciledAmount:
-          $ref: '#/components/schemas/Amount'
-        paymentStatus:
-          $ref: '#/components/schemas/OrderPaymentStatus'
-        paymentHistory:
-          type: array
-          items:
-            $ref: '#/components/schemas/Payment'
-        timeline:
-          type: array
-          items:
-            $ref: '#/components/schemas/AmountDetailsTimeline'
-    OrderFreightCostMetadata:
-      properties:
-        freightCost:
-          $ref: '#/components/schemas/FreightCost'
-    MinimalContactPoint:
-      description: Contact point at a visit location.
-      properties:
-        name:
-          description: Name of contact
-          type: string
-        number:
-          description: Number for contact person
-          type: string
-        alternateNumber:
-          description: Alternate number for contact person
-          type: string
-        email:
-          description: Email of contact person
-          type: string
-        language:
-          description: Preferred communication language
-          type: string
-          default: en-US
-    TransactionDurationInfo:
-      properties:
-        zone:
-          description: Transaction duration based on the zone of the order
-          type: integer
-          format: int32
-        skill:
-          description: Transaction duration based on the skills of the order
-          type: integer
-          format: int32
-        location:
-          description: Transaction duration based on the location of the order
-          type: integer
-          format: int32
-        lineitem:
-          description: Transaction duration based on the lineitems of the order
-          type: integer
-          format: int32
-        lineitemMultiplier:
-          type: number
-          format: double
-          default: 1
-    Payment:
-      description: A payment request, through any of the payment instruments.
-      required:
-      - instrument
-      - desiredAmount
-      - status
-      - createdOn
-      - updatedOn
-      properties:
-        amountId:
-          type: string
-        transactionId:
-          type: string
-        instrument:
-          $ref: '#/components/schemas/PaymentInstrument'
-        paymentId:
-          $ref: '#/components/schemas/PaymentId'
-        desiredAmount:
-          $ref: '#/components/schemas/Amount'
-        actualAmount:
-          $ref: '#/components/schemas/Amount'
-        reconciledAmount:
-          $ref: '#/components/schemas/Amount'
-        amountEditable:
-          type: boolean
-          description: Boolean that denotes whether or not amount can be edited after the invoice is generated. This can support partial payments.
-        status:
-          $ref: '#/components/schemas/PaymentStatus'
-        createdOn:
-          description: Timestamp of creation
-          type: string
-          format: date-time
-        updatedOn:
-          description: Timestamp of last update
-          type: string
-          format: date-time
-        latestActor:
-          description: Actor who triggered this payment
-          $ref: '#/components/schemas/Actor'
-        additionalInfo:
-          description: Additional information that needs to be shared for the payment
-          type: object
-          additionalProperties:
-            type: string
-        reconciledAmountChecklistValues:
-          $ref: '#/components/schemas/Checklist'
-        reconciledOn:
-          description: Timestamp of last update
-          type: string
-          format: date-time
-    AmountDetails:
-      description: It represents all amount components.
-      properties:
-        id:
-          type: string
-        grossAmount:
-          description: Total unadjusted amount
-          $ref: '#/components/schemas/Amount'
-        netAmount:
-          description: Adjusted amount after discounts or taxes
-          $ref: '#/components/schemas/Amount'
-        amountToBeCollected:
-          description: The actual amount to be collected from the customer
-          $ref: '#/components/schemas/Amount'
-    OmsDimensions:
-      description: Dimensions of an item
-      properties:
-        length:
-          description: Length of the item in meters
-          type: number
-          format: double
-        breadth:
-          description: Breadth of the item in meters
-          type: number
-          format: double
-        height:
-          description: Height of the item in meters
-          type: number
-          format: double
-        unit:
-          $ref: '#/components/schemas/LengthUnit'
+      - COLLECT
+      - PREPAID
     MinimalLatLng:
       description: A latitude, longitude pair
       required:
@@ -1408,374 +846,63 @@ components:
         lng:
           type: number
           format: double
-    FreightCostSource:
-      type: string
-      enum:
-      - CLIENT
-      - CONTRACT
-    PaymentStatus:
-      description: Status of the payment
-      type: string
-      enum:
-      - PENDING
-      - SUCCESS
-      - FAILED
-      - CANCELLED
-    Distance:
+    TransitCode:
       properties:
-        value:
-          description: Calculated distance value.
-          type: number
-          format: double
-        unit:
-          $ref: '#/components/schemas/LengthUnit'
-    ResponseSource:
-      $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/ResponseSource
-    ProviderInstrumentId:
-      description: Id of the payment instrument as identified by a provider
-      required:
-      - providerId
-      - instrumentId
-      properties:
-        providerId:
-          description: Id of payment instrument provider. For eg, razor-pay for RazorPay instruments. This should be one of the supported values.
-          type: string
-        instrumentId:
-          description: Id of the payment instrument as identified by the provider.
-          type: string
-    EntityDefinition:
-      type: object
-    MasterLineItemPart:
-      properties:
-        volume:
-          $ref: '#/components/schemas/PartItemVolume'
-        weight:
-          type: number
-          format: double
-        dimensions:
-          $ref: '#/components/schemas/OmsDimensions'
-    VersionedMapId:
-      type: object
-    TrackingInfo:
-      description: Tracking info
-      properties:
-        link:
-          description: Url of the tracking link
-          type: string
-    LineItemDetails:
-      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/LineItemDetails
-    LengthUnit:
-      description: Unit for length
-      type: string
-      enum:
-      - MM
-      - CM
-      - M
-      - IN
-      - FT
-      - YD
-      - KM
-      - MI
-    MinimalLineItem:
-      description: A single item contained in the order
-      required:
-      - name
-      - quantity
-      properties:
-        id:
-          description: An identifier for the SKU. If provided, details related to line item will be populated using sku master of the client
-          type: string
-        lineItemId:
-          description: An identifier for the line item.
-          type: string
-        skuId:
-          description: An identifier for the line item.
-          type: string
-        packId:
-          description: A unique identifier of the line item, this is different from sku id. This would be unique across orders and only one qunatity of line item can exist with this id.
-          type: string
-        name:
-          description: Name of the item
+        code:
           type: string
         description:
-          description: description of the item
           type: string
-        handlingUnit:
-          $ref: '#/components/schemas/HandlingUnitEnum'
-          default: QUANTITY
-        quantity:
-          description: Quantity of the item
+    PodVerificationStatusEnum:
+      $ref: https://swagger.locus-api.com/task.yaml#/definitions/PodVerificationStatusEnum
+    AutomationMetadata:
+      description: Order automation metadata
+      properties:
+        reattemptCount:
           type: integer
           format: int32
           default: 0
-        quantityUnit:
+        rescheduleCount:
+          type: integer
+          format: int32
+          default: 0
+        reasonCode:
+          $ref: '#/components/schemas/ReasonCode'
+        reasonDescription:
           type: string
-        price:
-          $ref: '#/components/schemas/Amount'
-        commodityCode:
-          $ref: '#/components/schemas/TransitCode'
-        parts:
-          type: array
-          items:
-            $ref: '#/components/schemas/LineItemPart'
-        customProperties:
-          description: Additional properties which clients wants to have along with standard entity properties
-          type: object
-          additionalProperties:
-            type: string
-        summary:
-          description: Summarized data of all line item parts
-          $ref: '#/components/schemas/LineItemSummary'
-        totalVolume:
-          description: total volume of the line item multiplied by it's quantity
-          $ref: '#/components/schemas/Volume'
-        totalWeight:
-          description: total weight of the line item multiplied by it's quantity
-          $ref: '#/components/schemas/Weight'
-        handlingUnits:
-          type: array
-          items:
-            $ref: '#/components/schemas/HandlingUnitEnum'
-        boxDetailSummary:
-          $ref: '#/components/schemas/BoxDetailSummary'
-        canRiderEdit:
-          description: flag to denote whether the rider is allowed to edit the line item
-          type: boolean
-          default: true
-    OrchestrationWaybillMetadata:
-      properties:
-        lineItemId:
+        attemptCount:
+          type: integer
+          format: int32
+          default: 0
+        firstAttemptDate:
           type: string
-        waybillId:
+        deliveryWindowEndDate:
           type: string
-        waybillNumber:
-          type: string
-    OrderRescheduleRequest:
-      properties:
-        customerRescheduleRequest:
-          $ref: '#/components/schemas/RescheduleRequest'
-        homebaseRescheduleRequest:
-          $ref: '#/components/schemas/RescheduleRequest'
-    LineItemTransactionStatus:
-      allOf:
-      - $ref: '#/components/schemas/BaseLineItemTransactionStatus'
-      - type: object
-        properties:
-          transactionStatus:
-            $ref: '#/components/schemas/TransactionStatus'
-          homebaseTransactionStatus:
-            $ref: '#/components/schemas/TransactionStatus'
-          outboundTransactionStatus:
-            $ref: '#/components/schemas/TransactionStatus'
-          boxDetailSummary:
-            $ref: '#/components/schemas/BoxDetailSummary'
-    CreateOrderRequest:
-      description: Create order request
-      required:
-      - clientId
-      - id
-      allOf:
-      - $ref: '#/components/schemas/EntityDefinition'
-      - type: object
-        properties:
-          type:
-            $ref: '#/components/schemas/OrderType'
-          sourceOrderId:
-            description: Order identifier in the client system
-            type: string
-          awbNumbers:
-            description: Air Waybill numbers of the order for tracking
-            type: array
-            items:
-              type: string
-          scanId:
-            description: Scan id of the task
-            type: string
-          teamId:
-            description: Team of carrier client to consider for this order assignment
-            type: string
-          lineItems:
-            type: array
-            items:
-              $ref: '#/components/schemas/MinimalLineItem'
-          skills:
-            description: List of skills
-            type: array
-            items:
-              type: string
-          homebaseId:
-            description: Master id for the homebase / warehouse
-            type: string
-          homebaseSlot:
-            $ref: '#/components/schemas/TimeSlot'
-          homebaseTransactionDuration:
-            description: Duration required for transaction at the pickup location, in seconds
-            type: integer
-            format: int32
-          visitName:
-            description: Custom name given to drop location by the client
-            type: string
-          locationId:
-            description: Master location id for the drop location
-            type: string
-          category:
-            description: order category
-            type: string
-          locationAddress:
-            $ref: '#/components/schemas/ExtendedStructuredAddress'
-          latLng:
-            $ref: '#/components/schemas/MinimalLatLng'
-          contactPoint:
-            $ref: '#/components/schemas/MinimalContactPoint'
-          slotId:
-            type: string
-          slot:
-            $ref: '#/components/schemas/TimeSlot'
-          slots:
-            description: List of available time slots for drop
-            type: array
-            items:
-              $ref: '#/components/schemas/TimeSlot'
-          transactionDuration:
-            description: Duration required for transaction at the drop location, in seconds
-            type: integer
-            format: int32
-          amountTransaction:
-            $ref: '#/components/schemas/AmountTransaction'
-          appFields:
-            $ref: '#/components/schemas/AppFields'
-          volume:
-            $ref: '#/components/schemas/Volume'
-          weight:
-            $ref: '#/components/schemas/Weight'
-          quantity:
-            $ref: '#/components/schemas/Quantity'
-          quantities:
-            type: array
-            items:
-              $ref: '#/components/schemas/Quantity'
-          priority:
-            description: Priority of the order
-            type: integer
-            format: int32
-          date:
-            type: string
-            description: Date as String in format "YYYY-MM-DD"
-          orderedOn:
-            description: Time of order creation on the client system
-            type: string
-            format: date-time
-          orderDate:
-            type: string
-            description: Date as String in format "YYYY-MM-DD"
-          customerPromisedDate:
-            description: Customer promised delivery date as String in format "YYYY-MM-DD"
-            type: string
-          customerPromisedDateTime:
-            description: Customer promised delivery date and time in ISO-8601 format
-            type: string
-            format: date-time
-          riderId:
-            type: string
-          transporterId:
-            type: string
-          bagDetails:
-            $ref: '#/components/schemas/BagDetails'
-          shipmentMetadata:
-            $ref: '#/components/schemas/ShipmentLegMetadata'
-          cratingInfo:
-            $ref: '#/components/schemas/CratingInfo'
-          preferredTransporterTypes:
-            type: array
-            items:
-              $ref: '#/components/schemas/TransporterType'
-          transporterType:
-            $ref: '#/components/schemas/TransporterType'
-          dlcRequestId:
-            type: string
-          sequence:
-            type: integer
-            format: int32
-            default: 1
-          lineItemDetails:
-            $ref: '#/components/schemas/CreateLineItemDetails'
-          isSealed:
-            type: boolean
-            default: false
-          promiseInformation:
-            $ref: '#/components/schemas/CreatePromiseInformationRequest'
-    FreightCost:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FreightCost
-    OrderStatusUpdate:
-      description: Merge patch request wrapper
-      properties:
-        channel:
-          $ref: '#/components/schemas/FulfillmentChannel'
-        orderStatus:
-          $ref: '#/components/schemas/OrderStatus'
-        orderSubStatus:
-          $ref: '#/components/schemas/OrderSubStatus'
-        orderMetadata:
-          $ref: '#/components/schemas/OrderMetadata'
-        updatedBy:
-          type: string
-        updatedOn:
-          type: string
-          format: date-time
-    BaseCostBreakup:
-      type: object
-    GeocodingConfidence:
-      $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/GeocodingConfidence
+        shipFlexTransferCount:
+          type: integer
+          format: int32
+          default: 0
+    LocationType:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LocationType
     CratingInfo:
       $ref: https://swagger.locus-api.com/task.yaml#/definitions/CratingInfo
-    RejectedTourDetail:
-      description: Tour details
-      properties:
-        tourId:
-          type: string
-        riderId:
-          type: string
-        vehicleId:
-          type: string
-    ChecklistItems:
-      properties:
-        customerCompleted:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChecklistItem'
-        customerCancelled:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChecklistItem'
-        homebaseCompleted:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChecklistItem'
-        homebaseCancelled:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChecklistItem'
-    Actor:
-      type: object
-    Weight:
-      description: Weight of order
+    OrderPaymentStatus:
+      description: Payment status of an order.
+      type: string
+      enum:
+      - PAID
+      - PARTIALLY_PAID
+      - UNPAID
+      - PENDING
+    InventoryVerificationRequest:
+      description: Inventory Verification Request
       required:
-      - value
-      - unit
+      - isInventoryVerified
       properties:
-        value:
-          description: Value of the weight in the given unit.
+        isInventoryVerified:
+          type: boolean
+        verifyAt:
           type: string
-        unit:
-          $ref: '#/components/schemas/WeightUnit'
-    TourFreightCostMetadata:
-      properties:
-        freightCost:
-          $ref: '#/components/schemas/FreightCost'
-        source:
-          $ref: '#/components/schemas/FreightCostSource'
-        contractId:
-          type: string
+          format: date-time
     Order:
       description: Order model
       allOf:
@@ -1849,65 +976,127 @@ components:
             $ref: '#/components/schemas/PromiseInformation'
           boxDetailSummary:
             $ref: '#/components/schemas/BoxDetailSummary'
-    HandlingUnitEnum:
-      description: delivery handling units to identify deliverable field
+    TransactionDetail:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/TransactionDetail
+    GenericResponse:
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          default: success
+    ResponseSource:
+      $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/ResponseSource
+    OrderSubStatus:
+      description: Order sub status enum
       type: string
       enum:
-      - QUANTITY
-      - WEIGHT
-      - VOLUME
-    PaymentId:
-      description: Id of the payment instrument as identified by a provider
-      required:
-      - instrumentId
-      - paymentId
-      properties:
-        instrumentId:
-          $ref: '#/components/schemas/ProviderInstrumentId'
-        paymentId:
-          description: Id for the payment as identified by the provider.
-          type: string
-    PodVerificationStatusEnum:
-      $ref: https://swagger.locus-api.com/task.yaml#/definitions/PodVerificationStatusEnum
-    Checklist:
-      description: A map containing selected values for each checklist item.
-      type: object
+      - PENDING_ACCEPTANCE
+      - ACCEPTED
+      - PICKUP_ENROUTE
+      - SERVICE_ENROUTE
+      - PICKUP_REACHED
+      - SERVICE_REACHED
+      - PICKUP_ONGOING
+      - SERVICE_ONGOING
+      - PICKUP_DONE
+      - DROP_ENROUTE
+      - DROP_REACHED
+      - DROP_ONGOING
+      - DROP_DONE
+      - ATTEMPT_FAILED
+      - INBOUND_PENDING
+      - INBOUND_COMPLETED
+      - TOUR_STARTED
+      - IN_TRANSIT
+      - PARTIALLY_COMPLETED
+      - OUTBOUND_COMPLETED
+    PromiseInformation:
       allOf:
-      - $ref: '#/components/schemas/StringObjectMap'
+      - $ref: '#/components/schemas/CreatePromiseInformationRequest'
       - type: object
-    LocationType:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/LocationType
-    LineItemPart:
-      description: A part of the line item which can be shipped separately
-      required:
-      - volume
+        properties:
+          promiseId:
+            type: string
+          slotId:
+            type: string
+          date:
+            type: string
+          dateSlots:
+            type: array
+            items:
+              $ref: '#/components/schemas/DateSlotInfoElement'
+          timeline:
+            type: array
+            items:
+              $ref: '#/components/schemas/PromiseTimelineElement'
+    OrderFreightCostMetadata:
       properties:
-        id:
-          type: string
-        volume:
-          $ref: '#/components/schemas/Volume'
-        weight:
-          $ref: '#/components/schemas/Weight'
-        originalWeight:
-          $ref: '#/components/schemas/Weight'
-        dimensions:
-          $ref: '#/components/schemas/OmsDimensions'
-        piecesCount:
-          type: integer
-          format: int32
-          default: 1
-    BoxDetailSummary:
+        freightCost:
+          $ref: '#/components/schemas/FreightCost'
+    OrderAmountInformation:
+      description: It represents all financial details of an order
       properties:
-        totalCases:
-          type: integer
-          format: int32
-        totalPieces:
-          type: integer
-          format: int32
-        quantityUnit:
-          type: string
-        boxUnit:
-          type: string
+        amount:
+          $ref: '#/components/schemas/AmountDetails'
+        originalAmount:
+          $ref: '#/components/schemas/AmountDetails'
+        executedAmount:
+          $ref: '#/components/schemas/AmountDetails'
+        exchangeType:
+          $ref: '#/components/schemas/AmountExchangeType'
+        amountCollected:
+          $ref: '#/components/schemas/Amount'
+        pendingAmount:
+          $ref: '#/components/schemas/Amount'
+        reconciledAmount:
+          $ref: '#/components/schemas/Amount'
+        paymentStatus:
+          $ref: '#/components/schemas/OrderPaymentStatus'
+        paymentHistory:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+        timeline:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmountDetailsTimeline'
+    PaymentChecklistItems:
+      properties:
+        skipPaymentChecklist:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistItem'
+        partialPaymentChecklist:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistItem'
+        fullPaymentChecklist:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistItem'
+    OrderRescheduleRequest:
+      properties:
+        customerRescheduleRequest:
+          $ref: '#/components/schemas/RescheduleRequest'
+        homebaseRescheduleRequest:
+          $ref: '#/components/schemas/RescheduleRequest'
+    FulfillmentMode:
+      description: Channel through which the Order is fulfilled
+      type: string
+      enum:
+      - DISPATCH_IQ
+      - TRACK_IQ
+      - ORCHESTRATION_IQ
+      - TOUR_DISPATCH_MANAGEMENT
+    ParkOrderRequest:
+      properties:
+        reason:
+          $ref: '#/components/schemas/Reason'
+    OrderType:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
+    ContractId:
+      type: object
     Payments:
       description: Container for all payment related info
       required:
@@ -1932,66 +1121,705 @@ components:
         paymentRequired:
           type: boolean
           description: Boolean to denote that payments are supposed to be present here
-    CreateLineItemDetails:
-      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/CreateLineItemDetails
-    ParkOrderRequest:
+    PartItemVolume:
       properties:
+        value:
+          type: number
+          format: double
+        unit:
+          type: string
+    TourFreightCostMetadata:
+      properties:
+        freightCost:
+          $ref: '#/components/schemas/FreightCost'
+        source:
+          $ref: '#/components/schemas/FreightCostSource'
+        contractId:
+          type: string
+    TimelineEntry:
+      required:
+      - type
+      - updatedOn
+      - updatedBy
+      properties:
+        type:
+          description: Timeline entry type
+          type: string
+          default: STATUS_UPDATE
+          enum:
+          - STATUS_UPDATE
+          - VERIFIED
+          - RESCHEDULE
+          - NOTES_UPDATE
+          - TEAM_UPDATE
+          - DELIVERY_WINDOW_UPDATE
+          - PAYMENT_UPDATE
+          - EXECUTED_AMOUNT_UPDATE
+          - CURRENT_AMOUNT_UPDATE
+        channel:
+          $ref: '#/components/schemas/FulfillmentChannel'
+        orderStatus:
+          $ref: '#/components/schemas/OrderStatus'
+        orderSubStatus:
+          $ref: '#/components/schemas/OrderSubStatus'
+        updatedBy:
+          type: string
+        updatedOn:
+          type: string
+          format: date-time
+        eventTimestamp:
+          type: string
+          format: date-time
+        reasonCode:
+          $ref: '#/components/schemas/ReasonCode'
+        reasonDescription:
+          type: string
+        source:
+          description: Origin of the request (Dashboard, Application)
+          type: string
+        invalidEntry:
+          description: flag to denote out of order, async and other invalid entry
+          type: boolean
+          default: false
+        attributes:
+          type: object
+          additionalProperties:
+            type: object
+    OrderDetailStatusEnum:
+      type: string
+      enum:
+      - DELIVERED
+      - NOT_DELIVERED
+      - PARTIALLY_DELIVERED
+    AmountType:
+      description: Payment status of an order.
+      type: string
+      enum:
+      - CURRENT
+      - EXECUTED
+    OrderGeocodedLocation:
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+    PaymentInstrumentType:
+      description: Denotes the type of payment instrument
+      type: string
+      enum:
+      - CASH
+      - COUPON
+      - ECOD
+      - ONLINE
+    LocationSource:
+      description: location provider source.
+      type: string
+      enum:
+      - LOCATION_MASTER
+    StringObjectMap:
+      type: object
+    OrderStatus:
+      description: Order status enum
+      type: string
+      enum:
+      - OPEN
+      - CONFIRMED
+      - PLANNING
+      - PLANNED
+      - ASSIGNED
+      - EXECUTING
+      - COMPLETED
+      - CANCELLED
+      - PARKED
+      - RECEIVED
+    PaymentStatus:
+      description: Status of the payment
+      type: string
+      enum:
+      - PENDING
+      - SUCCESS
+      - FAILED
+      - CANCELLED
+    LineItemPart:
+      description: A part of the line item which can be shipped separately
+      required:
+      - volume
+      properties:
+        id:
+          type: string
+        volume:
+          $ref: '#/components/schemas/Volume'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        originalWeight:
+          $ref: '#/components/schemas/Weight'
+        dimensions:
+          $ref: '#/components/schemas/OmsDimensions'
+        piecesCount:
+          type: integer
+          format: int32
+          default: 1
+    Checklist:
+      description: A map containing selected values for each checklist item.
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/StringObjectMap'
+      - type: object
+    FulfillmentChannel:
+      description: Channel through which the Order is fulfilled
+      type: string
+      enum:
+      - DISPATCH_IQ
+      - TRACK_IQ
+      - ORCHESTRATION_IQ
+      - TOUR_DISPATCH_MANAGEMENT
+    AppFields:
+      $ref: https://swagger.locus-api.com/task.yaml#/definitions/AppFields
+    BaseCostBreakup:
+      type: object
+    VersionedMapId:
+      type: object
+    TransporterType:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/TransporterType
+    OrchestrationWaybillMetadata:
+      properties:
+        lineItemId:
+          type: string
+        waybillId:
+          type: string
+        waybillNumber:
+          type: string
+    TourCostMetadata:
+      properties:
+        dispatchedFreightCost:
+          $ref: '#/components/schemas/TourFreightCostMetadata'
+    ContractCostMetadata:
+      properties:
+        contractId:
+          $ref: '#/components/schemas/ContractId'
+        status:
+          $ref: '#/components/schemas/OrderCostEnum'
+        totalCost:
+          description: Total cost for the given request
+          type: number
+          format: double
+        costBreakup:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseCostBreakup'
+    AmountDetails:
+      description: It represents all amount components.
+      properties:
+        id:
+          type: string
+        grossAmount:
+          description: Total unadjusted amount
+          $ref: '#/components/schemas/Amount'
+        netAmount:
+          description: Adjusted amount after discounts or taxes
+          $ref: '#/components/schemas/Amount'
+        amountToBeCollected:
+          description: The actual amount to be collected from the customer
+          $ref: '#/components/schemas/Amount'
+    RescheduleRequest:
+      properties:
+        rescheduleDate:
+          type: string
+          description: The date for which order is to be rescheduled. It should be ISO Date. eg. 2017-09-14
+        rescheduleSlot:
+          $ref: '#/components/schemas/TimeSlot'
         reason:
           $ref: '#/components/schemas/Reason'
-    ShippingLabelInfo:
-      type: object
+        slotId:
+          type: string
+    PromiseTimelineElement:
+      properties:
+        serviceTypeId:
+          type: string
+        dateSlots:
+          type: array
+          items:
+            $ref: '#/components/schemas/DateSlotInfoElement'
+        timestamp:
+          type: string
+          format: date-time
+        actor:
+          $ref: '#/components/schemas/Actor'
+        reason:
+          $ref: '#/components/schemas/Reason'
+    OrderStatusUpdate:
+      description: Merge patch request wrapper
+      properties:
+        channel:
+          $ref: '#/components/schemas/FulfillmentChannel'
+        orderStatus:
+          $ref: '#/components/schemas/OrderStatus'
+        orderSubStatus:
+          $ref: '#/components/schemas/OrderSubStatus'
+        orderMetadata:
+          $ref: '#/components/schemas/OrderMetadata'
+        updatedBy:
+          type: string
+        updatedOn:
+          type: string
+          format: date-time
+    LineItemTransactionStatus:
+      allOf:
+      - $ref: '#/components/schemas/BaseLineItemTransactionStatus'
+      - type: object
+        properties:
+          transactionStatus:
+            $ref: '#/components/schemas/TransactionStatus'
+          homebaseTransactionStatus:
+            $ref: '#/components/schemas/TransactionStatus'
+          outboundTransactionStatus:
+            $ref: '#/components/schemas/TransactionStatus'
+          boxDetailSummary:
+            $ref: '#/components/schemas/BoxDetailSummary'
+    PodVerificationResult:
+      $ref: https://swagger.locus-api.com/task.yaml#/definitions/PodVerificationResult
+    FreightCostSource:
+      type: string
+      enum:
+      - CLIENT
+      - CONTRACT
+    OrderCostMetadata:
+      properties:
+        dispatchedFreightCost:
+          $ref: '#/components/schemas/OrderFreightCostMetadata'
+        contractCostMetadata:
+          $ref: '#/components/schemas/ContractCostMetadata'
     Reason:
       properties:
         reasonDescription:
           type: string
-    StructuredAddress:
-      description: A real world address
+    LineItemDetails:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/LineItemDetails
+    Amount:
+      description: Amount of an item
       properties:
-        id:
-          description: An id for the address
+        amount:
+          type: number
+          format: double
+        currency:
           type: string
-        placeName:
-          description: Name of the place
+          description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
+        symbol:
           type: string
-        localityName:
-          description: Name of the locality if available
+          description: A symbol for the currency. If missing, will default to currency string
+    OrderVisitDetails:
+      description: visit related details by statuses
+      properties:
+        homebaseStartedBy:
           type: string
-        formattedAddress:
-          description: Text representation of the address.
+        homebaseStartedAt:
           type: string
-        subLocalityName:
-          description: Name of the sub-locality if available
+          format: date-time
+        homebaseReachedBy:
           type: string
-        pincode:
-          description: Zipcode for the address
+        homebaseReachedAt:
           type: string
-        city:
-          description: City of the address
+          format: date-time
+        homebaseTransactingBy:
           type: string
-        state:
-          description: State of the address
+        homebaseTransactingAt:
           type: string
-        countryCode:
-          description: Country code to uniquely identify the country
+          format: date-time
+        homebaseCompletedBy:
           type: string
-        locationType:
-          description: Possible values currently are STANDALONE_APARTMENT, GATED_COMMUNITY, INDEPENDENT_PREMISES
+        homebaseCompletedOn:
           type: string
-        placeHash:
-          description: Hashed value of placeName for internal use
+          format: date-time
+        homebaseCancelledBy:
           type: string
-        locationSource:
-          $ref: '#/components/schemas/LocationSource'
-        locationName:
-          description: Location name to be populated from location entity
+        homebaseCancelledAt:
           type: string
-    DistributionChannel:
+          format: date-time
+        customerVisitStartedBy:
+          type: string
+        customerVisitStartedAt:
+          type: string
+        customerVisitReachedBy:
+          type: string
+        customerVisitReachedAt:
+          type: string
+        customerVisitTransactingBy:
+          type: string
+        customerVisitTransactingAt:
+          type: string
+          format: date-time
+        customerVisitCompletedBy:
+          type: string
+        customerVisitCompletedAt:
+          type: string
+        customerVisitCancelledBy:
+          type: string
+        customerVisitCancelledAt:
+          type: string
+    VolumeUnit:
+      description: Unit for volume
       type: string
       enum:
-      - TRACK_IQ
-      - SHIPFLEX
-      - TOUR_DISPATCH_MANAGEMENT
-      - OIQ
+      - CMM
+      - CCM
+      - CC
+      - CM
+      - M3
+      - CIN
+      - CI
+      - CFT
+      - CF
+      - CYD
+      - IC
+      - TC
+      - L
+    CreatePromiseInformationRequest:
+      properties:
+        serviceTypeId:
+          type: string
+    MinimalContactPoint:
+      description: Contact point at a visit location.
+      properties:
+        name:
+          description: Name of contact
+          type: string
+        number:
+          description: Number for contact person
+          type: string
+        alternateNumber:
+          description: Alternate number for contact person
+          type: string
+        email:
+          description: Email of contact person
+          type: string
+        language:
+          description: Preferred communication language
+          type: string
+          default: en-US
+    SlaStatusEnum:
+      $ref: https://swagger.locus-api.com/task.yaml#/definitions/SlaStatusEnum
+    MinimalAutosortRoute:
+      type: object
+    LineItemSummary:
+      properties:
+        totalWeight:
+          description: Sum of individual weights of all parts
+          $ref: '#/components/schemas/Weight'
+        totalVolume:
+          description: Sum of individual volumes of all parts
+          $ref: '#/components/schemas/Volume'
+        totalReweighCount:
+          type: integer
+          format: int32
+          default: 0
+    AmountTransaction:
+      description: Transaction of an amount.
+      properties:
+        refId:
+          description: id of amount transaction
+          type: string
+        amount:
+          $ref: '#/components/schemas/Amount'
+        net:
+          $ref: '#/components/schemas/BaseAmount'
+        gross:
+          $ref: '#/components/schemas/BaseAmount'
+        exchangeType:
+          description: Type of transaction.
+          type: string
+          enum:
+          - COLLECT
+          - GIVE
+          - NONE
+    AutoSortDetails:
+      description: details containing the route
+      properties:
+        route:
+          description: Route for given order
+          $ref: '#/components/schemas/MinimalAutosortRoute'
+        versionedMapIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/VersionedMapId'
+        autosortId:
+          description: Id of the auto sort request
+          type: string
+    BagDetails:
+      description: object to store bagging related details on order
+      properties:
+        bagId:
+          type: string
+        bagEventId:
+          type: string
+        teams:
+          type: array
+          items:
+            type: string
+    PaymentId:
+      description: Id of the payment instrument as identified by a provider
+      required:
+      - instrumentId
+      - paymentId
+      properties:
+        instrumentId:
+          $ref: '#/components/schemas/ProviderInstrumentId'
+        paymentId:
+          description: Id for the payment as identified by the provider.
+          type: string
+    MasterLineItemPart:
+      properties:
+        volume:
+          $ref: '#/components/schemas/PartItemVolume'
+        weight:
+          type: number
+          format: double
+        dimensions:
+          $ref: '#/components/schemas/OmsDimensions'
+    ShippingLabelInfo:
+      type: object
+    OrchestrationShipmentMetadata:
+      properties:
+        carrierId:
+          type: string
+        serviceType:
+          type: string
+        orchestrationStatus:
+          $ref: '#/components/schemas/OrchestrationStatus'
+        shipmentRateDetail:
+          $ref: '#/components/schemas/ShipmentRateDetail'
+        waybills:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrchestrationWaybillMetadata'
+    CancelOrderRequest:
+      properties:
+        reason:
+          $ref: '#/components/schemas/Reason'
+    BaseLineItemTransactionStatus:
+      description: Transaction status of a line item
+      properties:
+        id:
+          type: string
+          description: id of the line item
+        reconcileQuantity:
+          type: integer
+          format: int32
+          default: 0
+        handlingUnit:
+          $ref: '#/components/schemas/HandlingUnitEnum'
+    TransactionStatus:
+      allOf:
+      - $ref: '#/components/schemas/BaseTransactionStatus'
+      - type: object
+        properties:
+          orderedWeight:
+            description: Weight of the item that has been ordered
+            $ref: '#/components/schemas/Weight'
+          transactedWeight:
+            description: Weight of the item that has been transacted
+            $ref: '#/components/schemas/Weight'
+          orderedVolume:
+            description: Volume of the item that has been ordered
+            $ref: '#/components/schemas/Volume'
+          transactedVolume:
+            description: Volume of the item that has been transacted
+            $ref: '#/components/schemas/Volume'
+    Payment:
+      description: A payment request, through any of the payment instruments.
+      required:
+      - instrument
+      - desiredAmount
+      - status
+      - createdOn
+      - updatedOn
+      properties:
+        amountId:
+          type: string
+        transactionId:
+          type: string
+        instrument:
+          $ref: '#/components/schemas/PaymentInstrument'
+        paymentId:
+          $ref: '#/components/schemas/PaymentId'
+        desiredAmount:
+          $ref: '#/components/schemas/Amount'
+        actualAmount:
+          $ref: '#/components/schemas/Amount'
+        reconciledAmount:
+          $ref: '#/components/schemas/Amount'
+        amountEditable:
+          type: boolean
+          description: Boolean that denotes whether or not amount can be edited after the invoice is generated. This can support partial payments.
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+        createdOn:
+          description: Timestamp of creation
+          type: string
+          format: date-time
+        updatedOn:
+          description: Timestamp of last update
+          type: string
+          format: date-time
+        latestActor:
+          description: Actor who triggered this payment
+          $ref: '#/components/schemas/Actor'
+        additionalInfo:
+          description: Additional information that needs to be shared for the payment
+          type: object
+          additionalProperties:
+            type: string
+        reconciledAmountChecklistValues:
+          $ref: '#/components/schemas/Checklist'
+        reconciledOn:
+          description: Timestamp of last update
+          type: string
+          format: date-time
+    MinimalLineItem:
+      description: A single item contained in the order
+      required:
+      - name
+      - quantity
+      properties:
+        id:
+          description: An identifier for the SKU. If provided, details related to line item will be populated using sku master of the client
+          type: string
+        lineItemId:
+          description: An identifier for the line item.
+          type: string
+        skuId:
+          description: An identifier for the line item.
+          type: string
+        packId:
+          description: A unique identifier of the line item, this is different from sku id. This would be unique across orders and only one qunatity of line item can exist with this id.
+          type: string
+        name:
+          description: Name of the item
+          type: string
+        description:
+          description: description of the item
+          type: string
+        handlingUnit:
+          $ref: '#/components/schemas/HandlingUnitEnum'
+          default: QUANTITY
+        quantity:
+          description: Quantity of the item
+          type: integer
+          format: int32
+          default: 0
+        quantityUnit:
+          type: string
+        price:
+          $ref: '#/components/schemas/Amount'
+        commodityCode:
+          $ref: '#/components/schemas/TransitCode'
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItemPart'
+        customProperties:
+          description: Additional properties which clients wants to have along with standard entity properties
+          type: object
+          additionalProperties:
+            type: string
+        summary:
+          description: Summarized data of all line item parts
+          $ref: '#/components/schemas/LineItemSummary'
+        totalVolume:
+          description: total volume of the line item multiplied by it's quantity
+          $ref: '#/components/schemas/Volume'
+        totalWeight:
+          description: total weight of the line item multiplied by it's quantity
+          $ref: '#/components/schemas/Weight'
+        handlingUnits:
+          type: array
+          items:
+            $ref: '#/components/schemas/HandlingUnitEnum'
+        boxDetailSummary:
+          $ref: '#/components/schemas/BoxDetailSummary'
+        canRiderEdit:
+          description: flag to denote whether the rider is allowed to edit the line item
+          type: boolean
+          default: true
+    ProviderInstrumentId:
+      description: Id of the payment instrument as identified by a provider
+      required:
+      - providerId
+      - instrumentId
+      properties:
+        providerId:
+          description: Id of payment instrument provider. For eg, razor-pay for RazorPay instruments. This should be one of the supported values.
+          type: string
+        instrumentId:
+          description: Id of the payment instrument as identified by the provider.
+          type: string
+    AmountDetailsTimeline:
+      description: Maintains a chronological log of amount updates with details
+      properties:
+        amount:
+          $ref: '#/components/schemas/AmountDetails'
+        exchangeType:
+          $ref: '#/components/schemas/AmountExchangeType'
+        actor:
+          $ref: '#/components/schemas/Actor'
+        amountType:
+          $ref: '#/components/schemas/AmountType'
+        timestamp:
+          type: string
+          format: date-time
+    Actor:
+      type: object
+    GeocodingMetadata:
+      description: Metadata for geocoding of the address
+      properties:
+        provider:
+          $ref: '#/components/schemas/GeocodingProvider'
+        latLng:
+          description: Optional location coordinates
+          $ref: '#/components/schemas/MinimalLatLng'
+        accuracy:
+          type: integer
+          format: int32
+          default: 0
+        confidence:
+          $ref: '#/components/schemas/GeocodingConfidence'
+        verified:
+          description: Boolean to denote whether the geocoding is verified or not
+          type: boolean
+          default: false
+        requestId:
+          description: Id for the stored geocode request
+          type: string
+        isCentroidResponse:
+          description: Denotes if the response is centroid response of any kind
+          type: boolean
+          default: false
+        responseSource:
+          $ref: '#/components/schemas/ResponseSource'
+    CompleteOrderRequest:
+      description: Order complete request
+      properties:
+        orderId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        homebaseTimestamp:
+          type: string
+          format: date-time
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItemTransactionStatus'
+        customerTransactionStatus:
+          $ref: '#/components/schemas/TransactionDetail'
+        homebaseTransactionStatus:
+          $ref: '#/components/schemas/TransactionDetail'
+        isSoftComplete:
+          type: boolean
+          description: Flag to denote if completion of order to be treated as soft or hard
+          default: false
+    FreightCost:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FreightCost
     TourDetail:
       description: Tour details
       properties:
@@ -2044,6 +1872,120 @@ components:
           type: object
           additionalProperties:
             type: string
+    LengthUnit:
+      description: Unit for length
+      type: string
+      enum:
+      - MM
+      - CM
+      - M
+      - IN
+      - FT
+      - YD
+      - KM
+      - MI
+    Quantity:
+      description: Quantity of items
+      required:
+      - value
+      - unit
+      properties:
+        value:
+          description: Quantity of the item in the given unit.
+          type: integer
+          format: int32
+        unit:
+          type: string
+    ChecklistItems:
+      properties:
+        customerCompleted:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistItem'
+        customerCancelled:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistItem'
+        homebaseCompleted:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistItem'
+        homebaseCancelled:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistItem'
+    GeocodingConfidence:
+      $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/GeocodingConfidence
+    CreateLineItemDetails:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/CreateLineItemDetails
+    ChecklistMetadata:
+      description: Order checklist metadata
+      properties:
+        updateCount:
+          type: integer
+          format: int32
+          default: 0
+        updateAllowedStatus:
+          type: string
+          enum:
+          - ALLOWED
+          - NOT_ALLOWED
+          default: ALLOWED
+    DistributionChannel:
+      type: string
+      enum:
+      - TRACK_IQ
+      - SHIPFLEX
+      - TOUR_DISPATCH_MANAGEMENT
+      - OIQ
+    GeocodingProvider:
+      $ref: https://swagger.locus-api.com/geocoding.yaml#/definitions/GeocodingProvider
+    TransactionDurationInfo:
+      properties:
+        zone:
+          description: Transaction duration based on the zone of the order
+          type: integer
+          format: int32
+        skill:
+          description: Transaction duration based on the skills of the order
+          type: integer
+          format: int32
+        location:
+          description: Transaction duration based on the location of the order
+          type: integer
+          format: int32
+        lineitem:
+          description: Transaction duration based on the lineitems of the order
+          type: integer
+          format: int32
+        lineitemMultiplier:
+          type: number
+          format: double
+          default: 1
+    BaseTransactionStatus:
+      required:
+      - triggerTime
+      - transactedQuantity
+      - checklistValues
+      properties:
+        orderedQuantity:
+          description: Quantity of the item that has been ordered
+          type: integer
+          format: int32
+        transactedQuantity:
+          description: Quantity of the item that has been transacted
+          type: integer
+          format: int32
+        checklistValues:
+          $ref: '#/components/schemas/Checklist'
+        triggerTime:
+          description: Time when the transaction status update was triggered on the client side
+          type: string
+          format: date-time
+        actor:
+          $ref: '#/components/schemas/Actor'
+        status:
+          $ref: '#/components/schemas/OrderDetailStatusEnum'
     DateSlotInfoElement:
       properties:
         date:
@@ -2052,22 +1994,80 @@ components:
           type: array
           items:
             type: string
-    BaseAmount:
-      description: Amount value of an item
-      properties:
-        amount:
-          type: number
-          format: double
+    ChecklistItem:
+      $ref: https://swagger.locus-api.com/task.yaml#/definitions/ChecklistItem
     OrchestrationStatus:
       type: object
-    FulfillmentChannel:
-      description: Channel through which the Order is fulfilled
-      type: string
-      enum:
-      - DISPATCH_IQ
-      - TRACK_IQ
-      - ORCHESTRATION_IQ
-      - TOUR_DISPATCH_MANAGEMENT
+    PaymentInstrument:
+      description: A method of payment
+      required:
+      - instrumentType
+      - instrumentName
+      properties:
+        instrumentType:
+          $ref: '#/components/schemas/PaymentInstrumentType'
+        instrumentName:
+          description: A human friendly name for the payment instrument
+          type: string
+        providerInstrumentId:
+          $ref: '#/components/schemas/ProviderInstrumentId'
+    TrackingInfo:
+      description: Tracking info
+      properties:
+        link:
+          description: Url of the tracking link
+          type: string
+    ExtendedStructuredAddress:
+      allOf:
+      - $ref: '#/components/schemas/StructuredAddress'
+      - type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/LocationType'
+          customProperties:
+            type: object
+            additionalProperties:
+              type: string
+    PodChecklistVerificationResult:
+      properties:
+        podVerificationStatus:
+          description: Status of the POD verification result
+          $ref: '#/components/schemas/PodVerificationStatusEnum'
+        podVerificationResult:
+          description: A map of POD verification results with checklist item id and result
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PodVerificationResult'
+    Distance:
+      properties:
+        value:
+          description: Calculated distance value.
+          type: number
+          format: double
+        unit:
+          $ref: '#/components/schemas/LengthUnit'
+  parameters:
+    OrderIdParam:
+      name: orderId
+      in: path
+      description: Id of the order
+      required: true
+      schema:
+        type: string
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
   securitySchemes:
     locusauth:
       type: http

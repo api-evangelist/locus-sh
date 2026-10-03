@@ -60,28 +60,6 @@ paths:
         description: Request object
         required: true
 components:
-  parameters:
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
-    PersonnelIdParam:
-      name: personnelId
-      in: path
-      description: Id of the personnel
-      required: true
-      schema:
-        type: string
   schemas:
     CompactCreatePersonnelRequest:
       description: Minimal request for creating personnels
@@ -114,40 +92,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    BusinessUnitId:
-      required:
-      - clientId
-      - businessUnitId
-      properties:
-        clientId:
-          type: string
-        businessUnitId:
-          type: string
-    RoleType:
-      type: string
-      enum:
-      - CLIENT_PERSONNEL
-      - TRANSPORTER_PERSONNEL
-      - RIDER
-      - CLIENT
-      - SYSTEM
-      - API_CREDENTIAL
-    TeamId:
-      type: object
-    MasterRole:
-      description: Role Master entity
-      allOf:
-      - $ref: '#/components/schemas/EntityDefinition'
-      - type: object
-        required:
-        - id
-        properties:
-          allowedOperations:
-            type: array
-            items:
-              type: string
-          roleType:
-            $ref: '#/components/schemas/RoleType'
     BasePersonnel:
       description: Base class for personnel related models
       allOf:
@@ -202,25 +146,6 @@ components:
           timezone:
             description: Time zone of the personnel
             type: string
-    RoleMasterId:
-      type: object
-    EntityDefinition:
-      type: object
-    PhoneNumber:
-      description: Phone number information
-      required:
-      - phoneNumber
-      properties:
-        phoneNumber:
-          type: string
-        isVerified:
-          description: Flag to denote if rider's phone number is verified
-          type: boolean
-          default: false
-        verifiedAt:
-          description: Timestamp of verification of phone number
-          type: string
-          format: date-time
     AuthToken:
       required:
       - token
@@ -235,20 +160,25 @@ components:
           type: string
           enum:
           - TAXY_CLIENT
-    EntityStatusUpdateRequest:
-      description: Wrapper for entity status update request
-      required:
-      - status
-      properties:
-        status:
-          $ref: '#/components/schemas/EntityStatus'
+    EntityDefinition:
+      type: object
+    MasterRole:
+      description: Role Master entity
+      allOf:
+      - $ref: '#/components/schemas/EntityDefinition'
+      - type: object
+        required:
+        - id
+        properties:
+          allowedOperations:
+            type: array
+            items:
+              type: string
+          roleType:
+            $ref: '#/components/schemas/RoleType'
     TransporterId:
       type: object
     EntityStatus:
-      type: object
-    EmailAddress:
-      type: object
-    PersonnelType:
       type: object
     PersonnelResponse:
       description: Wrapper for personnel create request
@@ -268,12 +198,82 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/BusinessUnitId'
+    EmailAddress:
+      type: object
+    TeamId:
+      type: object
+    PhoneNumber:
+      description: Phone number information
+      required:
+      - phoneNumber
+      properties:
+        phoneNumber:
+          type: string
+        isVerified:
+          description: Flag to denote if rider's phone number is verified
+          type: boolean
+          default: false
+        verifiedAt:
+          description: Timestamp of verification of phone number
+          type: string
+          format: date-time
+    EntityStatusUpdateRequest:
+      description: Wrapper for entity status update request
+      required:
+      - status
+      properties:
+        status:
+          $ref: '#/components/schemas/EntityStatus'
+    BusinessUnitId:
+      required:
+      - clientId
+      - businessUnitId
+      properties:
+        clientId:
+          type: string
+        businessUnitId:
+          type: string
     AccessType:
       description: User's access
       type: string
       enum:
       - READ
       - WRITE
+    RoleMasterId:
+      type: object
+    PersonnelType:
+      type: object
+    RoleType:
+      type: string
+      enum:
+      - CLIENT_PERSONNEL
+      - TRANSPORTER_PERSONNEL
+      - RIDER
+      - CLIENT
+      - SYSTEM
+      - API_CREDENTIAL
+  parameters:
+    PersonnelIdParam:
+      name: personnelId
+      in: path
+      description: Id of the personnel
+      required: true
+      schema:
+        type: string
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
   securitySchemes:
     locusauth:
       type: http

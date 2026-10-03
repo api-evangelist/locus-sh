@@ -82,13 +82,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    EntityStatusUpdateRequest:
-      description: Wrapper for entity status update request
-      required:
-      - status
-      properties:
-        status:
-          $ref: '#/components/schemas/EntityStatus'
     CreateTeamRequest:
       description: Team entity create request
       allOf:
@@ -134,7 +127,34 @@ components:
         version:
           type: integer
           format: int32
+    EntityStatusUpdateRequest:
+      description: Wrapper for entity status update request
+      required:
+      - status
+      properties:
+        status:
+          $ref: '#/components/schemas/EntityStatus'
+    IndustryType:
+      type: object
+    BusinessUnitStatusEnum:
+      description: Operational status of the business unit
+      type: string
+      default: ACTIVE
+      enum:
+      - ACTIVE
+      - INACTIVE
+    BusinessUnitId:
+      required:
+      - clientId
+      - businessUnitId
+      properties:
+        clientId:
+          type: string
+        businessUnitId:
+          type: string
     EntityStatus:
+      type: object
+    EntityDefinition:
       type: object
     Team:
       description: Team entity
@@ -154,17 +174,6 @@ components:
           shortCode:
             description: unique 4 character identifier for a team
             type: string
-    BusinessUnitId:
-      required:
-      - clientId
-      - businessUnitId
-      properties:
-        clientId:
-          type: string
-        businessUnitId:
-          type: string
-    IndustryType:
-      type: object
     CityId:
       description: An id for a city
       required:
@@ -172,23 +181,7 @@ components:
       properties:
         cityId:
           type: string
-    BusinessUnitStatusEnum:
-      description: Operational status of the business unit
-      type: string
-      default: ACTIVE
-      enum:
-      - ACTIVE
-      - INACTIVE
-    EntityDefinition:
-      type: object
   parameters:
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -196,6 +189,13 @@ components:
       required: false
       schema:
         type: boolean
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
     TeamIdParam:
       name: teamId
       in: path

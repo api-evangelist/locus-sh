@@ -75,29 +75,17 @@ paths:
       summary: Disable vehicle
       x-summary-source: derived
 components:
-  parameters:
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
-    VehicleIdParam:
-      name: vehicleId
-      in: path
-      description: Id of the vehicle
-      required: true
-      schema:
-        type: string
   schemas:
+    SkillId:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
+    FleetType:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FleetType
+    Shift:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Shift
+    VehicleModel:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
+    Rider:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider
     Vehicle:
       description: Details of a vehicle entity
       allOf:
@@ -190,45 +178,57 @@ components:
             description: Status Field for transporter
             type: boolean
             default: true
-    Rider:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider
-    TeamId:
-      type: object
-    Document:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Document
+    VehicleCostModel:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleCostModel
     BaseLocations:
       $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BaseLocations
-    ResourceLimit:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ResourceLimit
     EntityDefinition:
+      type: object
+    TransporterId:
       type: object
     CreateVehicleRequest:
       description: Wrapper for vehicle create request
       allOf:
       - $ref: '#/components/schemas/Vehicle'
       - type: object
-    Shift:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Shift
-    ShiftId:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftId
-    VehicleCostModel:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleCostModel
-    VehicleModelId:
-      type: object
-    FleetType:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FleetType
-    Transporter:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
-    SkillId:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
-    TransporterId:
-      type: object
     LDate:
       type: object
-    VehicleModel:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
+    ResourceLimit:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ResourceLimit
     RiderId:
       type: object
+    ShiftId:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftId
+    Document:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Document
+    TeamId:
+      type: object
+    Transporter:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
+    VehicleModelId:
+      type: object
+  parameters:
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
+    VehicleIdParam:
+      name: vehicleId
+      in: path
+      description: Id of the vehicle
+      required: true
+      schema:
+        type: string
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
   securitySchemes:
     locusauth:
       type: http

@@ -76,6 +76,13 @@ paths:
       x-summary-source: derived
 components:
   parameters:
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
     RiderPersonaIdParam:
       name: riderPersonaId
       in: path
@@ -90,21 +97,14 @@ components:
       required: true
       schema:
         type: string
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
   schemas:
-    RiderPersona:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderPersona
     CreateRiderPersonaRequest:
       description: Wrapper for rider persona create request
       allOf:
       - $ref: '#/components/schemas/RiderPersona'
       - type: object
+    RiderPersona:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderPersona
   securitySchemes:
     locusauth:
       type: http

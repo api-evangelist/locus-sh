@@ -75,26 +75,7 @@ paths:
       summary: Disable line item
       x-summary-source: derived
 components:
-  schemas:
-    CreateLineItemRequest:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CreateLineItemRequest
-    MasterLineItem:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLineItem
   parameters:
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
-    LineItemIdParam:
-      name: lineItemId
-      in: path
-      description: Id of the line item
-      required: true
-      schema:
-        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -102,6 +83,25 @@ components:
       required: false
       schema:
         type: boolean
+    LineItemIdParam:
+      name: lineItemId
+      in: path
+      description: Id of the line item
+      required: true
+      schema:
+        type: string
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
+  schemas:
+    CreateLineItemRequest:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CreateLineItemRequest
+    MasterLineItem:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLineItem
   securitySchemes:
     locusauth:
       type: http

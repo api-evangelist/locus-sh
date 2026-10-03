@@ -75,14 +75,15 @@ paths:
       summary: Disable transporter
       x-summary-source: derived
 components:
+  schemas:
+    Transporter:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
+    CreateTransporterRequest:
+      description: Wrapper for transporter create request
+      allOf:
+      - $ref: '#/components/schemas/Transporter'
+      - type: object
   parameters:
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -97,14 +98,13 @@ components:
       required: true
       schema:
         type: string
-  schemas:
-    CreateTransporterRequest:
-      description: Wrapper for transporter create request
-      allOf:
-      - $ref: '#/components/schemas/Transporter'
-      - type: object
-    Transporter:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
   securitySchemes:
     locusauth:
       type: http
