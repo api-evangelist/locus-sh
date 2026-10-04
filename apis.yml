@@ -15,6 +15,10 @@ description: Locus is an AI-powered last-mile and dispatch logistics platform he
   specifications covering Order Management (oms.locus-api.com), Entity Management
   (locus-api.com), and Platform Entities (platform.locus-api.com); authentication
   is via HTTP Basic plus API key, provisioned by a Locus representative.
+x-docs-platform: swagger-ui
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
+x-docs-hosting: aws-cloudfront
 tags:
 - Logistics
 - Last Mile Delivery
