@@ -76,6 +76,13 @@ paths:
       x-summary-source: derived
 components:
   parameters:
+    RiderIdParam:
+      name: riderId
+      in: path
+      description: Id of the rider
+      required: true
+      schema:
+        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -87,13 +94,6 @@ components:
       name: clientId
       in: path
       description: Id of the client
-      required: true
-      schema:
-        type: string
-    RiderIdParam:
-      name: riderId
-      in: path
-      description: Id of the rider
       required: true
       schema:
         type: string

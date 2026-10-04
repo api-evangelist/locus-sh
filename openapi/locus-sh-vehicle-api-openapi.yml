@@ -76,16 +76,25 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    VehicleCostModel:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleCostModel
     SkillId:
       $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
-    FleetType:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FleetType
-    Shift:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Shift
+    VehicleModelId:
+      type: object
+    CreateVehicleRequest:
+      description: Wrapper for vehicle create request
+      allOf:
+      - $ref: '#/components/schemas/Vehicle'
+      - type: object
     VehicleModel:
       $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
-    Rider:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider
+    Transporter:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
+    LDate:
+      type: object
+    FleetType:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/FleetType
     Vehicle:
       description: Details of a vehicle entity
       allOf:
@@ -178,35 +187,26 @@ components:
             description: Status Field for transporter
             type: boolean
             default: true
-    VehicleCostModel:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleCostModel
     BaseLocations:
       $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/BaseLocations
-    EntityDefinition:
-      type: object
     TransporterId:
       type: object
-    CreateVehicleRequest:
-      description: Wrapper for vehicle create request
-      allOf:
-      - $ref: '#/components/schemas/Vehicle'
-      - type: object
-    LDate:
-      type: object
-    ResourceLimit:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ResourceLimit
-    RiderId:
-      type: object
-    ShiftId:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftId
+    Rider:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider
     Document:
       $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Document
     TeamId:
       type: object
-    Transporter:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Transporter
-    VehicleModelId:
+    RiderId:
       type: object
+    EntityDefinition:
+      type: object
+    ResourceLimit:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ResourceLimit
+    ShiftId:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/ShiftId
+    Shift:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Shift
   parameters:
     OverwriteParam:
       name: overwrite

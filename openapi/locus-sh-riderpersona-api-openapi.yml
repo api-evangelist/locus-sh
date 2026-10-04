@@ -75,28 +75,6 @@ paths:
       summary: Disable rider persona
       x-summary-source: derived
 components:
-  parameters:
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
-    RiderPersonaIdParam:
-      name: riderPersonaId
-      in: path
-      description: Id of the rider persona
-      required: true
-      schema:
-        type: string
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
   schemas:
     CreateRiderPersonaRequest:
       description: Wrapper for rider persona create request
@@ -105,6 +83,28 @@ components:
       - type: object
     RiderPersona:
       $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/RiderPersona
+  parameters:
+    RiderPersonaIdParam:
+      name: riderPersonaId
+      in: path
+      description: Id of the rider persona
+      required: true
+      schema:
+        type: string
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
   securitySchemes:
     locusauth:
       type: http

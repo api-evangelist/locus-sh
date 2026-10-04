@@ -78,8 +78,14 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    RosterEntityType:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterEntityType
+    CreateRosterResponse:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CreateRosterResponse
+    SkillId:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
+    Roster:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/Roster
+    VehicleModelId:
+      type: object
     CreateBreaksApiRequest:
       description: Shift Roster request for bulk create
       required:
@@ -106,16 +112,26 @@ components:
           - NIGHT
           - OTHER
           default: LUNCH
-    SkillId:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
-    Roster:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/Roster
-    GetRosterResponse:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRosterResponse
     RosterShiftLocation:
       $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation
-    VehicleModelId:
-      type: object
+    CreateRosterShiftApiRequest:
+      description: Shift Roster request for bulk create
+      required:
+      - tagId
+      - start
+      properties:
+        tagId:
+          description: Shift Tag Id for the Roster
+          type: string
+        start:
+          $ref: '#/components/schemas/RosterShiftLocation'
+        end:
+          $ref: '#/components/schemas/RosterShiftLocation'
+        breaks:
+          type: array
+          description: List of Breaks for the Roster
+          items:
+            $ref: '#/components/schemas/CreateBreaksApiRequest'
     CreateRostersApiRequest:
       description: API Roster request for bulk create
       required:
@@ -171,34 +187,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SkillId'
-    CreateRosterResponse:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CreateRosterResponse
-    CreateRosterShiftApiRequest:
-      description: Shift Roster request for bulk create
-      required:
-      - tagId
-      - start
-      properties:
-        tagId:
-          description: Shift Tag Id for the Roster
-          type: string
-        start:
-          $ref: '#/components/schemas/RosterShiftLocation'
-        end:
-          $ref: '#/components/schemas/RosterShiftLocation'
-        breaks:
-          type: array
-          description: List of Breaks for the Roster
-          items:
-            $ref: '#/components/schemas/CreateBreaksApiRequest'
+    RosterEntityType:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterEntityType
+    GetRosterResponse:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRosterResponse
   parameters:
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
     RosterIdParam:
       name: rosterId
       in: path
@@ -206,6 +199,13 @@ components:
       required: true
       schema:
         type: string
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
     ClientIdParam:
       name: clientId
       in: path

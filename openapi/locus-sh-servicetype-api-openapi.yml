@@ -49,13 +49,6 @@ paths:
         required: true
 components:
   parameters:
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
     ServiceTypeIdParam:
       name: serviceTypeId
       in: path
@@ -63,6 +56,13 @@ components:
       required: true
       schema:
         type: string
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
     ClientIdParam:
       name: clientId
       in: path
@@ -71,10 +71,21 @@ components:
       schema:
         type: string
   schemas:
-    OrderType:
-      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
     EntityDefinition:
       type: object
+    ServiceSubType:
+      type: string
+      enum:
+      - NO_OF_DAYS_PLUS_TIME
+      - NO_OF_DAYS
+      - NO_OF_DAYS_PLUS_SLOT
+    OrderType:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
+    ServiceTypeConfiguration:
+      description: Service type model a specific delivery service
+      allOf:
+      - $ref: '#/components/schemas/CreateServiceTypeRequest'
+      - type: object
     Amount:
       description: Amount of an item
       properties:
@@ -124,17 +135,6 @@ components:
             $ref: '#/components/schemas/Amount'
           serviceSubType:
             $ref: '#/components/schemas/ServiceSubType'
-    ServiceTypeConfiguration:
-      description: Service type model a specific delivery service
-      allOf:
-      - $ref: '#/components/schemas/CreateServiceTypeRequest'
-      - type: object
-    ServiceSubType:
-      type: string
-      enum:
-      - NO_OF_DAYS_PLUS_TIME
-      - NO_OF_DAYS
-      - NO_OF_DAYS_PLUS_SLOT
   securitySchemes:
     locusauth:
       type: http

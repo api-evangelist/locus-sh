@@ -82,19 +82,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    CreateTeamRequest:
-      description: Team entity create request
-      allOf:
-      - $ref: '#/components/schemas/EntityDefinition'
-      - type: object
-        properties:
-          businessUnitId:
-            $ref: '#/components/schemas/BusinessUnitId'
-          cityId:
-            $ref: '#/components/schemas/CityId'
-          color:
-            description: Color of the team
-            type: string
     BusinessUnit:
       description: Business unit of the client
       required:
@@ -127,35 +114,23 @@ components:
         version:
           type: integer
           format: int32
-    EntityStatusUpdateRequest:
-      description: Wrapper for entity status update request
-      required:
-      - status
-      properties:
-        status:
-          $ref: '#/components/schemas/EntityStatus'
-    IndustryType:
-      type: object
-    BusinessUnitStatusEnum:
-      description: Operational status of the business unit
-      type: string
-      default: ACTIVE
-      enum:
-      - ACTIVE
-      - INACTIVE
-    BusinessUnitId:
-      required:
-      - clientId
-      - businessUnitId
-      properties:
-        clientId:
-          type: string
-        businessUnitId:
-          type: string
-    EntityStatus:
-      type: object
     EntityDefinition:
       type: object
+    EntityStatus:
+      type: object
+    CreateTeamRequest:
+      description: Team entity create request
+      allOf:
+      - $ref: '#/components/schemas/EntityDefinition'
+      - type: object
+        properties:
+          businessUnitId:
+            $ref: '#/components/schemas/BusinessUnitId'
+          cityId:
+            $ref: '#/components/schemas/CityId'
+          color:
+            description: Color of the team
+            type: string
     Team:
       description: Team entity
       allOf:
@@ -174,6 +149,15 @@ components:
           shortCode:
             description: unique 4 character identifier for a team
             type: string
+    BusinessUnitId:
+      required:
+      - clientId
+      - businessUnitId
+      properties:
+        clientId:
+          type: string
+        businessUnitId:
+          type: string
     CityId:
       description: An id for a city
       required:
@@ -181,6 +165,22 @@ components:
       properties:
         cityId:
           type: string
+    IndustryType:
+      type: object
+    BusinessUnitStatusEnum:
+      description: Operational status of the business unit
+      type: string
+      default: ACTIVE
+      enum:
+      - ACTIVE
+      - INACTIVE
+    EntityStatusUpdateRequest:
+      description: Wrapper for entity status update request
+      required:
+      - status
+      properties:
+        status:
+          $ref: '#/components/schemas/EntityStatus'
   parameters:
     OverwriteParam:
       name: overwrite

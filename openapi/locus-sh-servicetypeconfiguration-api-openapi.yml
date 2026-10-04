@@ -27,11 +27,37 @@ paths:
       summary: Disable service type
       x-summary-source: derived
 components:
+  parameters:
+    ServiceTypeIdParam:
+      name: serviceTypeId
+      in: path
+      description: Id of the service type
+      required: true
+      schema:
+        type: string
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
   schemas:
-    OrderType:
-      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
     EntityDefinition:
       type: object
+    ServiceSubType:
+      type: string
+      enum:
+      - NO_OF_DAYS_PLUS_TIME
+      - NO_OF_DAYS
+      - NO_OF_DAYS_PLUS_SLOT
+    OrderType:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
+    ServiceTypeConfiguration:
+      description: Service type model a specific delivery service
+      allOf:
+      - $ref: '#/components/schemas/CreateServiceTypeRequest'
+      - type: object
     Amount:
       description: Amount of an item
       properties:
@@ -81,32 +107,6 @@ components:
             $ref: '#/components/schemas/Amount'
           serviceSubType:
             $ref: '#/components/schemas/ServiceSubType'
-    ServiceTypeConfiguration:
-      description: Service type model a specific delivery service
-      allOf:
-      - $ref: '#/components/schemas/CreateServiceTypeRequest'
-      - type: object
-    ServiceSubType:
-      type: string
-      enum:
-      - NO_OF_DAYS_PLUS_TIME
-      - NO_OF_DAYS
-      - NO_OF_DAYS_PLUS_SLOT
-  parameters:
-    ServiceTypeIdParam:
-      name: serviceTypeId
-      in: path
-      description: Id of the service type
-      required: true
-      schema:
-        type: string
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
   securitySchemes:
     locusauth:
       type: http

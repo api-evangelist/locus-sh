@@ -81,12 +81,14 @@ paths:
       summary: Update homebase status
       x-summary-source: derived
 components:
-  schemas:
-    Homebase:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Homebase
-    EntityStatusUpdateRequest:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/EntityStatusUpdateRequest
   parameters:
+    HomebaseIdParam:
+      name: homebaseId
+      in: path
+      description: Id of homebase
+      required: true
+      schema:
+        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -101,13 +103,11 @@ components:
       required: true
       schema:
         type: string
-    HomebaseIdParam:
-      name: homebaseId
-      in: path
-      description: Id of homebase
-      required: true
-      schema:
-        type: string
+  schemas:
+    Homebase:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Homebase
+    EntityStatusUpdateRequest:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/EntityStatusUpdateRequest
   securitySchemes:
     locusauth:
       type: http
