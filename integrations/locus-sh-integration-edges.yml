@@ -1,0 +1,18 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/locus-sh/integrations
+- https://zapier.com/apps/locus/integrations
+- https://n8n.io/integrations/locus-sh/
+- https://composio.dev/toolkits/locus-sh
+- https://monid.ai/tools/locus-sh
+checked:
+- https://composio.dev/toolkits/locus-sh
+- https://monid.ai/tools/locus-sh
+- https://n8n.io/integrations/locus-sh/
+- https://zapier.com/apps/locus-sh/integrations
+- https://zapier.com/apps/locus/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
