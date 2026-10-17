@@ -76,10 +76,10 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    MasterLineItem:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLineItem
     CreateLineItemRequest:
       $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/CreateLineItemRequest
+    MasterLineItem:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/MasterLineItem
   parameters:
     LineItemIdParam:
       name: lineItemId

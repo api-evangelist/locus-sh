@@ -84,13 +84,6 @@ components:
     VehicleModel:
       $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/VehicleModel
   parameters:
-    VehicleModelIdParam:
-      name: vehicleModelId
-      in: path
-      description: Id of a vehicle model
-      required: true
-      schema:
-        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -98,6 +91,13 @@ components:
       required: false
       schema:
         type: boolean
+    VehicleModelIdParam:
+      name: vehicleModelId
+      in: path
+      description: Id of a vehicle model
+      required: true
+      schema:
+        type: string
     ClientIdParam:
       name: clientId
       in: path

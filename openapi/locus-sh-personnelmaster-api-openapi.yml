@@ -61,6 +61,126 @@ paths:
         required: true
 components:
   schemas:
+    PersonnelResponse:
+      description: Wrapper for personnel create request
+      allOf:
+      - $ref: '#/components/schemas/BasePersonnel'
+      - type: object
+        properties:
+          accessType:
+            $ref: '#/components/schemas/AccessType'
+          authToken:
+            $ref: '#/components/schemas/AuthToken'
+          role:
+            description: Role assigned to personnel
+            type: string
+          businessUnitIds:
+            description: Id of the business units to which personnel belongs.
+            type: array
+            items:
+              $ref: '#/components/schemas/BusinessUnitId'
+    RoleMasterId:
+      type: object
+    AccessType:
+      description: User's access
+      type: string
+      enum:
+      - READ
+      - WRITE
+    AuthToken:
+      required:
+      - token
+      - userId
+      - authProvider
+      properties:
+        token:
+          type: string
+        userId:
+          type: string
+        authProvider:
+          type: string
+          enum:
+          - TAXY_CLIENT
+    PhoneNumber:
+      description: Phone number information
+      required:
+      - phoneNumber
+      properties:
+        phoneNumber:
+          type: string
+        isVerified:
+          description: Flag to denote if rider's phone number is verified
+          type: boolean
+          default: false
+        verifiedAt:
+          description: Timestamp of verification of phone number
+          type: string
+          format: date-time
+    PersonnelType:
+      type: object
+    BusinessUnitId:
+      required:
+      - clientId
+      - businessUnitId
+      properties:
+        clientId:
+          type: string
+        businessUnitId:
+          type: string
+    CompactCreatePersonnelRequest:
+      description: Minimal request for creating personnels
+      required:
+      - id
+      - name
+      - email
+      - role
+      - teams
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        hasAllTeamsAccess:
+          description: Boolean indicating whether the personnel has access to all teams or not
+          type: boolean
+          default: false
+        teams:
+          description: Ids of the teams to which this personnel belongs
+          type: array
+          items:
+            type: string
+        customProperties:
+          description: Additional properties which clients wants to have along with standard entity properties
+          type: object
+          additionalProperties:
+            type: string
+    MasterRole:
+      description: Role Master entity
+      allOf:
+      - $ref: '#/components/schemas/EntityDefinition'
+      - type: object
+        required:
+        - id
+        properties:
+          allowedOperations:
+            type: array
+            items:
+              type: string
+          roleType:
+            $ref: '#/components/schemas/RoleType'
+    TeamId:
+      type: object
+    EntityStatusUpdateRequest:
+      description: Wrapper for entity status update request
+      required:
+      - status
+      properties:
+        status:
+          $ref: '#/components/schemas/EntityStatus'
     BasePersonnel:
       description: Base class for personnel related models
       allOf:
@@ -115,104 +235,12 @@ components:
           timezone:
             description: Time zone of the personnel
             type: string
-    PersonnelType:
-      type: object
-    MasterRole:
-      description: Role Master entity
-      allOf:
-      - $ref: '#/components/schemas/EntityDefinition'
-      - type: object
-        required:
-        - id
-        properties:
-          allowedOperations:
-            type: array
-            items:
-              type: string
-          roleType:
-            $ref: '#/components/schemas/RoleType'
-    RoleMasterId:
-      type: object
-    EntityStatus:
-      type: object
-    AuthToken:
-      required:
-      - token
-      - userId
-      - authProvider
-      properties:
-        token:
-          type: string
-        userId:
-          type: string
-        authProvider:
-          type: string
-          enum:
-          - TAXY_CLIENT
     EmailAddress:
-      type: object
-    CompactCreatePersonnelRequest:
-      description: Minimal request for creating personnels
-      required:
-      - id
-      - name
-      - email
-      - role
-      - teams
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        email:
-          type: string
-        role:
-          type: string
-        hasAllTeamsAccess:
-          description: Boolean indicating whether the personnel has access to all teams or not
-          type: boolean
-          default: false
-        teams:
-          description: Ids of the teams to which this personnel belongs
-          type: array
-          items:
-            type: string
-        customProperties:
-          description: Additional properties which clients wants to have along with standard entity properties
-          type: object
-          additionalProperties:
-            type: string
-    TransporterId:
-      type: object
-    EntityStatusUpdateRequest:
-      description: Wrapper for entity status update request
-      required:
-      - status
-      properties:
-        status:
-          $ref: '#/components/schemas/EntityStatus'
-    TeamId:
       type: object
     EntityDefinition:
       type: object
-    PersonnelResponse:
-      description: Wrapper for personnel create request
-      allOf:
-      - $ref: '#/components/schemas/BasePersonnel'
-      - type: object
-        properties:
-          accessType:
-            $ref: '#/components/schemas/AccessType'
-          authToken:
-            $ref: '#/components/schemas/AuthToken'
-          role:
-            description: Role assigned to personnel
-            type: string
-          businessUnitIds:
-            description: Id of the business units to which personnel belongs.
-            type: array
-            items:
-              $ref: '#/components/schemas/BusinessUnitId'
+    EntityStatus:
+      type: object
     RoleType:
       type: string
       enum:
@@ -222,36 +250,8 @@ components:
       - CLIENT
       - SYSTEM
       - API_CREDENTIAL
-    BusinessUnitId:
-      required:
-      - clientId
-      - businessUnitId
-      properties:
-        clientId:
-          type: string
-        businessUnitId:
-          type: string
-    PhoneNumber:
-      description: Phone number information
-      required:
-      - phoneNumber
-      properties:
-        phoneNumber:
-          type: string
-        isVerified:
-          description: Flag to denote if rider's phone number is verified
-          type: boolean
-          default: false
-        verifiedAt:
-          description: Timestamp of verification of phone number
-          type: string
-          format: date-time
-    AccessType:
-      description: User's access
-      type: string
-      enum:
-      - READ
-      - WRITE
+    TransporterId:
+      type: object
   parameters:
     OverwriteParam:
       name: overwrite

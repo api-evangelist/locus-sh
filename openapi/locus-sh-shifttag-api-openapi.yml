@@ -78,13 +78,6 @@ components:
     ShiftTag:
       $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/ShiftTag
   parameters:
-    TagIdParam:
-      name: tagId
-      in: path
-      description: Id of the shiftTag
-      required: true
-      schema:
-        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -96,6 +89,13 @@ components:
       name: clientId
       in: path
       description: Id of the client
+      required: true
+      schema:
+        type: string
+    TagIdParam:
+      name: tagId
+      in: path
+      description: Id of the shiftTag
       required: true
       schema:
         type: string

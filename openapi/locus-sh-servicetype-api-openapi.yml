@@ -48,56 +48,7 @@ paths:
         description: Create service type request
         required: true
 components:
-  parameters:
-    ServiceTypeIdParam:
-      name: serviceTypeId
-      in: path
-      description: Id of the service type
-      required: true
-      schema:
-        type: string
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
   schemas:
-    EntityDefinition:
-      type: object
-    ServiceSubType:
-      type: string
-      enum:
-      - NO_OF_DAYS_PLUS_TIME
-      - NO_OF_DAYS
-      - NO_OF_DAYS_PLUS_SLOT
-    OrderType:
-      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
-    ServiceTypeConfiguration:
-      description: Service type model a specific delivery service
-      allOf:
-      - $ref: '#/components/schemas/CreateServiceTypeRequest'
-      - type: object
-    Amount:
-      description: Amount of an item
-      properties:
-        amount:
-          type: number
-          format: double
-        currency:
-          type: string
-          description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
-        symbol:
-          type: string
-          description: A symbol for the currency. If missing, will default to currency string
     CreateServiceTypeRequest:
       description: Create service type
       allOf:
@@ -135,6 +86,55 @@ components:
             $ref: '#/components/schemas/Amount'
           serviceSubType:
             $ref: '#/components/schemas/ServiceSubType'
+    OrderType:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
+    EntityDefinition:
+      type: object
+    ServiceTypeConfiguration:
+      description: Service type model a specific delivery service
+      allOf:
+      - $ref: '#/components/schemas/CreateServiceTypeRequest'
+      - type: object
+    Amount:
+      description: Amount of an item
+      properties:
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+          description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
+        symbol:
+          type: string
+          description: A symbol for the currency. If missing, will default to currency string
+    ServiceSubType:
+      type: string
+      enum:
+      - NO_OF_DAYS_PLUS_TIME
+      - NO_OF_DAYS
+      - NO_OF_DAYS_PLUS_SLOT
+  parameters:
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
+    ServiceTypeIdParam:
+      name: serviceTypeId
+      in: path
+      description: Id of the service type
+      required: true
+      schema:
+        type: string
   securitySchemes:
     locusauth:
       type: http

@@ -78,42 +78,8 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    CreateRosterResponse:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CreateRosterResponse
-    SkillId:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
-    Roster:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/Roster
-    VehicleModelId:
-      type: object
-    CreateBreaksApiRequest:
-      description: Shift Roster request for bulk create
-      required:
-      - startTime
-      - endTime
-      - duration
-      - breakType
-      properties:
-        startTime:
-          description: Break Start Time
-          type: string
-        endTime:
-          description: Break End Time
-          type: string
-        duration:
-          description: Duration of break
-          type: string
-        breakType:
-          description: Type of break - LUNCH, REFUEL
-          type: string
-          enum:
-          - LUNCH
-          - REFUEL
-          - NIGHT
-          - OTHER
-          default: LUNCH
-    RosterShiftLocation:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation
+    GetRosterResponse:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRosterResponse
     CreateRosterShiftApiRequest:
       description: Shift Roster request for bulk create
       required:
@@ -132,6 +98,14 @@ components:
           description: List of Breaks for the Roster
           items:
             $ref: '#/components/schemas/CreateBreaksApiRequest'
+    SkillId:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/SkillId
+    CreateRosterResponse:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/CreateRosterResponse
+    RosterShiftLocation:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterShiftLocation
+    RosterEntityType:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterEntityType
     CreateRostersApiRequest:
       description: API Roster request for bulk create
       required:
@@ -187,18 +161,37 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SkillId'
-    RosterEntityType:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/RosterEntityType
-    GetRosterResponse:
-      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/GetRosterResponse
+    VehicleModelId:
+      type: object
+    CreateBreaksApiRequest:
+      description: Shift Roster request for bulk create
+      required:
+      - startTime
+      - endTime
+      - duration
+      - breakType
+      properties:
+        startTime:
+          description: Break Start Time
+          type: string
+        endTime:
+          description: Break End Time
+          type: string
+        duration:
+          description: Duration of break
+          type: string
+        breakType:
+          description: Type of break - LUNCH, REFUEL
+          type: string
+          enum:
+          - LUNCH
+          - REFUEL
+          - NIGHT
+          - OTHER
+          default: LUNCH
+    Roster:
+      $ref: https://swagger.locus-api.com/roster-entity.yaml#/definitions/Roster
   parameters:
-    RosterIdParam:
-      name: rosterId
-      in: path
-      description: Id of roster
-      required: true
-      schema:
-        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -206,6 +199,13 @@ components:
       required: false
       schema:
         type: boolean
+    RosterIdParam:
+      name: rosterId
+      in: path
+      description: Id of roster
+      required: true
+      schema:
+        type: string
     ClientIdParam:
       name: clientId
       in: path

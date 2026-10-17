@@ -32,159 +32,6 @@ paths:
         required: true
 components:
   schemas:
-    OmsDimensions:
-      description: Dimensions of an item
-      properties:
-        length:
-          description: Length of the item in meters
-          type: number
-          format: double
-        breadth:
-          description: Breadth of the item in meters
-          type: number
-          format: double
-        height:
-          description: Height of the item in meters
-          type: number
-          format: double
-        unit:
-          $ref: '#/components/schemas/LengthUnit'
-    LengthUnit:
-      description: Unit for length
-      type: string
-      enum:
-      - MM
-      - CM
-      - M
-      - IN
-      - FT
-      - YD
-      - KM
-      - MI
-    StructuredAddress:
-      description: A real world address
-      properties:
-        id:
-          description: An id for the address
-          type: string
-        placeName:
-          description: Name of the place
-          type: string
-        localityName:
-          description: Name of the locality if available
-          type: string
-        formattedAddress:
-          description: Text representation of the address.
-          type: string
-        subLocalityName:
-          description: Name of the sub-locality if available
-          type: string
-        pincode:
-          description: Zipcode for the address
-          type: string
-        city:
-          description: City of the address
-          type: string
-        state:
-          description: State of the address
-          type: string
-        countryCode:
-          description: Country code to uniquely identify the country
-          type: string
-        locationType:
-          description: Possible values currently are STANDALONE_APARTMENT, GATED_COMMUNITY, INDEPENDENT_PREMISES
-          type: string
-        placeHash:
-          description: Hashed value of placeName for internal use
-          type: string
-        locationSource:
-          $ref: '#/components/schemas/LocationSource'
-        locationName:
-          description: Location name to be populated from location entity
-          type: string
-    WeightUnit:
-      description: Unit for weight
-      type: string
-      enum:
-      - MG
-      - G
-      - KG
-      - T
-      - OZ
-      - LB
-    MinimalLineItem:
-      description: A single item contained in the order
-      required:
-      - name
-      - quantity
-      properties:
-        id:
-          description: An identifier for the SKU. If provided, details related to line item will be populated using sku master of the client
-          type: string
-        lineItemId:
-          description: An identifier for the line item.
-          type: string
-        skuId:
-          description: An identifier for the line item.
-          type: string
-        packId:
-          description: A unique identifier of the line item, this is different from sku id. This would be unique across orders and only one qunatity of line item can exist with this id.
-          type: string
-        name:
-          description: Name of the item
-          type: string
-        description:
-          description: description of the item
-          type: string
-        handlingUnit:
-          $ref: '#/components/schemas/HandlingUnitEnum'
-          default: QUANTITY
-        quantity:
-          description: Quantity of the item
-          type: integer
-          format: int32
-          default: 0
-        quantityUnit:
-          type: string
-        price:
-          $ref: '#/components/schemas/Amount'
-        commodityCode:
-          $ref: '#/components/schemas/TransitCode'
-        parts:
-          type: array
-          items:
-            $ref: '#/components/schemas/LineItemPart'
-        customProperties:
-          description: Additional properties which clients wants to have along with standard entity properties
-          type: object
-          additionalProperties:
-            type: string
-        summary:
-          description: Summarized data of all line item parts
-          $ref: '#/components/schemas/LineItemSummary'
-        totalVolume:
-          description: total volume of the line item multiplied by it's quantity
-          $ref: '#/components/schemas/Volume'
-        totalWeight:
-          description: total weight of the line item multiplied by it's quantity
-          $ref: '#/components/schemas/Weight'
-        handlingUnits:
-          type: array
-          items:
-            $ref: '#/components/schemas/HandlingUnitEnum'
-        boxDetailSummary:
-          $ref: '#/components/schemas/BoxDetailSummary'
-        canRiderEdit:
-          description: flag to denote whether the rider is allowed to edit the line item
-          type: boolean
-          default: true
-    OrderType:
-      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
-    LocationSource:
-      description: location provider source.
-      type: string
-      enum:
-      - LOCATION_MASTER
     Weight:
       description: Weight of order
       required:
@@ -196,119 +43,6 @@ components:
           type: string
         unit:
           $ref: '#/components/schemas/WeightUnit'
-    Amount:
-      description: Amount of an item
-      properties:
-        amount:
-          type: number
-          format: double
-        currency:
-          type: string
-          description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
-        symbol:
-          type: string
-          description: A symbol for the currency. If missing, will default to currency string
-    LineItemSummary:
-      properties:
-        totalWeight:
-          description: Sum of individual weights of all parts
-          $ref: '#/components/schemas/Weight'
-        totalVolume:
-          description: Sum of individual volumes of all parts
-          $ref: '#/components/schemas/Volume'
-        totalReweighCount:
-          type: integer
-          format: int32
-          default: 0
-    GetSlotsResponse:
-      description: Response with available time slots for the drop
-      required:
-      - slots
-      properties:
-        id:
-          description: Order id if provided
-          type: string
-        slots:
-          description: List of available time slots for the drop
-          type: array
-          items:
-            $ref: '#/components/schemas/DlcTimeSlot'
-        bestSlot:
-          description: Best available slot based on configured strategy
-          $ref: '#/components/schemas/DlcTimeSlot'
-    LineItemPart:
-      description: A part of the line item which can be shipped separately
-      required:
-      - volume
-      properties:
-        id:
-          type: string
-        volume:
-          $ref: '#/components/schemas/Volume'
-        weight:
-          $ref: '#/components/schemas/Weight'
-        originalWeight:
-          $ref: '#/components/schemas/Weight'
-        dimensions:
-          $ref: '#/components/schemas/OmsDimensions'
-        piecesCount:
-          type: integer
-          format: int32
-          default: 1
-    BaseAmount:
-      description: Amount value of an item
-      properties:
-        amount:
-          type: number
-          format: double
-    MinimalContactPoint:
-      description: Contact point at a visit location.
-      properties:
-        name:
-          description: Name of contact
-          type: string
-        number:
-          description: Number for contact person
-          type: string
-        alternateNumber:
-          description: Alternate number for contact person
-          type: string
-        email:
-          description: Email of contact person
-          type: string
-        language:
-          description: Preferred communication language
-          type: string
-          default: en-US
-    SlotSelectionStrategy:
-      type: string
-      enum:
-      - EARLIEST_START
-      - LEAST_ENERGY_DELTA
-      - LEAST_SCORE
-      - CUSTOMER_CHOSEN
-      - CUSTOMER_CHOSEN_EARLIEST
-      - CUSTOMER_CHOSEN_LEAST_SCORE
-      - CUSTOMER_CHOSEN_LEAST_ENERGY_DELTA
-    AmountTransaction:
-      description: Transaction of an amount.
-      properties:
-        refId:
-          description: id of amount transaction
-          type: string
-        amount:
-          $ref: '#/components/schemas/Amount'
-        net:
-          $ref: '#/components/schemas/BaseAmount'
-        gross:
-          $ref: '#/components/schemas/BaseAmount'
-        exchangeType:
-          description: Type of transaction.
-          type: string
-          enum:
-          - COLLECT
-          - GIVE
-          - NONE
     GetServiceableSlotsRequest:
       description: Get Serviceable Slot request
       required:
@@ -394,56 +128,16 @@ components:
           type: array
           items:
             type: string
-    VolumeUnit:
-      description: Unit for volume
+    WeightUnit:
+      description: Unit for weight
       type: string
       enum:
-      - CMM
-      - CCM
-      - CC
-      - CM
-      - M3
-      - CIN
-      - CI
-      - CFT
-      - CF
-      - CYD
-      - IC
-      - TC
-      - L
-    BoxDetailSummary:
-      properties:
-        totalCases:
-          type: integer
-          format: int32
-        totalPieces:
-          type: integer
-          format: int32
-        quantityUnit:
-          type: string
-        boxUnit:
-          type: string
-    HandlingUnitEnum:
-      description: delivery handling units to identify deliverable field
-      type: string
-      enum:
-      - QUANTITY
-      - WEIGHT
-      - VOLUME
-    CapacityMetadata:
-      properties:
-        taskCount:
-          type: integer
-          format: int32
-          default: 0
-        utilisedVolume:
-          type: number
-          format: double
-          default: 0
-        utilisedWeight:
-          type: number
-          format: double
-          default: 0
+      - MG
+      - G
+      - KG
+      - T
+      - OZ
+      - LB
     DlcTimeSlot:
       description: Time slot for a delivery linked checkout (DLC)
       required:
@@ -483,6 +177,74 @@ components:
           format: double
         capacityMetadata:
           $ref: '#/components/schemas/CapacityMetadata'
+    CapacityMetadata:
+      properties:
+        taskCount:
+          type: integer
+          format: int32
+          default: 0
+        utilisedVolume:
+          type: number
+          format: double
+          default: 0
+        utilisedWeight:
+          type: number
+          format: double
+          default: 0
+    BaseAmount:
+      description: Amount value of an item
+      properties:
+        amount:
+          type: number
+          format: double
+    AmountTransaction:
+      description: Transaction of an amount.
+      properties:
+        refId:
+          description: id of amount transaction
+          type: string
+        amount:
+          $ref: '#/components/schemas/Amount'
+        net:
+          $ref: '#/components/schemas/BaseAmount'
+        gross:
+          $ref: '#/components/schemas/BaseAmount'
+        exchangeType:
+          description: Type of transaction.
+          type: string
+          enum:
+          - COLLECT
+          - GIVE
+          - NONE
+    MinimalContactPoint:
+      description: Contact point at a visit location.
+      properties:
+        name:
+          description: Name of contact
+          type: string
+        number:
+          description: Number for contact person
+          type: string
+        alternateNumber:
+          description: Alternate number for contact person
+          type: string
+        email:
+          description: Email of contact person
+          type: string
+        language:
+          description: Preferred communication language
+          type: string
+          default: en-US
+    SlotSelectionStrategy:
+      type: string
+      enum:
+      - EARLIEST_START
+      - LEAST_ENERGY_DELTA
+      - LEAST_SCORE
+      - CUSTOMER_CHOSEN
+      - CUSTOMER_CHOSEN_EARLIEST
+      - CUSTOMER_CHOSEN_LEAST_SCORE
+      - CUSTOMER_CHOSEN_LEAST_ENERGY_DELTA
     MinimalLatLng:
       description: A latitude, longitude pair
       required:
@@ -495,6 +257,252 @@ components:
         lng:
           type: number
           format: double
+    BoxDetailSummary:
+      properties:
+        totalCases:
+          type: integer
+          format: int32
+        totalPieces:
+          type: integer
+          format: int32
+        quantityUnit:
+          type: string
+        boxUnit:
+          type: string
+    TimeSlot:
+      $ref: https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot
+    LengthUnit:
+      description: Unit for length
+      type: string
+      enum:
+      - MM
+      - CM
+      - M
+      - IN
+      - FT
+      - YD
+      - KM
+      - MI
+    OmsDimensions:
+      description: Dimensions of an item
+      properties:
+        length:
+          description: Length of the item in meters
+          type: number
+          format: double
+        breadth:
+          description: Breadth of the item in meters
+          type: number
+          format: double
+        height:
+          description: Height of the item in meters
+          type: number
+          format: double
+        unit:
+          $ref: '#/components/schemas/LengthUnit'
+    MinimalLineItem:
+      description: A single item contained in the order
+      required:
+      - name
+      - quantity
+      properties:
+        id:
+          description: An identifier for the SKU. If provided, details related to line item will be populated using sku master of the client
+          type: string
+        lineItemId:
+          description: An identifier for the line item.
+          type: string
+        skuId:
+          description: An identifier for the line item.
+          type: string
+        packId:
+          description: A unique identifier of the line item, this is different from sku id. This would be unique across orders and only one qunatity of line item can exist with this id.
+          type: string
+        name:
+          description: Name of the item
+          type: string
+        description:
+          description: description of the item
+          type: string
+        handlingUnit:
+          $ref: '#/components/schemas/HandlingUnitEnum'
+          default: QUANTITY
+        quantity:
+          description: Quantity of the item
+          type: integer
+          format: int32
+          default: 0
+        quantityUnit:
+          type: string
+        price:
+          $ref: '#/components/schemas/Amount'
+        commodityCode:
+          $ref: '#/components/schemas/TransitCode'
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItemPart'
+        customProperties:
+          description: Additional properties which clients wants to have along with standard entity properties
+          type: object
+          additionalProperties:
+            type: string
+        summary:
+          description: Summarized data of all line item parts
+          $ref: '#/components/schemas/LineItemSummary'
+        totalVolume:
+          description: total volume of the line item multiplied by it's quantity
+          $ref: '#/components/schemas/Volume'
+        totalWeight:
+          description: total weight of the line item multiplied by it's quantity
+          $ref: '#/components/schemas/Weight'
+        handlingUnits:
+          type: array
+          items:
+            $ref: '#/components/schemas/HandlingUnitEnum'
+        boxDetailSummary:
+          $ref: '#/components/schemas/BoxDetailSummary'
+        canRiderEdit:
+          description: flag to denote whether the rider is allowed to edit the line item
+          type: boolean
+          default: true
+    StructuredAddress:
+      description: A real world address
+      properties:
+        id:
+          description: An id for the address
+          type: string
+        placeName:
+          description: Name of the place
+          type: string
+        localityName:
+          description: Name of the locality if available
+          type: string
+        formattedAddress:
+          description: Text representation of the address.
+          type: string
+        subLocalityName:
+          description: Name of the sub-locality if available
+          type: string
+        pincode:
+          description: Zipcode for the address
+          type: string
+        city:
+          description: City of the address
+          type: string
+        state:
+          description: State of the address
+          type: string
+        countryCode:
+          description: Country code to uniquely identify the country
+          type: string
+        locationType:
+          description: Possible values currently are STANDALONE_APARTMENT, GATED_COMMUNITY, INDEPENDENT_PREMISES
+          type: string
+        placeHash:
+          description: Hashed value of placeName for internal use
+          type: string
+        locationSource:
+          $ref: '#/components/schemas/LocationSource'
+        locationName:
+          description: Location name to be populated from location entity
+          type: string
+    LocationSource:
+      description: location provider source.
+      type: string
+      enum:
+      - LOCATION_MASTER
+    GetSlotsResponse:
+      description: Response with available time slots for the drop
+      required:
+      - slots
+      properties:
+        id:
+          description: Order id if provided
+          type: string
+        slots:
+          description: List of available time slots for the drop
+          type: array
+          items:
+            $ref: '#/components/schemas/DlcTimeSlot'
+        bestSlot:
+          description: Best available slot based on configured strategy
+          $ref: '#/components/schemas/DlcTimeSlot'
+    HandlingUnitEnum:
+      description: delivery handling units to identify deliverable field
+      type: string
+      enum:
+      - QUANTITY
+      - WEIGHT
+      - VOLUME
+    OrderType:
+      $ref: https://swagger.locus-api.com/oms.yaml#/definitions/OrderType
+    VolumeUnit:
+      description: Unit for volume
+      type: string
+      enum:
+      - CMM
+      - CCM
+      - CC
+      - CM
+      - M3
+      - CIN
+      - CI
+      - CFT
+      - CF
+      - CYD
+      - IC
+      - TC
+      - L
+    Amount:
+      description: Amount of an item
+      properties:
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+          description: Currency for the amount. Value should be one of the active codes of official ISO 4217 currency names. Examples are INR, USD, AED, GBP etc
+        symbol:
+          type: string
+          description: A symbol for the currency. If missing, will default to currency string
+    LineItemPart:
+      description: A part of the line item which can be shipped separately
+      required:
+      - volume
+      properties:
+        id:
+          type: string
+        volume:
+          $ref: '#/components/schemas/Volume'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        originalWeight:
+          $ref: '#/components/schemas/Weight'
+        dimensions:
+          $ref: '#/components/schemas/OmsDimensions'
+        piecesCount:
+          type: integer
+          format: int32
+          default: 1
+    TransitCode:
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+    LineItemSummary:
+      properties:
+        totalWeight:
+          description: Sum of individual weights of all parts
+          $ref: '#/components/schemas/Weight'
+        totalVolume:
+          description: Sum of individual volumes of all parts
+          $ref: '#/components/schemas/Volume'
+        totalReweighCount:
+          type: integer
+          format: int32
+          default: 0
     Volume:
       description: Volume of an item
       required:
@@ -506,14 +514,6 @@ components:
           type: string
         unit:
           $ref: '#/components/schemas/VolumeUnit'
-    TimeSlot:
-      $ref: https://swagger.locus-api.com/slots.yaml#/definitions/TimeSlot
-    TransitCode:
-      properties:
-        code:
-          type: string
-        description:
-          type: string
   parameters:
     ClientIdParam:
       name: clientId

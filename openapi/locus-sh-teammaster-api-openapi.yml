@@ -81,7 +81,58 @@ paths:
       summary: Update team status
       x-summary-source: derived
 components:
+  parameters:
+    TeamIdParam:
+      name: teamId
+      in: path
+      description: Id of the team
+      required: true
+      schema:
+        type: string
+    OverwriteParam:
+      name: overwrite
+      in: query
+      description: Boolean flag if true, will overwrite the existing entity
+      required: false
+      schema:
+        type: boolean
+    ClientIdParam:
+      name: clientId
+      in: path
+      description: Id of the client
+      required: true
+      schema:
+        type: string
   schemas:
+    BusinessUnitStatusEnum:
+      description: Operational status of the business unit
+      type: string
+      default: ACTIVE
+      enum:
+      - ACTIVE
+      - INACTIVE
+    EntityDefinition:
+      type: object
+    EntityStatusUpdateRequest:
+      description: Wrapper for entity status update request
+      required:
+      - status
+      properties:
+        status:
+          $ref: '#/components/schemas/EntityStatus'
+    CreateTeamRequest:
+      description: Team entity create request
+      allOf:
+      - $ref: '#/components/schemas/EntityDefinition'
+      - type: object
+        properties:
+          businessUnitId:
+            $ref: '#/components/schemas/BusinessUnitId'
+          cityId:
+            $ref: '#/components/schemas/CityId'
+          color:
+            description: Color of the team
+            type: string
     BusinessUnit:
       description: Business unit of the client
       required:
@@ -114,23 +165,6 @@ components:
         version:
           type: integer
           format: int32
-    EntityDefinition:
-      type: object
-    EntityStatus:
-      type: object
-    CreateTeamRequest:
-      description: Team entity create request
-      allOf:
-      - $ref: '#/components/schemas/EntityDefinition'
-      - type: object
-        properties:
-          businessUnitId:
-            $ref: '#/components/schemas/BusinessUnitId'
-          cityId:
-            $ref: '#/components/schemas/CityId'
-          color:
-            description: Color of the team
-            type: string
     Team:
       description: Team entity
       allOf:
@@ -149,6 +183,17 @@ components:
           shortCode:
             description: unique 4 character identifier for a team
             type: string
+    EntityStatus:
+      type: object
+    IndustryType:
+      type: object
+    CityId:
+      description: An id for a city
+      required:
+      - cityId
+      properties:
+        cityId:
+          type: string
     BusinessUnitId:
       required:
       - clientId
@@ -158,51 +203,6 @@ components:
           type: string
         businessUnitId:
           type: string
-    CityId:
-      description: An id for a city
-      required:
-      - cityId
-      properties:
-        cityId:
-          type: string
-    IndustryType:
-      type: object
-    BusinessUnitStatusEnum:
-      description: Operational status of the business unit
-      type: string
-      default: ACTIVE
-      enum:
-      - ACTIVE
-      - INACTIVE
-    EntityStatusUpdateRequest:
-      description: Wrapper for entity status update request
-      required:
-      - status
-      properties:
-        status:
-          $ref: '#/components/schemas/EntityStatus'
-  parameters:
-    OverwriteParam:
-      name: overwrite
-      in: query
-      description: Boolean flag if true, will overwrite the existing entity
-      required: false
-      schema:
-        type: boolean
-    ClientIdParam:
-      name: clientId
-      in: path
-      description: Id of the client
-      required: true
-      schema:
-        type: string
-    TeamIdParam:
-      name: teamId
-      in: path
-      description: Id of the team
-      required: true
-      schema:
-        type: string
   securitySchemes:
     locusauth:
       type: http

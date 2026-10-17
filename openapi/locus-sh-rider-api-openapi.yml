@@ -75,14 +75,20 @@ paths:
       summary: Disable rider
       x-summary-source: derived
 components:
+  schemas:
+    CreateRiderRequest:
+      description: Wrapper for rider create request
+      allOf:
+      - $ref: '#/components/schemas/Rider'
+      - type: object
+        properties:
+          retainAuth:
+            description: Boolean to indicate if Auth should be retained if already generated
+            type: boolean
+            default: true
+    Rider:
+      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider
   parameters:
-    RiderIdParam:
-      name: riderId
-      in: path
-      description: Id of the rider
-      required: true
-      schema:
-        type: string
     OverwriteParam:
       name: overwrite
       in: query
@@ -97,19 +103,13 @@ components:
       required: true
       schema:
         type: string
-  schemas:
-    CreateRiderRequest:
-      description: Wrapper for rider create request
-      allOf:
-      - $ref: '#/components/schemas/Rider'
-      - type: object
-        properties:
-          retainAuth:
-            description: Boolean to indicate if Auth should be retained if already generated
-            type: boolean
-            default: true
-    Rider:
-      $ref: https://swagger.locus-api.com/common-entities.yaml#/definitions/Rider
+    RiderIdParam:
+      name: riderId
+      in: path
+      description: Id of the rider
+      required: true
+      schema:
+        type: string
   securitySchemes:
     locusauth:
       type: http
