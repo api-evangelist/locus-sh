@@ -1,4 +1,4 @@
-# Locus (locus-sh)
+# Locus
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,135 +66,140 @@
 
 Locus is an AI-powered last-mile and dispatch logistics platform headquartered in Bengaluru, India (with US operations in Wilmington, Delaware) that helps enterprises plan, execute, and orchestrate deliveries across captive, contracted, outsourced, and hybrid fleets. The platform spans transportation management, dispatch planning and route optimization (across 180+ variables including time, distance, fuel, capacity, and SLAs), hub operations, delivery orchestration and carrier management, fulfillment automation, driver app and control tower track-and-trace, and analytics. Locus claims 360+ enterprise customers across 30+ countries — including Unilever, Nestlé, Blue Dart DHL, Meesho, Lenskart, and Justo — with 1.5B+ deliveries optimized and $320M+ in cost savings generated. The company was acquired by Ingka Group (the world's largest IKEA retailer) in 2024 while continuing to operate as an independent product organization. Locus exposes a SwaggerUI developer surface with three OpenAPI 2.0 specifications covering Order Management (oms.locus-api.com), Entity Management (locus-api.com), and Platform Entities (platform.locus-api.com); authentication is via HTTP Basic plus API key, provisioned by a Locus representative.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/locus-sh/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/locus-sh/refs/heads/main/apis.yml)
+**Areas:** Logistics · Last Mile Delivery · Route Optimization · Dispatch Planning · Transportation Management · Fleet Management · Supply Chain · Order Management · Fulfillment · Track and Trace · Retail · E-Commerce
 
-## Scope
+## Locus on APIs.io
 
-- **Position:** Provider
-- **Access:** 3rd-Party
+Everything profiled for Locus is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/locus-sh/](https://apis.io/providers/locus-sh/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (16)
 
-- Logistics
-- Last Mile Delivery
-- Route Optimization
-- Dispatch Planning
-- Transportation Management
-- Fleet Management
-- Supply Chain
-- Order Management
-- Fulfillment
-- Track and Trace
-- Retail
-- E-Commerce
-- Artificial Intelligence
-- India
+- [Locus HomebaseMaster API](https://apis.io/apis/locus-sh/locus-sh-homebasemaster-api/) — The HomebaseMaster API from Locus — 2 operation(s) for homebasemaster.
+- [Locus Order API](https://apis.io/apis/locus-sh/locus-sh-order-api/) — The Order API from Locus — 8 operation(s) for order.
+- [Locus OrderServiceability API](https://apis.io/apis/locus-sh/locus-sh-orderserviceability-api/) — The OrderServiceability API from Locus — 1 operation(s) for orderserviceability.
+- [Locus PersonnelMaster API](https://apis.io/apis/locus-sh/locus-sh-personnelmaster-api/) — The PersonnelMaster API from Locus — 2 operation(s) for personnelmaster.
+- [Locus Rider API](https://apis.io/apis/locus-sh/locus-sh-rider-api/) — The Rider API from Locus — 2 operation(s) for rider.
+- [Locus RiderPersona API](https://apis.io/apis/locus-sh/locus-sh-riderpersona-api/) — The RiderPersona API from Locus — 2 operation(s) for riderpersona.
+- [Locus Roster API](https://apis.io/apis/locus-sh/locus-sh-roster-api/) — The Roster API from Locus — 3 operation(s) for roster.
+- [Locus ServiceType API](https://apis.io/apis/locus-sh/locus-sh-servicetype-api/) — The ServiceType API from Locus — 1 operation(s) for servicetype.
+- [Locus ServiceTypeConfiguration API](https://apis.io/apis/locus-sh/locus-sh-servicetypeconfiguration-api/) — The ServiceTypeConfiguration API from Locus — 1 operation(s) for servicetypeconfiguration.
+- [Locus ShiftTag API](https://apis.io/apis/locus-sh/locus-sh-shifttag-api/) — The ShiftTag API from Locus — 2 operation(s) for shifttag.
+- [Locus TeamMaster API](https://apis.io/apis/locus-sh/locus-sh-teammaster-api/) — The TeamMaster API from Locus — 2 operation(s) for teammaster.
+- [Locus Transporter API](https://apis.io/apis/locus-sh/locus-sh-transporter-api/) — The Transporter API from Locus — 2 operation(s) for transporter.
+- [Locus Vehicle API](https://apis.io/apis/locus-sh/locus-sh-vehicle-api/) — The Vehicle API from Locus — 2 operation(s) for vehicle.
+- [Locus VehicleModel API](https://apis.io/apis/locus-sh/locus-sh-vehiclemodel-api/) — The VehicleModel API from Locus — 2 operation(s) for vehiclemodel.
+- [Locus Location Master API](https://apis.io/apis/locus-sh/locus-sh-location-master-api/) — The Location Master API from Locus — 2 operation(s) for location master.
+- [Locus SKU Master API](https://apis.io/apis/locus-sh/locus-sh-sku-master-api/) — The SKU Master API from Locus — 2 operation(s) for sku master.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-25
-- **Modified:** 2026-05-25
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### GraphQL (1)
 
-### Locus Order Management API
+GraphQL schemas.
 
-Manage the delivery order lifecycle on the Locus OMS — create, retrieve, cancel, complete, open, park, reschedule, and verify inventory for client orders, plus look up delivery slots and configure service types. Base URL https://oms.locus-api.com/v1.
+- [Moved to /providers/locus-sh/](https://apis.io/graphqls/locus-sh/locus-sh-graphql/)
 
-- **Human URL:** [https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1](https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1)
-- **Base URL:** `https://oms.locus-api.com/v1`
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- Order Management
-- Orders
-- Delivery Slots
-- Service Types
+- [Locus Sh Agentic Access](https://apis.io/agentic-access/locus-sh/locus-sh-agentic-access/)
 
-#### Properties
+#### Collections (19)
 
-- [Documentation](https://docs.locus.sh/?model=https://docs.locus.sh/apis/locus-oms/v1/order-management.json&host=https://oms.locus-api.com/v1)
-- [OpenAPI](openapi/locus-oms-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/locus-oms.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/locus-oms.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Sign Up](https://locus.sh/schedule-demo/)
+Postman and Open Collection request collections.
 
-### Locus Entity Management API
+- [Locus API](https://apis.io/collections/locus-sh/open-locus-entities/)
+- [Locus Order API](https://apis.io/collections/locus-sh/open-locus-oms/)
+- [Locus API](https://apis.io/collections/locus-sh/open-locus-platform/)
+- [Locus HomebaseMaster API](https://apis.io/collections/locus-sh/open-locus-sh-homebasemaster-api/)
+- [Locus HomebaseMaster LocationMaster API](https://apis.io/collections/locus-sh/open-locus-sh-locationmaster-api/)
+- [Locus HomebaseMaster Order API](https://apis.io/collections/locus-sh/open-locus-sh-order-api/)
+- [Locus HomebaseMaster OrderServiceability API](https://apis.io/collections/locus-sh/open-locus-sh-orderserviceability-api/)
+- [Locus HomebaseMaster PersonnelMaster API](https://apis.io/collections/locus-sh/open-locus-sh-personnelmaster-api/)
+- [Locus HomebaseMaster Rider API](https://apis.io/collections/locus-sh/open-locus-sh-rider-api/)
+- [Locus HomebaseMaster RiderPersona API](https://apis.io/collections/locus-sh/open-locus-sh-riderpersona-api/)
+- [Locus HomebaseMaster Roster API](https://apis.io/collections/locus-sh/open-locus-sh-roster-api/)
+- [Locus HomebaseMaster ServiceType API](https://apis.io/collections/locus-sh/open-locus-sh-servicetype-api/)
+- [Locus HomebaseMaster ServiceTypeConfiguration API](https://apis.io/collections/locus-sh/open-locus-sh-servicetypeconfiguration-api/)
+- [Locus HomebaseMaster ShiftTag API](https://apis.io/collections/locus-sh/open-locus-sh-shifttag-api/)
+- [Locus HomebaseMaster SKUMaster API](https://apis.io/collections/locus-sh/open-locus-sh-skumaster-api/)
+- [Locus HomebaseMaster TeamMaster API](https://apis.io/collections/locus-sh/open-locus-sh-teammaster-api/)
+- [Locus HomebaseMaster Transporter API](https://apis.io/collections/locus-sh/open-locus-sh-transporter-api/)
+- [Locus HomebaseMaster Vehicle API](https://apis.io/collections/locus-sh/open-locus-sh-vehicle-api/)
+- [Locus HomebaseMaster VehicleModel API](https://apis.io/collections/locus-sh/open-locus-sh-vehiclemodel-api/)
 
-Manage core delivery-domain entities on the Locus platform: locations, riders, rider personas, rosters (including auto-create), shift managers, transporters, vehicles, vehicle models, homebases, and line items. Each entity supports create/update, fetch, and disable operations against base URL https://locus-api.com/v1.
+#### Security (3)
 
-- **Human URL:** [https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1](https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1)
-- **Base URL:** `https://locus-api.com/v1`
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags
+- [Locus Sh Authentication](https://apis.io/security/locus-sh/locus-sh-authentication/)
+- [Locus Sh Domain Security](https://apis.io/security/locus-sh/locus-sh-domain-security/)
+- [Locus Sh Trust Center](https://apis.io/security/locus-sh/locus-sh-trust-center/)
 
-- Entities
-- Riders
-- Vehicles
-- Locations
-- Rosters
-- Transporters
-- Homebase
-- Line Items
+## Where to find this API
 
-#### Properties
-
-- [Documentation](https://docs.locus.sh/?model=https://docs.locus.sh/apis/taxy-backend/v1/entities.json&host=https://locus-api.com/v1)
-- [OpenAPI](openapi/locus-entities-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/locus-entities.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/locus-entities.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Sign Up](https://locus.sh/schedule-demo/)
-
-### Locus Platform Entities API
-
-Manage personnel and team master records on the Locus platform service. Provides a compact personnel-create operation, personnel and team status management, and team master upserts against base URL https://platform.locus-api.com/v1.
-
-- **Human URL:** [https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1](https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1)
-- **Base URL:** `https://platform.locus-api.com/v1`
-
-#### Tags
-
-- Platform
-- Personnel
-- Teams
-
-#### Properties
-
-- [Documentation](https://docs.locus.sh/?model=https://docs.locus.sh/apis/platform-service/v1/platform-entities.json&host=https://platform.locus-api.com/v1)
-- [OpenAPI](openapi/locus-platform-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/locus-platform.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/locus-platform.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Sign Up](https://locus.sh/schedule-demo/)
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://locus.sh)
-- [Portal](https://locus.sh)
 - [Documentation](https://docs.locus.sh/)
-- [API Reference](https://locus.sh/resources/api-references/)
-- [Product](https://locus.sh/transportation-management-system/)
-- [Product](https://locus.sh/delivery-optimization-software/)
-- [Product](https://locus.sh/route-optimization/route-optimization-software/)
-- [Product](https://locus.sh/dispatch-management-software/)
-- [Product](https://locus.sh/fulfillment-automation/)
-- [Product](https://locus.sh/track-and-trace/)
-- [Product](https://locus.sh/analytics-and-insights/)
-- [Customers](https://locus.sh/customer-success-stories/)
+- [API reference](https://locus.sh/resources/api-references/)
 - [Blog](https://locus.sh/blogs/)
-- [Newsroom](https://locus.sh/resources/news/)
-- [Careers](https://locus.sh/careers/)
-- [About Us](https://locus.sh/about-us/)
-- [Contact](https://locus.sh/contactus/)
-- [Sign Up](https://locus.sh/schedule-demo/)
-- [Privacy Policy](https://locus.sh/privacy-policy/)
-- [Terms of Service](https://locus.sh/documents/MaraLabsTermsOfUse.pdf)
-- [GitHub Organization](https://github.com/locus-sh)
-- [LinkedIn](https://www.linkedin.com/company/locus-sh)
-- [Twitter](https://twitter.com/Locus_Sh)
-- [YouTube](https://www.youtube.com/channel/UCtbHoTbKKmhTAkKu4zY8WKA)
-- [Instagram](https://www.instagram.com/locus.sh/)
+- [Terms of service](https://locus.sh/documents/MaraLabsTermsOfUse.pdf)
+- [Privacy policy](https://locus.sh/privacy-policy/)
+- [GitHub](https://github.com/locus-sh)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 34.2** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 72.3 |
+| Contract quality | 36.3 |
+| Contract governance | 0.0 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 38.1 |
+| Access clarity | 42.1 |
+
+**Agent readiness 19.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 22.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/locus-sh/](https://apis.io/providers/locus-sh/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Locus: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/locus-sh/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
